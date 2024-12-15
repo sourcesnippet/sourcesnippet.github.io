@@ -9,7 +9,8 @@ import { evaluate } from '@mdx-js/mdx'
 // Constants
 const mdx_root_directory = "./mdx";
 const site_root_directory = "../";
-const site_constant_folders = ["static"]
+const whitelist_folders = [".git"]
+const self_dir = path.basename(import.meta.dirname)
 
 
 // Functions
@@ -24,19 +25,25 @@ async function mdx_to_html(mdx_code) {  // converts mdx code into html code
 }
 function remove_old_directory() {  // Removed old site files
 
-    // fs.rmSync(site_root_directory, { recursive: true, force: true });
+    const files = fs.readdirSync(site_root_directory, { withFileTypes: true })
 
-    let files = fs.readdirSync(directory, { withFileTypes: true })
 
+    // Removes any folder which is not self and not in whitelist
     files.forEach(file => {
 
+        const is_whitelisted = whitelist_folders.includes(file.name)
+        const is_self = file.name === self_dir
+
+        if (!is_whitelisted && !is_self) {
+            let delete_path = path.join(file.parentPath, file.name)
+            fs.rmSync(delete_path, { recursive: true, force: true });
+        }
     });
 
 }
 function create_html_file(mdx_file_path) {  // Creates a respective html file for the given mdx file
 
     try {
-
 
         // Get Mdx dir path and file name without extension
         let dir_path = path.dirname(mdx_file_path)
@@ -86,15 +93,7 @@ function create_html_file(mdx_file_path) {  // Creates a respective html file fo
     }
 
 }
-function create_site(directory = mdx_root_directory) {  // Recursively goes through mdx files and creates site html files
-
-    // Removing old html files
-    remove_old_directory()
-
-    // Creating new html files
-    create_site_files(directory);
-}
-function create_site_files(directory) {
+function create_site_files(directory) {  // Recursively goes through mdx files and creates site html files
 
     try {
 
@@ -110,7 +109,7 @@ function create_site_files(directory) {
             if (file.isFile()) {
                 create_html_file(file_path);
             }
-            else if (file.isDirectory()) {
+            else if (file.isDirectory() && file.name != self_dir) {
                 create_site_files(file_path, false);
             }
 
@@ -121,6 +120,16 @@ function create_site_files(directory) {
     }
 
 }
+function create_site(directory = mdx_root_directory) {  // First Removes old site files, then creates new files
+
+    // Removing old html files
+    remove_old_directory()
+
+    // Creating new html files
+    create_site_files(directory);
+}
+
 
 // Create Site 
 create_site()
+console.log("Recreated Site!")

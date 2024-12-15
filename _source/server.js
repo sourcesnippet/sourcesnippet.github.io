@@ -9,8 +9,8 @@ import { fork } from 'child_process';
 // Constants
 const PORT = 3000;
 const MDX_ROOT_DIRECTORY = "./mdx";
-const SITE_ROOT_DIRECTORY = "./site";
-const STATIC_FOLDER = "static"
+const SITE_ROOT_DIRECTORY = "../";
+const STATIC_ROOT_DIRECTORY = "./static"
 const CREATE_SITE_FILE = "createsite.js"
 const MIME_TYPE = {
     '.html': 'text/html',
@@ -33,27 +33,27 @@ const __dirname = dirname(__filename);
 
 
 // Functions
-function inside_directory(dir, path_name) {
+function inside_directory(dir, path_name) {  // checks if given path is inside dir
     let combined_path = path.join(__dirname, dir, path_name);
     let path_exists = fs.existsSync(combined_path)
     return path_exists;
 }
-function invoke_create_site() {
+function invoke_create_site() {  // Runs create site script via fork
     fork(CREATE_SITE_FILE);
 }
-function watch_for_changes() {  // Watches mdx files for any code change
+function watch_for_changes() {  // Watches MDX_ROOT_DIRECTORY files for any code change
 
-    fs.watch("mdx/", { recursive: true }, (eventType, filename) => {
+    fs.watch(MDX_ROOT_DIRECTORY, { recursive: true }, (eventType, filename) => {
 
         if (eventType == "change") {
-            console.log(`File Changed: ${filename}, Recreating site...`)
+            console.log(`File Changed: ${filename}`)
             invoke_create_site();
         }
 
     });
 
 }
-function server_handle_req(req, res) {
+function server_handle_req(req, res) {  // Handles incoming requests
 
     // Parse & Sanitize URL
     let parsed_url = new URL("http://" + req.headers.host + req.url);
@@ -62,21 +62,19 @@ function server_handle_req(req, res) {
 
 
     // Get inside which directory
-    let subdir_array = sanitized_path.split("/")
-    let is_static = subdir_array[1] === STATIC_FOLDER
     let is_path_directory = !Boolean(path.parse(sanitized_path).ext)
-    let is_inside_static = inside_directory("./", sanitized_path)
-    let is_inside_site = is_static ? false : inside_directory(SITE_ROOT_DIRECTORY, sanitized_path)
+    let is_inside_site = inside_directory(SITE_ROOT_DIRECTORY, sanitized_path)
+    let is_inside_static = is_inside_site ? false : inside_directory(path.basename(STATIC_ROOT_DIRECTORY), sanitized_path)
 
-
-    // If inside site folder
-    if (is_static && is_inside_static) {
-        final_path = path.join("./", sanitized_path) //path.join(static_root_directory, sanitized_path);
-    }
 
     // If inside site
-    else if (is_inside_site) {
+    if (is_inside_site) {
         final_path = path.join(SITE_ROOT_DIRECTORY, sanitized_path, is_path_directory ? "/index.html" : "");
+    }
+
+    // If inside site folder
+    else if (is_inside_static) {
+        final_path = path.join("./", sanitized_path) //path.join(static_root_directory, sanitized_path);
     }
 
 
@@ -102,7 +100,7 @@ function server_handle_req(req, res) {
     }
 
 }
-function start_server() {
+function start_server() {  // Starts server at given port
 
     // Start Server
     const server = http.createServer(server_handle_req);
@@ -112,7 +110,7 @@ function start_server() {
 
 }
 
-// Rereate site
+// Recreate site
 invoke_create_site()
 
 // Start server and watch for changes if flag is passed

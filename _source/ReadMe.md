@@ -9,13 +9,10 @@ A website for documenting code segements
 3. You can run any of the following commands
 
     ```bash
-    node server.js
-    node server.js --server
-    node server.js -s
+    npm run create
+    npm run server
     ```
+    `npm run create` will create the site files
 
-    If you use the `--server` or `-s` flag a server at `localhost:3000` will start and when making and saving any changes to a file inside `/mdx` folder the corresponding html file will be generated inside `/site`
+    `npm run server` will host the site on [localhost:3000](http://localhost:3000/) and will auto update when making changes & saving to mdx files
 
-    On pressing `r` Key in the cli while the server is running will rebuild the entire site
-
-    Store any images or similar static assets inside the `/static` folder

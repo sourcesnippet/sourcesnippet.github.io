@@ -9,7 +9,7 @@ import { evaluate } from '@mdx-js/mdx'
 // Constants
 const mdx_root_directory = "./mdx";
 const site_root_directory = "../";
-const whitelist_folders = [".git"]
+const whitelist_folders = [".git", ".nojekyll"]
 const self_dir = path.basename(import.meta.dirname)
 
 

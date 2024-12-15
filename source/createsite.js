@@ -8,7 +8,8 @@ import { evaluate } from '@mdx-js/mdx'
 
 // Constants
 const mdx_root_directory = "./mdx";
-const site_root_directory = "./site";
+const site_root_directory = "../";
+const site_constant_folders = ["static"]
 
 
 // Functions
@@ -23,7 +24,13 @@ async function mdx_to_html(mdx_code) {  // converts mdx code into html code
 }
 function remove_old_directory() {  // Removed old site files
 
-    fs.rmSync(site_root_directory, { recursive: true, force: true });
+    // fs.rmSync(site_root_directory, { recursive: true, force: true });
+
+    let files = fs.readdirSync(directory, { withFileTypes: true })
+
+    files.forEach(file => {
+
+    });
 
 }
 function create_html_file(mdx_file_path) {  // Creates a respective html file for the given mdx file

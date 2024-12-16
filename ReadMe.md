@@ -1,4 +1,4 @@
-# SourceSnippet
+# [SourceSnippet](https://sourcesnippet.github.io/)
 
 A website for storing reusable code segements
 

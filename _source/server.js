@@ -1,7 +1,7 @@
-import fs from 'fs'
-import path from 'path'
-import http from 'http'
-import { fork } from 'child_process'
+import fs from 'node:fs'
+import path from 'node:path'
+import http from 'node:http'
+import { fork } from 'node:child_process'
 import { MDX_ROOT_DIRECTORY, SITE_ROOT_DIRECTORY } from './createsite.js'
 
 
@@ -29,19 +29,18 @@ const MIME_TYPE = {
 // Functions
 function invoke_create_site() {  // Runs create site script via fork
     // invoking create_site() directly does not properly update the site hence using fork instead 
-    fork(CREATE_SITE_FILE) 
+    fork(CREATE_SITE_FILE)
 }
-function watch_for_changes() {  // Watches MDX_ROOT_DIRECTORY files for any code change
+async function watch_for_changes() {  // Watches MDX_ROOT_DIRECTORY files for any code change
 
-    fs.watch(MDX_ROOT_DIRECTORY, { recursive: true }, (eventType, filename) => {
+    const watcher = Deno.watchFs(MDX_ROOT_DIRECTORY);
+    for await (const event of watcher) {
 
-        if (eventType == "change") {
-            console.log(`File Changed: ${filename}`)
+        if(event.kind == "modify"){
+            console.log(`File Changed: ${event.paths}`)
             invoke_create_site()
         }
-
-    })
-
+    }
 }
 function server_handle_req(req, res) {  // Handles incoming requests
 

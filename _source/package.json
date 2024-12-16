@@ -6,7 +6,10 @@
   },
   "type": "module",
   "scripts": {
-    "create" : "node createsite.js",
-    "server" : "node server.js"
+    "create": "deno -A createsite.js",
+    "server": "deno -A server.js"
+  },
+  "permissions": {
+    "allow-all": true
   }
 }

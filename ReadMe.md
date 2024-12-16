@@ -10,10 +10,10 @@ These .html are then statically hosted via [github pages](https://pages.github.c
 
 ## How to run locally?
 
-1. Download Node.js (**Strictly** above Version 20)
+1. Install [Deno](https://deno.com/) (**Strictly** Version 2.0 & above )
 2. Run `cd _source`  
 3. Run `npm i`
-4. In this folder you can run any of the following commands
+4. Inside `/_source` you can run any of the following commands
 
    ```bash
    npm run create

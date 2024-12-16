@@ -1,10 +1,11 @@
-import fs from 'fs'
-import path from 'path'
-import { fileURLToPath } from 'url'
+import fs from 'node:fs'
+import path from 'node:path'
+import { fileURLToPath } from 'node:url'
 import * as runtime from 'react/jsx-runtime'
 import { createElement } from 'react'
 import { renderToString } from 'react-dom/server'
 import { evaluate } from '@mdx-js/mdx'
+
 
 // Constants
 export const SITE_ROOT_DIRECTORY = path.resolve("../")
@@ -143,6 +144,6 @@ let __filename = fileURLToPath(import.meta.url)
 let entryFile = process.argv?.[1];
 
 if (entryFile === __filename) {
+    console.log("============= Recreating Site... ===============")
     create_site()
-    console.log("Recreated Site!")
 }

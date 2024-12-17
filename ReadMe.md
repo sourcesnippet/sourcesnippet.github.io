@@ -10,7 +10,7 @@ These .html are then statically hosted via [github pages](https://pages.github.c
 
 ## How to run locally?
 
-1. Install [Deno](https://deno.com/) (**Strictly** Version 2.0 & above )
+1. Install [Deno](https://deno.com/) (**Strictly** Version 2.0 & above ) & [npm](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm)
 2. Run `cd _source`  
 3. Run `npm i`
 4. Inside `/_source` you can run any of the following commands

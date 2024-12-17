@@ -1,5 +1,6 @@
 import fs from 'node:fs'
 import path from 'node:path'
+import process from "node:process"
 import { fileURLToPath } from 'node:url'
 import * as runtime from 'react/jsx-runtime'
 import { createElement } from 'react'
@@ -145,5 +146,6 @@ let entryFile = process.argv?.[1];
 
 if (entryFile === __filename) {
     console.log("============= Recreating Site... ===============")
+    process.chdir(MDX_ROOT_DIRECTORY); // To ensure "fs" working inside mdx
     create_site()
 }

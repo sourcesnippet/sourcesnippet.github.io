@@ -23,3 +23,8 @@ These .html are then statically hosted via [github pages](https://pages.github.c
    `npm run create` will create .html files for each corresponding .mdx file
 
    `npm run server` will host the site on [localhost:3000](http://localhost:3000/) and will auto update when mdx files are changed & saved
+
+<br/>
+
+> **Problem with a Snippet?**  
+> Feel free to [open an issue](https://github.com/sourcesnippet/sourcesnippet.github.io/issues)

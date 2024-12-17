@@ -1,7 +1,7 @@
 import fs from 'node:fs'
 import path from 'node:path'
 import process from "node:process"
-import { fileURLToPath } from 'node:url'
+import { fileURLToPath, pathToFileURL } from 'node:url'
 import * as runtime from 'react/jsx-runtime'
 import { createElement } from 'react'
 import { renderToString } from 'react-dom/server'
@@ -23,22 +23,17 @@ const WHITELIST_PATHS = [
     STATIC_ROOT_DIRECTORY,
     SELF_ROOT_DIRECTORY
 ]
+const MDX_BASE_URL = convert_to_file_uri(MDX_ROOT_DIRECTORY)
 
 
 // Functions
+function convert_to_file_uri(path_str) {  // Converts file into file uri i.e "file:///my/path/""
+    return pathToFileURL(path.normalize(path.join(path_str, path.sep))).href
+}
 function make_path_url_safe(str) {  // Makes the given string safe to pass as url
     return str.toLowerCase().replaceAll(" ", "-")
 }
-async function mdx_to_html(mdx_code) {  // converts mdx code into html code
-
-    const base_url = "file:///" + MDX_ROOT_DIRECTORY + "/"
-    const jsx = (await evaluate(mdx_code, { ...runtime, baseUrl: base_url })).default
-    const html_code = renderToString(createElement(jsx))
-
-    return html_code
-
-}
-function remove_old_directory() {  // Removed old site files
+function remove_old_directory() {  // Removes old site files
 
     // Removes any files and folder which are not whitelisted
     const files = fs.readdirSync(SITE_ROOT_DIRECTORY, { withFileTypes: true })
@@ -53,7 +48,15 @@ function remove_old_directory() {  // Removed old site files
     })
 
 }
-function create_html_file(mdx_file_path) {  // Creates a respective html file for the given mdx file
+async function mdx_to_html(mdx_code, base_url = MDX_BASE_URL) {  // converts mdx code into html code
+
+    const jsx = (await evaluate(mdx_code, { ...runtime, baseUrl: base_url })).default
+    const html_code = renderToString(createElement(jsx))
+
+    return html_code
+
+}
+async function create_html_file(mdx_file_path) {  // Creates a respective html file for the given mdx file
 
     try {
 
@@ -63,37 +66,35 @@ function create_html_file(mdx_file_path) {  // Creates a respective html file fo
 
 
         // Get Mdx dir path and file name without extension
-        let dir_path = path.dirname(mdx_file_path)
-        let path_parse = path.parse(mdx_file_path)
-        let file_name = path_parse.name
+        let mdx_dir_path = path.dirname(mdx_file_path)
+        let mdx_path_parse = path.parse(mdx_file_path)
+        let mdx_file_name = mdx_path_parse.name
+
+        
+        // To ensure "fs" working inside mdx
+        process.chdir(mdx_dir_path); 
 
 
         // Get new Html file path
-        let relative_path = make_path_url_safe(path.relative(MDX_ROOT_DIRECTORY, dir_path))
-        let html_file_name = make_path_url_safe(file_name + ".html")
+        let relative_path = make_path_url_safe(path.relative(MDX_ROOT_DIRECTORY, mdx_dir_path))
+        let html_file_name = make_path_url_safe(mdx_file_name + ".html")
         let html_path = path.join(SITE_ROOT_DIRECTORY, relative_path)
         let html_file_path = path.join(html_path, html_file_name)
 
 
         // Read the mdx file and create it's respective html file
-        let data = fs.readFileSync(mdx_file_path, 'utf8')
-
+        let mdx_code = fs.readFileSync(mdx_file_path, 'utf8')
 
         // Convert MDX to Html
-        mdx_to_html(data).then(html_content => {
+        let html_code = await mdx_to_html(mdx_code)
 
-            // Create directory
-            if (!fs.existsSync(html_path))
-                fs.mkdirSync(html_path, { recursive: true })
-
-
-            // Write to file
-            fs.writeFileSync(html_file_path, html_content)
+        // Create directory
+        if (!fs.existsSync(html_path))
+            fs.mkdirSync(html_path, { recursive: true })
 
 
-        }).catch(err => {
-            console.log(`Error while creating Html page "${html_file_path}" for "${mdx_file_path}":\n${err.stack}`)
-        })
+        // Write to file
+        fs.writeFileSync(html_file_path, html_code)
 
     }
     catch (err) {
@@ -101,7 +102,7 @@ function create_html_file(mdx_file_path) {  // Creates a respective html file fo
     }
 
 }
-function create_site_files(directory) {  // Recursively goes through mdx files and creates site html files
+async function create_site_files(directory) {  // Recursively goes through mdx files and creates site html files
 
     try {
 
@@ -110,17 +111,16 @@ function create_site_files(directory) {  // Recursively goes through mdx files a
 
 
         // Iterate through all directories
-        files.forEach(file => {
-
+        for (const file of files) {
             const file_path = path.join(directory, file.name)
 
             if (file.isFile())
-                create_html_file(path.resolve(file_path))
+                await create_html_file(path.resolve(file_path))
 
             else if (file.isDirectory())
-                create_site_files(file_path, false)
+                await create_site_files(file_path, false)
 
-        })
+        }
 
     }
     catch (err) {
@@ -130,13 +130,13 @@ function create_site_files(directory) {  // Recursively goes through mdx files a
     }
 
 }
-function create_site(directory = MDX_ROOT_DIRECTORY) {  // First Removes old site files, then creates new files
+async function create_site(directory = MDX_ROOT_DIRECTORY) {  // First Removes old site files, then creates new files
 
     // Removing old html files
     remove_old_directory()
 
     // Creating new html files
-    create_site_files(directory)
+    await create_site_files(directory)
 }
 
 
@@ -146,6 +146,5 @@ let entryFile = process.argv?.[1];
 
 if (entryFile === __filename) {
     console.log("============= Recreating Site... ===============")
-    process.chdir(MDX_ROOT_DIRECTORY); // To ensure "fs" working inside mdx
-    create_site()
+    await create_site()
 }

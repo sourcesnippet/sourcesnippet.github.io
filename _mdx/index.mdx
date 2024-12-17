@@ -1,13 +1,29 @@
-<style>{`
-        
-        body {
-            background-color: Canvas;
-            color: CanvasText;
-            color-scheme: light dark;
+import { SiteName, GlobalStyle, HTMLSkeleton } from "./global.jsx"
+
+export const source_url = "https://github.com/sourcesnippet/sourcesnippet.github.io"
+export function HeadingLink({ children }) {
+    const link_style = {
+        color: "CanvasText",
+        textDecoration: "underline"
+    }
+
+    return (<a href={source_url} style={link_style}>{children}</a>)
+}
+
+<HTMLSkeleton>
+
+    <h1>Welcome to <HeadingLink>SourceSnippet</HeadingLink></h1>
+    <div style={{ opacity:0.75}}> - Years of experience, Stored in snippets </div>
+    <hr/>
+
+    <GlobalStyle AdditionalStyles={`
+        a {
+            text-decoration:none;
         }
 
-`}</style>
+        a:hover{
+            text-decoration:underline;
+        }
+    `}/>
 
-<h1 style={{ textAlign:'center', width:"100%"}}> Welcome to SourceSnippet </h1>
-
-<hr/>
+</HTMLSkeleton>

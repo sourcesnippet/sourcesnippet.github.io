@@ -6,24 +6,25 @@ import * as runtime from 'react/jsx-runtime'
 import { createElement } from 'react'
 import { renderToString } from 'react-dom/server'
 import { evaluate } from '@mdx-js/mdx'
+import rehypeHighlight from "rehype-highlight";
 
 
 // Constants
-export const SITE_ROOT_DIRECTORY = path.resolve("../")
-export const MDX_ROOT_DIRECTORY = path.resolve("../_mdx")
-export const STATIC_ROOT_DIRECTORY = path.resolve("../_static")
-const SELF_ROOT_DIRECTORY = path.resolve()
+export const ABS_SITE_ROOT_DIRECTORY = path.resolve("../")
+export const ABS_MDX_ROOT_DIRECTORY = path.resolve("../_mdx")
+export const ABS_STATIC_ROOT_DIRECTORY = path.resolve("../_static")
+const ABS_SELF_ROOT_DIRECTORY = path.resolve()
+const MDX_ROOT_FILE_URI = convert_to_file_uri(ABS_MDX_ROOT_DIRECTORY)
 const WHITELIST_FILE_NAMES = [
     ".git",
     ".nojekyll",
     "ReadMe.md"
 ]
 const WHITELIST_PATHS = [
-    MDX_ROOT_DIRECTORY,
-    STATIC_ROOT_DIRECTORY,
-    SELF_ROOT_DIRECTORY
+    ABS_MDX_ROOT_DIRECTORY,
+    ABS_STATIC_ROOT_DIRECTORY,
+    ABS_SELF_ROOT_DIRECTORY
 ]
-const MDX_BASE_URL = convert_to_file_uri(MDX_ROOT_DIRECTORY)
 
 
 // Functions
@@ -36,7 +37,7 @@ function make_path_url_safe(str) {  // Makes the given string safe to pass as ur
 function remove_old_directory() {  // Removes old site files
 
     // Removes any files and folder which are not whitelisted
-    const files = fs.readdirSync(SITE_ROOT_DIRECTORY, { withFileTypes: true })
+    const files = fs.readdirSync(ABS_SITE_ROOT_DIRECTORY, { withFileTypes: true })
     files.forEach(file => {
 
         let delete_path = path.resolve(path.join(file.parentPath, file.name))
@@ -48,9 +49,13 @@ function remove_old_directory() {  // Removes old site files
     })
 
 }
-async function mdx_to_html(mdx_code, base_url = MDX_BASE_URL) {  // converts mdx code into html code
+async function mdx_to_html(mdx_code, base_url = MDX_ROOT_FILE_URI) {  // converts mdx code into html code
 
-    const jsx = (await evaluate(mdx_code, { ...runtime, baseUrl: base_url })).default
+    const jsx = (await evaluate(mdx_code, {
+        ...runtime,
+        rehypePlugins: [rehypeHighlight],
+        baseUrl: base_url
+    })).default
     const html_code = renderToString(createElement(jsx))
 
     return html_code
@@ -70,15 +75,15 @@ async function create_html_file(mdx_file_path) {  // Creates a respective html f
         let mdx_path_parse = path.parse(mdx_file_path)
         let mdx_file_name = mdx_path_parse.name
 
-        
+
         // To ensure "fs" working inside mdx
-        process.chdir(mdx_dir_path); 
+        process.chdir(mdx_dir_path);
 
 
         // Get new Html file path
-        let relative_path = make_path_url_safe(path.relative(MDX_ROOT_DIRECTORY, mdx_dir_path))
+        let relative_path = make_path_url_safe(path.relative(ABS_MDX_ROOT_DIRECTORY, mdx_dir_path))
         let html_file_name = make_path_url_safe(mdx_file_name + ".html")
-        let html_path = path.join(SITE_ROOT_DIRECTORY, relative_path)
+        let html_path = path.join(ABS_SITE_ROOT_DIRECTORY, relative_path)
         let html_file_path = path.join(html_path, html_file_name)
 
 
@@ -98,7 +103,7 @@ async function create_html_file(mdx_file_path) {  // Creates a respective html f
 
     }
     catch (err) {
-        console.log(`Could not create Html page for "${mdx_file_path}", Error: ${err.stack}`)
+        console.log(`Error while creating Html page for "${path.relative(ABS_MDX_ROOT_DIRECTORY, mdx_file_path)}": ${err.stack}`)
     }
 
 }
@@ -130,13 +135,20 @@ async function create_site_files(directory) {  // Recursively goes through mdx f
     }
 
 }
-async function create_site(directory = MDX_ROOT_DIRECTORY) {  // First Removes old site files, then creates new files
+async function create_site(directory = ABS_MDX_ROOT_DIRECTORY) {  // First Removes old site files, then creates new files
 
     // Removing old html files
     remove_old_directory()
 
+
     // Creating new html files
     await create_site_files(directory)
+
+
+    // Recreate site Index to ensure proper site map
+    const index_mdx_path = path.join(ABS_MDX_ROOT_DIRECTORY, "./index.mdx")
+    if (fs.existsSync(index_mdx_path))
+        create_html_file(index_mdx_path)
 }
 
 
@@ -145,6 +157,6 @@ let __filename = fileURLToPath(import.meta.url)
 let entryFile = process.argv?.[1];
 
 if (entryFile === __filename) {
-    console.log("============= Recreating Site... ===============")
     await create_site()
+    console.log("============= Recreated Site! ===============")
 }

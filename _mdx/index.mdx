@@ -1,4 +1,4 @@
-import { SiteName, GlobalStyle, HTMLSkeleton } from "./global.jsx"
+import { SiteName, HTMLSkeleton, GlobalStyle, ContentGuide } from "./global.jsx"
 
 export const source_url = "https://github.com/sourcesnippet/sourcesnippet.github.io"
 export function HeadingLink({ children }) {
@@ -10,20 +10,22 @@ export function HeadingLink({ children }) {
     return (<a href={source_url} style={link_style}>{children}</a>)
 }
 
-<HTMLSkeleton>
+<HTMLSkeleton UseGlobalStyle={false}>
 
+    {/* Heading */}
     <h1>Welcome to <HeadingLink>SourceSnippet</HeadingLink></h1>
     <div style={{ opacity:0.75}}> - Years of experience, Stored in snippets </div>
     <hr/>
 
-    <GlobalStyle AdditionalStyles={`
-        a {
-            text-decoration:none;
-        }
 
-        a:hover{
-            text-decoration:underline;
-        }
+    {/* Index Guide of all content available on site */}
+    <ContentGuide />
+
+
+    {/* Styling */}
+    <GlobalStyle AdditionalStyles={`
+        a { text-decoration:none; }
+        a:hover{ text-decoration:underline; }
     `}/>
 
 </HTMLSkeleton>

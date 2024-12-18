@@ -2,13 +2,13 @@ import fs from 'node:fs'
 import path from 'node:path'
 import http from 'node:http'
 import { fork } from 'node:child_process'
-import { MDX_ROOT_DIRECTORY, SITE_ROOT_DIRECTORY } from './createsite.js'
+import { ABS_MDX_ROOT_DIRECTORY, ABS_SITE_ROOT_DIRECTORY } from './createsite.js'
 
 
 // Constants
 const PORT = 3000
-const CREATE_SITE_FILE = "./createsite.js"
-const MIME_TYPE = {
+const CREATE_SITE_FILE = "./createsite.js"  // File (relative to this file) which contains the script to create the entire site
+const MIME_TYPE = {  // Maps extensions to mime protocol
     '.html': 'text/html',
     '.css': 'text/css',
     '.js': 'text/javascript',
@@ -28,19 +28,25 @@ const MIME_TYPE = {
 
 // Functions
 function invoke_create_site() {  // Runs create site script via fork
-    // invoking create_site() directly does not properly update the site hence using fork instead 
+
+    // invoking create_site() directly does not properly update the site 
+    // hence using fork instead 
     fork(CREATE_SITE_FILE)
+
 }
-async function watch_for_changes() {  // Watches MDX_ROOT_DIRECTORY files for any code change
+async function watch_for_changes() {  // Watches ABS_MDX_ROOT_DIRECTORY files for any code change
 
-    const watcher = Deno.watchFs(MDX_ROOT_DIRECTORY);
+    console.log(`Watching for changes at "${ABS_MDX_ROOT_DIRECTORY}" ...`);
+
+    // Start watching files
+    const watcher = Deno.watchFs(ABS_MDX_ROOT_DIRECTORY);
     for await (const event of watcher) {
-
-        if(event.kind == "modify"){
+        if (event.kind == "modify") {
             console.log(`File Changed: ${event.paths}`)
             invoke_create_site()
         }
     }
+
 }
 function server_handle_req(req, res) {  // Handles incoming requests
 
@@ -49,10 +55,11 @@ function server_handle_req(req, res) {  // Handles incoming requests
     let sanitized_url = path.normalize(parsed_url.pathname).replace(/^(\.\.[\/\\])+/, '')
     let is_directory = !Boolean(path.parse(sanitized_url).ext)
     let relative_file_path = path.normalize(sanitized_url + (is_directory ? "/index.html" : ""))
-    let absolute_file_path = path.join(SITE_ROOT_DIRECTORY, relative_file_path)
+    let absolute_file_path = path.join(ABS_SITE_ROOT_DIRECTORY, relative_file_path)
     let path_exists = fs.existsSync(absolute_file_path)
 
-    // Responde with content of file
+
+    // Respondes with content of file
     if (path_exists)
         // read file from file system
         fs.readFile(absolute_file_path, function (err, data) {
@@ -68,18 +75,18 @@ function server_handle_req(req, res) {  // Handles incoming requests
             }
 
         })
-    else {
+    else { // Respondes with 404 if file not found
         res.statusCode = 404
         res.end(`404 Invalid url not found!`)
     }
 
 }
-function start_server() {  // Starts server at given port
+function start_server(port = PORT) {  // Starts server at given port
 
     // Start Server
     const server = http.createServer(server_handle_req)
-    server.listen(PORT, () => {
-        console.log(`Watching for changes at directory "${MDX_ROOT_DIRECTORY}" & Listening at ${PORT} ...`)
+    server.listen(port, () => {
+        console.log(`Server Created & Listening at ${PORT} ...`)
     })
 
 }

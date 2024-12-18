@@ -42,10 +42,8 @@ async function watch_for_changes() {  // Watches ABS_MDX_ROOT_DIRECTORY files fo
     // Start watching files
     const watcher = Deno.watchFs(ABS_MDX_ROOT_DIRECTORY);
     for await (const event of watcher) {
-        if (event.kind == "modify") {
-            console.log(`File Changed: ${event.paths}`)
-            invoke_create_site()
-        }
+        console.log(`File Changed: ${event.paths}`)
+        invoke_create_site()
     }
 
 }
@@ -59,7 +57,7 @@ function server_handle_req(req, res) {  // Handles incoming requests
     let absolute_file_path = path.join(ABS_SITE_ROOT_DIRECTORY, relative_file_path)
     let path_exists = fs.existsSync(absolute_file_path)
 
-    
+
     // 404 file
     if (!path_exists) {
         absolute_file_path = FILE_404

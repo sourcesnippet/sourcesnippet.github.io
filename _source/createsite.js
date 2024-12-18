@@ -8,6 +8,9 @@ import { createElement } from 'react'
 import { renderToString } from 'react-dom/server'
 import { evaluate } from '@mdx-js/mdx'
 import rehypeHighlight from "rehype-highlight";
+import { common } from 'lowlight'
+import gdscript from './highlight_additional/gdscript.js'
+
 
 
 // Constants
@@ -29,7 +32,7 @@ const WHITELIST_PATHS = [
 
 
 // Functions
-function convert_to_file_uri(path_str) {  // Converts file into file uri i.e "file:///my/path/""
+function convert_to_file_uri(path_str) {  // Converts file into file uri i.e "file:///my/path/"
     return pathToFileURL(path.normalize(path.join(path_str, path.sep))).href
 }
 function make_path_url_safe(str) {  // Makes the given string safe to pass as url
@@ -54,7 +57,7 @@ async function mdx_to_html(mdx_code, base_url = MDX_ROOT_FILE_URI) {  // convert
 
     const jsx = (await evaluate(mdx_code, {
         ...runtime,
-        rehypePlugins: [rehypeHighlight],
+        rehypePlugins: [[rehypeHighlight, { languages: { ...common, gdscript } }]],
         baseUrl: base_url
     })).default
     const html_code = renderToString(createElement(jsx))

@@ -67,7 +67,7 @@ async function create_html_file(mdx_file_path) {  // Creates a respective html f
     try {
 
         // Exit if not of .mdx type
-        if (!mdx_file_path.endsWith("index.mdx"))
+        if (!mdx_file_path.endsWith(".mdx"))
             return
 
 
@@ -75,6 +75,11 @@ async function create_html_file(mdx_file_path) {  // Creates a respective html f
         let mdx_dir_path = path.dirname(mdx_file_path)
         let mdx_path_parse = path.parse(mdx_file_path)
         let mdx_file_name = mdx_path_parse.name
+
+
+        // Exit if private file
+        if (mdx_file_name.startsWith("_"))
+            return
 
 
         // To ensure "fs" working inside mdx

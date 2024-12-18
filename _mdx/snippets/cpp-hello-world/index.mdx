@@ -1,7 +1,19 @@
-import { HTMLSkeleton } from "./global.jsx"
+import { HTMLSkeleton, Heading } from "./global.jsx"
+export const snippet_title = "Hello World in C++"
 
-<HTMLSkeleton RegisterToGuide={{ category :"General", title :"Hello World!" }}>
 
-Hello, World!
+<HTMLSkeleton RegisterToGuide={{ category : "C++", title : snippet_title }} CodeMinHeight>
+
+<Heading>{snippet_title}</Heading>
+
+```cpp
+#include <iostream>
+using namespace std;
+
+int main() {
+    cout << "Hello World!";
+    return 0;
+}
+```
 
 </HTMLSkeleton>

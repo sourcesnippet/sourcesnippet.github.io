@@ -7,6 +7,7 @@ import { ABS_MDX_ROOT_DIRECTORY, ABS_SITE_ROOT_DIRECTORY } from './createsite.js
 
 // Constants
 const PORT = 3000
+const FILE_404 = path.resolve("../404.html")
 const CREATE_SITE_FILE = "./createsite.js"  // File (relative to this file) which contains the script to create the entire site
 const MIME_TYPE = {  // Maps extensions to mime protocol
     '.html': 'text/html',
@@ -57,6 +58,13 @@ function server_handle_req(req, res) {  // Handles incoming requests
     let relative_file_path = path.normalize(sanitized_url + (is_directory ? "/index.html" : ""))
     let absolute_file_path = path.join(ABS_SITE_ROOT_DIRECTORY, relative_file_path)
     let path_exists = fs.existsSync(absolute_file_path)
+
+    
+    // 404 file
+    if (!path_exists) {
+        absolute_file_path = FILE_404
+        path_exists = fs.existsSync(absolute_file_path)
+    }
 
 
     // Respondes with content of file

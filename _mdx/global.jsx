@@ -9,6 +9,7 @@ import { Fragment } from "npm:react"
 
 // Constants
 export const SiteName = "SourceSnippet" // Stores the name of the site
+const STATIC_CODE_STYLE_URL = "/_static/codestyle.css"  // Static URL of css for code styling
 const MDX_ROOT_DIRECTORY = "./"  // path to mdx root directory, relative to this file's location
 const SITE_GUIDE_PATH = "../_static/siteguide.json"  // path to site guide, relative to this file's location
 const ABS_MDX_ROOT_DIRECTORY = path.join(import.meta.dirname, MDX_ROOT_DIRECTORY)  // path to mdx root directory, absolute location
@@ -64,7 +65,7 @@ function guide_register(Category, Title) {  // Register data into guide.json
     fs.writeFileSync(ABS_SITE_GUIDE_PATH, JSON.stringify(site_guide_json), "utf8")
 
 }
-export function HTMLSkeleton({ children, UseGlobalStyle = true, Title = SiteName, RegisterToGuide = {} }) {  // The "Boilerplate" html, Useful for cross device compatibility
+export function HTMLSkeleton({ children, UseGlobalStyle = true, UseCodeStyle = true, Title = SiteName, RegisterToGuide = {} }) {  // The "Boilerplate" html, Useful for cross device compatibility
 
     // Register into guide if objects are passed
     if (Object.keys(RegisterToGuide).length !== 0)
@@ -81,6 +82,7 @@ export function HTMLSkeleton({ children, UseGlobalStyle = true, Title = SiteName
                 <meta charSet="UTF-8" />
                 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
                 <title>{page_title}</title>
+                {UseCodeStyle && <link rel="stylesheet" href={STATIC_CODE_STYLE_URL} />}
                 {UseGlobalStyle && <GlobalStyle />}
             </head>
             <body>
@@ -99,7 +101,7 @@ export function GlobalStyle({ AdditionalStyles = "" }) { // Returns a style tag 
             color-scheme: light dark;
             font-size:18px;
             margin:0 auto;
-            max-width:650px;
+            max-width:700px;
             line-height:1.3;
             padding: 40px 1rem;
         }
@@ -148,4 +150,11 @@ export function ContentGuide() {  // Reads the guide.json and Creates links to a
         </Fragment>))
 
     }</>)
+}
+export function Heading({ children }) {  // Create heading component with linebreak and horizontal rule
+    return (<>
+        <h1>{children}</h1>
+
+        <hr /><br /><br />
+    </>)
 }

@@ -23,6 +23,8 @@ These .html are then statically hosted via [github pages](https://pages.github.c
    `npm run create` will create .html files for each corresponding .mdx file
 
    `npm run server` will host the site on [localhost:3000](http://localhost:3000/) and will auto update when mdx files are changed & saved
+5. Modify only the `_mdx` directory, The file paths translate to url paths e.g.    
+   `_mdx/my-code/my_file.mdx` => https://sourcesnippet.github.io/my-code/my_file.html  
 
 <br/>
 

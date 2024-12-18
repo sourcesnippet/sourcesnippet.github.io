@@ -12,7 +12,6 @@ import { common } from 'lowlight'
 import gdscript from './highlight_additional/gdscript.js'
 
 
-
 // Constants
 export const ABS_SITE_ROOT_DIRECTORY = path.resolve("../")
 export const ABS_MDX_ROOT_DIRECTORY = path.resolve("../_mdx")

@@ -140,10 +140,10 @@ export function ContentGuide() {  // Reads the guide.json and Creates links to a
     return (<>{
 
         Object.entries(content_guide).map(([category, arr]) => (<Fragment key={category}>
-            <br /><br />
+            <br />
             <h1 >{category}</h1>
             <ol>{
-                arr.map((dict, index) => (<li key={index}>
+                arr.map((dict, index) => (<li key={index} style={{ marginTop: "1rem" }}>
                     <a target="_blank" href={dict.site_url}>{dict.title}</a>
                 </li>))
             }</ol>
@@ -155,6 +155,6 @@ export function Heading({ children }) {  // Create heading component with linebr
     return (<>
         <h1>{children}</h1>
 
-        <hr /><br /><br />
+        <hr /><br />
     </>)
 }

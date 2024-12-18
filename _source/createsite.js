@@ -2,6 +2,7 @@ import fs from 'node:fs'
 import path from 'node:path'
 import process from "node:process"
 import { fileURLToPath, pathToFileURL } from 'node:url'
+import { minify } from 'html-minifier'
 import * as runtime from 'react/jsx-runtime'
 import { createElement } from 'react'
 import { renderToString } from 'react-dom/server'
@@ -58,7 +59,7 @@ async function mdx_to_html(mdx_code, base_url = MDX_ROOT_FILE_URI) {  // convert
     })).default
     const html_code = renderToString(createElement(jsx))
 
-    return html_code
+    return minify(html_code, { minifyCSS: true })
 
 }
 async function create_html_file(mdx_file_path) {  // Creates a respective html file for the given mdx file

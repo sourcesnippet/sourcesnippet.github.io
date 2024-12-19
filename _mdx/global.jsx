@@ -65,16 +65,85 @@ function guide_register(Category, Title) {  // Register data into guide.json
     fs.writeFileSync(ABS_SITE_GUIDE_PATH, JSON.stringify(site_guide_json), "utf8")
 
 }
-export function HTMLSkeleton({ children, UseGlobalStyle = true, UseCodeStyle = true, Title = SiteName, RegisterToGuide = {} }) {  // The "Boilerplate" html, Useful for cross device compatibility
+function create_local_guide(children) {  // Create a list of links towards Heading Components with "id"
+
+    // Make sure children is of type object
+    if (typeof children !== "object") {
+        return []
+    }
+
+
+    // Make sure children is inside an array
+    if (!Array.isArray(children)) {
+        children = Array.of(children)
+    }
+
+
+    // Get guide index & headings
+    let heading_urls = {}
+    let local_guide_index = -1
+    for (let i = 0; i < children.length; i++) {
+
+        let child = children[i]
+        let inner_content = child.props.children
+
+        // Get the Heading id & URL 
+        if (child.props.id !== undefined)
+            heading_urls[`#${child.props?.id}`] = inner_content
+
+        // Save the index of local guide
+        else if (child.type == LocalGuide)
+            local_guide_index = i + 1
+
+    }
+
+
+    // If local guide component found 
+    let modified_children = children
+    if (local_guide_index !== -1) {
+
+        // Create Guide Component
+        let guide_component = (<ol key={0}>{
+            Object.keys(heading_urls).map((value, index) => (
+                <li key={index} style={{ marginTop: "0.5rem" }}>
+                    <a href={value}>{heading_urls[value]}</a>
+                </li>
+            ))
+        }</ol>)
+
+        // Insert guide_component at local guide index
+        modified_children = children.toSpliced(local_guide_index, 0, guide_component)
+
+    }
+
+    return modified_children
+
+}
+
+
+// Components
+export function HTMLSkeleton({   // The "Boilerplate" html, Useful for cross device compatibility
+    children,
+    UseGlobalStyle = true,  // Adds the GlobalStyle Component
+    UseCodeStyle = true,  // Adds the CodeStyle Component
+    RegisterToSiteGuide = {},  // Register provided dictionary to site guide 
+    UseLocalGuide = false  // Creates a local guide at the last LocalGuide component found
+}) {
 
     // Register into guide if objects are passed
-    if (Object.keys(RegisterToGuide).length !== 0)
-        guide_register(RegisterToGuide.category, RegisterToGuide.title)
+    if (Object.keys(RegisterToSiteGuide).length !== 0) {
+        guide_register(RegisterToSiteGuide.category, RegisterToSiteGuide.title)
+    }
 
 
     // Define page title based on props passed
-    const page_title = ("title" in RegisterToGuide ? `${RegisterToGuide.title} - ${SiteName}` : SiteName)
+    const page_title = ("title" in RegisterToSiteGuide ? `${RegisterToSiteGuide.title} - ${SiteName}` : SiteName)
 
+
+    // Create index at Index component
+    if (UseLocalGuide) {
+        children = create_local_guide(children)
+    }
 
     return (<>
         <html lang="en">
@@ -82,7 +151,7 @@ export function HTMLSkeleton({ children, UseGlobalStyle = true, UseCodeStyle = t
                 <meta charSet="UTF-8" />
                 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
                 <title>{page_title}</title>
-                {UseCodeStyle && <link rel="stylesheet" href={STATIC_CODE_STYLE_URL} />}
+                {UseCodeStyle && <CodeStyle />}
                 {UseGlobalStyle && <GlobalStyle />}
             </head>
             <body>
@@ -108,7 +177,10 @@ export function GlobalStyle({ AdditionalStyles = "" }) { // Returns a style tag 
         
     ` + AdditionalStyles}</style>)
 }
-export function ContentGuide() {  // Reads the guide.json and Creates links to all registed pages
+export function CodeStyle() { // Returns a style tag with global styles
+    return (<link rel="stylesheet" href={STATIC_CODE_STYLE_URL} />)
+}
+export function SiteGuide() {  // Reads the guide.json and Creates links to all registed pages
 
     // Get Site Map
     let site_guide = {}
@@ -151,10 +223,50 @@ export function ContentGuide() {  // Reads the guide.json and Creates links to a
 
     }</>)
 }
-export function Heading({ children }) {  // Create heading component with linebreak and horizontal rule
-    return (<>
-        <h1>{children}</h1>
+export function LocalGuide({ children, HeadingFunc = H2 }) {  // Component which points to where the local guide should be created
+    return <HeadingFunc>{children}</HeadingFunc>
+}
+export function Heading({ children, UseHR = false, TopBRCount = 0, BottomBRCount = 0 }) {  // Create heading component with linebreak and horizontal rule
 
-        <hr /><br />
+    const TopMultiLineBreak = Array.from({ length: TopBRCount }, (_, index) => <br key={index}></br>)
+    const BottomMultiLineBreak = Array.from({ length: BottomBRCount }, (_, index) => <br key={index}></br>)
+
+    return (<>
+
+        {TopMultiLineBreak}
+
+        {children}
+
+        {UseHR && <hr />}
+
+        {BottomMultiLineBreak}
     </>)
+}
+export function H1(props) {  // Heading Tags 1-6, Pass them an "id" to make them appear on local guide, Note: keep one line empty line around these otherwise they won't show up on local guide
+    let default_props = {}
+
+    // Default implementations
+    if (props.UseHR === undefined)
+        default_props.UseHR = true
+
+    if (props.BottomBRCount === undefined)
+        default_props.BottomBRCount = 1
+
+
+    return <Heading {...props} {...default_props}><h1 id={props.id}>{props.children}</h1></Heading>
+}
+export function H2(props) {
+    return <Heading {...props}><h2 id={props.id}>{props.children}</h2></Heading>
+}
+export function H3(props) {
+    return <Heading {...props}><h3 id={props.id}>{props.children}</h3></Heading>
+}
+export function H4(props) {
+    return <Heading {...props}><h4 id={props.id}>{props.children}</h4></Heading>
+}
+export function H5(props) {
+    return <Heading {...props}><h5 id={props.id}>{props.children}</h5></Heading>
+}
+export function H6(props) {
+    return <Heading {...props}><h6 id={props.id}>{props.children}</h6></Heading>
 }

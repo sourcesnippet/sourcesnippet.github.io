@@ -1,0 +1,69 @@
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Interfaces in Unreal Engine C++ - SourceSnippet</title><link rel="stylesheet" href="/_static/codestyle.css"><style>body{background-color:Canvas;color:CanvasText;color-scheme:light dark;font-size:18px;margin:0 auto;max-width:700px;line-height:1.3;padding:40px 1rem}</style></head><body><h1>Interfaces in Unreal Engine C++</h1><hr><br><h2>Index</h2><ol><li style="margin-top:.5rem"><a href="#what-are-interfaces">What are Interfaces?</a></li><li style="margin-top:.5rem"><a href="#simple-interface-example">Simple Interface Example</a></li><li style="margin-top:.5rem"><a href="#check-if-interface-exists">Check if Interface exists on object</a></li><li style="margin-top:.5rem"><a href="#invoke-interface-function">Invoke Interface function on object</a></li><li style="margin-top:.5rem"><a href="#default-implementation-for-specific-class">Default Implementation for specific class </a></li></ol><br><h2 id="what-are-interfaces">What are Interfaces?</h2><p>Interfaces are classes which have functions within them that other classes can inherit and
+implement/override in their own version, It is used to avoid casting.</p><p><strong>Note:</strong> Interface classes CANNOT have <code>UPROPERTY()</code> variables</p><br><h2 id="simple-interface-example">Simple Interface Example</h2><pre><code class="hljs language-cpp"><span class="hljs-comment">// ExampleInterface.h</span>
+
+<span class="hljs-meta">#<span class="hljs-keyword">pragma</span> once</span>
+
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&quot;CoreMinimal.h&quot;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&quot;UObject/Interface.h&quot;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&quot;ExampleInterface.generated.h&quot;</span></span>
+
+<span class="hljs-built_in">UINTERFACE</span>(MinimalAPI)
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">UExampleInterface</span> : <span class="hljs-keyword">public</span> UInterface
+{
+    <span class="hljs-built_in">GENERATED_BODY</span>()
+};
+
+
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">MYPROJECT_API</span> IExampleInterface
+{
+    <span class="hljs-built_in">GENERATED_BODY</span>()
+
+    <span class="hljs-keyword">public</span>:
+       
+       <span class="hljs-built_in">UFUNCTION</span>(BlueprintCallable, BlueprintNativeEvent)
+       <span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">MyExample</span><span class="hljs-params">()</span></span>;
+
+       <span class="hljs-built_in">UFUNCTION</span>(BlueprintCallable, BlueprintNativeEvent)
+       <span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">MyArgExample</span><span class="hljs-params">(<span class="hljs-type">bool</span> MyArg)</span></span>;  <span class="hljs-comment">// With Arguments (Default arguments are not supported)</span>
+};
+</code></pre><pre><code class="hljs language-cpp"><span class="hljs-comment">// ExampleCharacter.h</span>
+
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&quot;ExampleInterface.h&quot;</span></span>
+
+...
+
+<span class="hljs-built_in">UCLASS</span>()
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">TESTING_API</span> AExampleCharacter : <span class="hljs-keyword">public</span> ACharacter, <span class="hljs-keyword">public</span> IExampleInterface
+{
+    <span class="hljs-built_in">GENERATED_BODY</span>()
+
+    ...
+
+    <span class="hljs-keyword">public</span>:    
+    <span class="hljs-function"><span class="hljs-keyword">virtual</span> <span class="hljs-type">void</span> <span class="hljs-title">MyExample_Implementation</span><span class="hljs-params">()</span> <span class="hljs-keyword">override</span></span>;
+    <span class="hljs-function"><span class="hljs-keyword">virtual</span> <span class="hljs-type">void</span> <span class="hljs-title">MyArgExample_Implementation</span><span class="hljs-params">(<span class="hljs-type">bool</span> MyArg)</span> <span class="hljs-keyword">override</span></span>;
+};
+</code></pre><pre><code class="hljs language-cpp"><span class="hljs-comment">// ExampleCharacter.cpp</span>
+
+<span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">AExampleCharacter::MyExample_Implementation</span><span class="hljs-params">()</span></span>{
+   ...
+}
+<span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">AExampleCharacter::MyArgExample_Implementation</span><span class="hljs-params">(<span class="hljs-type">bool</span> MyArg)</span></span>{
+   ...
+}
+</code></pre><br><h2 id="check-if-interface-exists">Check if Interface exists on object</h2><pre><code class="hljs language-cpp">AExampleCharacter* ExampleCharacterObject;
+<span class="hljs-type">bool</span> DoesImplement = ExampleCharacterObject-&gt;<span class="hljs-built_in">Implements</span>&lt;UExampleInterface&gt;(); <span class="hljs-comment">// Use the &quot;U-&quot; prefix class</span>
+</code></pre><br><h2 id="invoke-interface-function">Invoke Interface function on object</h2><pre><code class="hljs language-cpp">AActor* ExampleCharacterObject;
+
+<span class="hljs-keyword">if</span>(ExampleCharacterObject-&gt;<span class="hljs-built_in">Implements</span>&lt;UExampleInterface&gt;()){
+  IExampleInterface::<span class="hljs-built_in">Execute_MyExample</span>(ExampleCharacterObject); <span class="hljs-comment">// Execute_*</span>
+  IExampleInterface::<span class="hljs-built_in">Execute_MyArgExample</span>(ExampleCharacterObject, <span class="hljs-literal">true</span> <span class="hljs-comment">/* , add, other, arguments*/</span>); <span class="hljs-comment">// Execute_*</span>
+}
+</code></pre><br><h2 id="default-implementation-for-specific-class">Default Implementation for specific class </h2><p>In this example the &quot;specific class&quot; is <code>AActor</code></p><pre><code class="hljs language-cpp"><span class="hljs-comment">// ExampleInterface.cpp</span>
+
+...
+
+UExampleInterface::<span class="hljs-built_in">MyExample_Implementation</span>(){
+    AActor * DerivedObject = <span class="hljs-built_in">Cast</span>&lt;AActor&gt;(<span class="hljs-keyword">this</span>);
+}
+</code></pre><p><strong>Warning:</strong> This is more of a hack / proof of concept, Not recommended</p></body></html>

@@ -1,0 +1,29 @@
+import { HTMLSkeleton, H1, H2, H3, LocalGuide } from "./global.jsx"
+
+export const snippet_title = "Structs in Unreal Engine C++"
+export const snippet_category = "Unreal Engine"
+
+<HTMLSkeleton RegisterToSiteGuide={{ category : snippet_category, title : snippet_title }} UseLocalGuide={true}>
+
+
+<H1>{snippet_title}</H1>
+
+
+**Note:** `USTRUCT()` cannot have have `UFUNCTION()` methods
+```cpp
+USTRUCT(BlueprintType)
+struct FCustomStruct{
+  
+  GENERATED_BODY()
+  
+  UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
+  FName Name;
+
+  UPROPERTY()
+  int Value;
+
+  // UFUNCTION() not useable in structs
+  void Add() { Value++; }
+};
+```
+</HTMLSkeleton>

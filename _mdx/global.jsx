@@ -212,10 +212,9 @@ export function SiteGuide() {  // Reads the guide.json and Creates links to all 
     // Sort site guide links alphabetically in each category
     for (let key in content_guide) {
         content_guide[key].sort((obj1, obj2) => {
-            return obj1.title.localeCompare(obj1.title)
+            return obj1.title.localeCompare(obj2.title)
         })
     }
-
 
     return (<>{
 

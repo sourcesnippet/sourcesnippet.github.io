@@ -1,1 +1,43 @@
-<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Printing &amp; Logging in Unreal Engine C++ - SourceSnippet</title><link rel="stylesheet" href="/_static/codestyle.css"><style>body{background-color:Canvas;color:CanvasText;color-scheme:light dark;font-size:18px;margin:0 auto;max-width:700px;line-height:1.3;padding:40px 1rem}</style></head><body><h1>Printing &amp; Logging in Unreal Engine C++</h1><hr><br></body></html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Printing &amp; Logging in Unreal Engine C++ - SourceSnippet</title><link rel="stylesheet" href="/_static/codestyle.css"><style>body{background-color:Canvas;color:CanvasText;color-scheme:light dark;font-size:18px;margin:0 auto;max-width:750px;line-height:1.3;padding:40px 1rem}</style></head><body><h1>Printing &amp; Logging in Unreal Engine C++</h1><hr><br><pre><code class="hljs language-cpp"><span class="hljs-comment">// Writing On Screen</span>
+<span class="hljs-keyword">if</span>(GEngine)
+    GEngine-&gt;<span class="hljs-built_in">AddOnScreenDebugMessage</span>(<span class="hljs-number">-1</span>, <span class="hljs-number">10.0f</span>, FColor::Red, <span class="hljs-built_in">TEXT</span>(<span class="hljs-string">&quot;Some message!&quot;</span>));   
+
+
+<span class="hljs-comment">// Writting in Output Log </span>
+<span class="hljs-built_in">UE_LOG</span>(LogTemp, Warning, <span class="hljs-built_in">TEXT</span>(<span class="hljs-string">&quot;Some message!&quot;</span>)); 
+
+
+
+<span class="hljs-comment">// print int</span>
+<span class="hljs-type">int</span> MyInt = <span class="hljs-number">3</span>;
+GEngine-&gt;<span class="hljs-built_in">AddOnScreenDebugMessage</span>(<span class="hljs-number">-1</span>, <span class="hljs-number">10.0f</span>, FColor::Red, FString::<span class="hljs-built_in">Printf</span>(<span class="hljs-built_in">TEXT</span>(<span class="hljs-string">&quot;int: %d&quot;</span>), MyInt));
+<span class="hljs-built_in">UE_LOG</span>(LogTemp, Warning, <span class="hljs-built_in">TEXT</span>(<span class="hljs-string">&quot;int: %d&quot;</span>), MyInt);
+
+
+
+<span class="hljs-comment">// print float</span>
+<span class="hljs-type">float</span> MyFloat = <span class="hljs-number">10.5f</span>;
+GEngine-&gt;<span class="hljs-built_in">AddOnScreenDebugMessage</span>(<span class="hljs-number">-1</span>, <span class="hljs-number">10.0f</span>, FColor::Red, FString::<span class="hljs-built_in">Printf</span>(<span class="hljs-built_in">TEXT</span>(<span class="hljs-string">&quot;float: %f&quot;</span>), MyFloat));
+<span class="hljs-built_in">UE_LOG</span>(LogTemp, Warning, <span class="hljs-built_in">TEXT</span>(<span class="hljs-string">&quot;float: %f&quot;</span>), MyFloat);
+
+
+
+<span class="hljs-comment">// print boolean</span>
+<span class="hljs-type">bool</span> bMyBool = <span class="hljs-literal">true</span>;
+GEngine-&gt;<span class="hljs-built_in">AddOnScreenDebugMessage</span>(<span class="hljs-number">-1</span>, <span class="hljs-number">10.0f</span>, FColor::Red, FString::<span class="hljs-built_in">Printf</span>(<span class="hljs-built_in">TEXT</span>(<span class="hljs-string">&quot;bool: %s&quot;</span>), bMyBool ? <span class="hljs-built_in">TEXT</span>(<span class="hljs-string">&quot;true&quot;</span>) : <span class="hljs-built_in">TEXT</span>(<span class="hljs-string">&quot;false&quot;</span>)));
+<span class="hljs-built_in">UE_LOG</span>(LogTemp, Warning, <span class="hljs-built_in">TEXT</span>(<span class="hljs-string">&quot;bool: %s&quot;</span>), bMyBool ? <span class="hljs-built_in">TEXT</span>(<span class="hljs-string">&quot;true&quot;</span>) : <span class="hljs-built_in">TEXT</span>(<span class="hljs-string">&quot;false&quot;</span>));
+
+
+
+<span class="hljs-comment">// print FString</span>
+FString MyString = <span class="hljs-built_in">TEXT</span>(<span class="hljs-string">&quot;Hello World&quot;</span>);
+GEngine-&gt;<span class="hljs-built_in">AddOnScreenDebugMessage</span>(<span class="hljs-number">-1</span>, <span class="hljs-number">10.0f</span>, FColor::Red, FString::<span class="hljs-built_in">Printf</span>(<span class="hljs-built_in">TEXT</span>(<span class="hljs-string">&quot;FString: %s&quot;</span>), *MyString));
+<span class="hljs-built_in">UE_LOG</span>(LogTemp, Warning, <span class="hljs-built_in">TEXT</span>(<span class="hljs-string">&quot;FString: %s&quot;</span>), *MyString);
+
+
+
+<span class="hljs-comment">// print FName</span>
+FName MyName = <span class="hljs-built_in">TEXT</span>(<span class="hljs-string">&quot;Hello World&quot;</span>);
+GEngine-&gt;<span class="hljs-built_in">AddOnScreenDebugMessage</span>(<span class="hljs-number">-1</span>, <span class="hljs-number">10.0f</span>, FColor::Red, FString::<span class="hljs-built_in">Printf</span>(<span class="hljs-built_in">TEXT</span>(<span class="hljs-string">&quot;FName: %s&quot;</span>), *MyName.<span class="hljs-built_in">ToString</span>()));
+<span class="hljs-built_in">UE_LOG</span>(LogTemp, Warning, <span class="hljs-built_in">TEXT</span>(<span class="hljs-string">&quot;FName: %s&quot;</span>), *MyName.<span class="hljs-built_in">ToString</span>());
+</code></pre></body></html>

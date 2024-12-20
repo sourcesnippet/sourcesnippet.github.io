@@ -176,7 +176,7 @@ export function GlobalStyle({ AdditionalStyles = "" }) { // Returns a style tag 
             color-scheme: light dark;
             font-size:18px;
             margin:0 auto;
-            max-width:700px;
+            max-width:750px;
             line-height:1.3;
             padding: 40px 1rem;
         }

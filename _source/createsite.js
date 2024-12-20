@@ -166,7 +166,9 @@ let entryFile = process.argv?.[1];
 
 if (entryFile === __filename) {
     console.log("============= Recreating...   ===============")
-
     await create_site()
     console.log("============= Recreated Site! ===============")
+
+    // Exit 
+    process.exit()
 }

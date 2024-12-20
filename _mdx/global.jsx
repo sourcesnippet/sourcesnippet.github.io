@@ -46,7 +46,13 @@ function guide_register(Category, Title) {  // Register data into guide.json
     // Get Site Map json if file does exist
     if (fs.existsSync(ABS_SITE_GUIDE_PATH)) {
         const site_guide_content = fs.readFileSync(ABS_SITE_GUIDE_PATH, 'utf8');
-        site_guide_json = JSON.parse(site_guide_content);
+
+        try {
+            site_guide_json = JSON.parse(site_guide_content);
+        }
+        catch(err) {
+            console.log(`Problem when reading site guide JSON: ${err.stack} \n site guide JSON:${site_guide_content}` )
+        }
     }
     else {  // Create Site Map directory if file does not exit
         fs.mkdirSync(abs_site_guide_dir, { recursive: true });
@@ -258,6 +264,9 @@ export function H1(props) {  // Heading Tags 1-6, Pass them an "id" to make them
 
     if (props.BottomBRCount === undefined)
         default_props.BottomBRCount = 1
+
+    if (props.Depth === undefined)
+        default_props.Depth = 1
 
 
     return <Heading {...props} {...default_props}><h1 id={props.id}>{props.children}</h1></Heading>

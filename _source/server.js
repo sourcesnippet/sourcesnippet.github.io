@@ -25,14 +25,23 @@ const MIME_TYPE = {  // Maps extensions to mime protocol
     '.pdf': 'application/pdf',
     '.zip': 'application/zip',
 }
+let is_creating_site = false  // Prevents site from being recreated if creation is ongoing
 
 
 // Functions
-function invoke_create_site() {  // Runs create site script via fork
+function invoke_create_site(_recursive = false) {  // Runs create site script via fork since invoking create_site() directly does not properly update the site 
 
-    // invoking create_site() directly does not properly update the site 
-    // hence using fork instead 
-    fork(CREATE_SITE_FILE)
+    // Exit if already creating
+    if (is_creating_site)
+        return
+
+
+    // Set creating status to ongoing
+    is_creating_site = true
+
+
+    // Creating site
+    fork(CREATE_SITE_FILE).addListener("close", () => { is_creating_site = false; })
 
 }
 async function watch_for_changes() {  // Watches ABS_MDX_ROOT_DIRECTORY files for any code change
@@ -42,6 +51,9 @@ async function watch_for_changes() {  // Watches ABS_MDX_ROOT_DIRECTORY files fo
     // Start watching files
     const watcher = Deno.watchFs(ABS_MDX_ROOT_DIRECTORY);
     for await (const event of watcher) {
+        if (event.kind == "access")
+            continue
+
         console.log(`File Changed: ${event.paths}`)
         invoke_create_site()
     }

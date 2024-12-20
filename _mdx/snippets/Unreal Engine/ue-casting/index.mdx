@@ -1,0 +1,14 @@
+import { HTMLSkeleton, H1 } from "./global.jsx"
+
+export const snippet_title = "Casting in Unreal Engine C++"
+export const snippet_category = "Unreal Engine"
+
+<HTMLSkeleton RegisterToSiteGuide={{ category : snippet_category, title : snippet_title }} UseLocalGuide={true}>
+
+<H1>{snippet_title}</H1>
+
+```cpp
+UObject* MyObject;
+ACharacter* MyCharacter = Cast<ACharacter>(MyObject);  // Casting to ACharacter type
+```
+</HTMLSkeleton>

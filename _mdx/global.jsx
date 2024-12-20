@@ -50,8 +50,8 @@ function guide_register(Category, Title) {  // Register data into guide.json
         try {
             site_guide_json = JSON.parse(site_guide_content);
         }
-        catch(err) {
-            console.log(`Problem when reading site guide JSON: ${err.stack} \n site guide JSON:${site_guide_content}` )
+        catch (err) {
+            console.log(`Problem when reading site guide JSON: ${err.stack} \n site guide JSON:${site_guide_content}`)
         }
     }
     else {  // Create Site Map directory if file does not exit
@@ -244,6 +244,7 @@ export function Heading({ children, UseHR = false, TopBRCount = 0, BottomBRCount
     const TopMultiLineBreak = Array.from({ length: TopBRCount }, (_, index) => <br key={index}></br>)
     const BottomMultiLineBreak = Array.from({ length: BottomBRCount }, (_, index) => <br key={index}></br>)
 
+
     return (<>
 
         {TopMultiLineBreak}
@@ -264,9 +265,6 @@ export function H1(props) {  // Heading Tags 1-6, Pass them an "id" to make them
 
     if (props.BottomBRCount === undefined)
         default_props.BottomBRCount = 1
-
-    if (props.Depth === undefined)
-        default_props.Depth = 1
 
 
     return <Heading {...props} {...default_props}><h1 id={props.id}>{props.children}</h1></Heading>

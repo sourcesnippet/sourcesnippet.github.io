@@ -133,7 +133,7 @@ export function HTMLSkeleton({   // The "Boilerplate" html, Useful for cross dev
     UseGlobalStyle = true,  // Adds the GlobalStyle Component
     UseCodeStyle = true,  // Adds the CodeStyle Component
     RegisterToSiteGuide = {},  // Register provided dictionary to site guide 
-    UseLocalGuide = false  // Creates a local guide at the last LocalGuide component found
+    UseLocalGuide = true  // Creates a local guide at the last LocalGuide component found
 }) {
 
     // Register into guide if objects are passed

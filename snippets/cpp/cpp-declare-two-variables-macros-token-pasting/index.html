@@ -1,0 +1,17 @@
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Declare two variables using MACROS token-pasting operator (##) in C++ - SourceSnippet</title><link rel="stylesheet" href="/_static/codestyle.css"><style>body{background-color:Canvas;color:CanvasText;color-scheme:light dark;font-size:18px;margin:0 auto;max-width:750px;line-height:1.3;padding:40px 1rem}</style></head><body><h1>Declare two variables using MACROS token-pasting operator (##) in C++</h1><hr><br><pre><code class="hljs language-cpp"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;iostream&gt;</span></span>
+
+<span class="hljs-meta">#<span class="hljs-keyword">define</span> DECLARE_TWO_VARIABLES(datatype, var, default_value) \
+    datatype var = default_value; \
+    datatype var##_two = default_value;</span>
+
+<span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> std;
+
+<span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span> </span>{
+    <span class="hljs-built_in">DECLARE_TWO_VARIABLES</span>(<span class="hljs-type">int</span>, MyVar, <span class="hljs-number">12</span>);
+
+    cout&lt;&lt;<span class="hljs-string">&quot;MyVar: &quot;</span>&lt;&lt;MyVar&lt;&lt;endl;
+    cout&lt;&lt;<span class="hljs-string">&quot;MyVar_two: &quot;</span>&lt;&lt;MyVar_two&lt;&lt;endl;
+
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+}
+</code></pre></body></html>

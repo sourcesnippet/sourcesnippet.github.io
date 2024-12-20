@@ -1,4 +1,4 @@
-import { HTMLSkeleton, H1, H2, H3, LocalGuide } from "./global.jsx"
+import { HTMLSkeleton, H1, H2, LocalGuide } from "./global.jsx"
 
 export const snippet_title = "UInterfaces in Unreal Engine C++"
 export const snippet_category = "Unreal Engine"
@@ -59,7 +59,7 @@ class MYPROJECT_API IExampleInterface
 ...
 
 UCLASS()
-class TESTING_API AExampleCharacter : public ACharacter, public IExampleInterface
+class MYPROJECT_API AExampleCharacter : public ACharacter, public IExampleInterface
 {
     GENERATED_BODY()
 

@@ -1,0 +1,20 @@
+import { HTMLSkeleton, H1 } from "./global.jsx"
+
+export const snippet_title = "Custom components in Unreal Engine C++"
+export const snippet_category = "Unreal Engine"
+
+<HTMLSkeleton RegisterToSiteGuide={{ category : snippet_category, title : snippet_title }} UseLocalGuide={true}>
+
+<H1>{snippet_title}</H1>
+
+```cpp
+#include "Components/ActorComponent.h"
+
+UCLASS(meta=(BlueprintSpawnableComponent)) // without this the component will not show in blueprints 
+class MYPROJECT_API UExampleComponent : public UActorComponent
+{
+    GENERATED_BODY()
+    
+};
+```
+</HTMLSkeleton>

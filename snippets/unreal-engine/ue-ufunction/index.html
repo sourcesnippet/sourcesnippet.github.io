@@ -1,0 +1,29 @@
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="preload" as="image" href="/_static/ue-blueprintImplementable-function-screenshot.png"><title>UFunction in Unreal Engine C++ - SourceSnippet</title><link rel="stylesheet" href="/_static/codestyle.css"><style>body{background-color:Canvas;color:CanvasText;color-scheme:light dark;font-size:18px;margin:0 auto;max-width:750px;line-height:1.3;padding:40px 1rem}</style></head><body><h1>UFunction in Unreal Engine C++</h1><hr><br><p>Exposes a function to Unreal&#x27;s <a href="https://www.unrealengine.com/en-US/blog/unreal-property-system-reflection">reflection system</a></p><h2>Syntax</h2><pre><code class="hljs language-cpp"><span class="hljs-built_in">UFUNCTION</span>(BlueprintCallable, Category=<span class="hljs-string">&quot;Custom Category&quot;</span>, meta=(DisplayName=<span class="hljs-string">&quot;My Custom Function&quot;</span>))
+<span class="hljs-function"><span class="hljs-type">bool</span> <span class="hljs-title">MyFunction</span><span class="hljs-params">(int32 MyArg)</span></span>;
+</code></pre><br><h2>BlueprintImplementableEvent Specifier</h2><p>Converts a function into an event inside the Blueprint event graph given the following conditions:</p><ol>
+<li>Function must have return type <code>void</code></li>
+<li>Function must only be declared NOT defined in c++</li>
+</ol><pre><code class="hljs language-cpp"><span class="hljs-built_in">UFUNCTION</span>(BlueprintImplementableEvent)
+<span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">MyFunction</span><span class="hljs-params">(int32 MyArg)</span></span>;  <span class="hljs-comment">// do not define this inside .cpp file</span>
+</code></pre><img width="40%" src="/_static/ue-blueprintImplementable-function-screenshot.png"><br><br><h2>BlueprintNativeEvent Specifier</h2><p>Allows a function to be overriden inside blueprint</p><pre><code class="hljs language-cpp"><span class="hljs-comment">// .h file</span>
+<span class="hljs-built_in">UFUNCTION</span>(BlueprintCallable, BlueprintNativeEvent)
+<span class="hljs-function"><span class="hljs-type">bool</span> <span class="hljs-title">MyFunction</span><span class="hljs-params">(int32 MyArg)</span></span>;  <span class="hljs-comment">// Make sure to add *_Implementation when defining the function</span>
+
+
+<span class="hljs-comment">// .cpp file</span>
+<span class="hljs-function"><span class="hljs-type">bool</span> <span class="hljs-title">UExample::MyFunction_Implementation</span><span class="hljs-params">(int32 MyArg)</span></span>{  <span class="hljs-comment">// *_Implementation</span>
+    ...
+    <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;
+}
+</code></pre><br><h2>All Specifiers</h2><pre><code class="hljs language-cpp">BlueprintCallable  <span class="hljs-comment">// Allows function to be called inside blueprints</span>
+
+BlueprintImplementableEvent  <span class="hljs-comment">// Allows function to become event, Note: function must return void &amp; must only be declared NOT defined in c++</span>
+BlueprintNativeEvent  <span class="hljs-comment">// Allows a function to be overriden inside blueprint, Note: function definition inside .cpp must have *_Implementation suffix</span>
+
+Category = <span class="hljs-string">&quot;My Category | My Sub Category&quot;</span>  <span class="hljs-comment">// Allows property to be placed in the given category</span>
+</code></pre><br><h2>Meta Specifiers</h2><pre><code class="hljs language-cpp">DisplayName = <span class="hljs-string">&quot;My Property&quot;</span>  <span class="hljs-comment">// Allows property name to be different inside editor</span>
+
+AllowPrivateAccess = <span class="hljs-string">&quot;true&quot;</span>  <span class="hljs-comment">// Allows function to be placed inside `private` Access Specifier of the class</span>
+
+BlueprintProtected  <span class="hljs-comment">// Only let&#x27;s function be invoked in the defining blueprint i.e. Same behaviour as `protected` Access Specifier of classes</span>
+</code></pre></body></html>

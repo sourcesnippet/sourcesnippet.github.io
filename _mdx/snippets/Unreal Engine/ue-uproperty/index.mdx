@@ -1,0 +1,74 @@
+import { HTMLSkeleton, H1, H2 } from "./global.jsx"
+
+export const snippet_title = "UProperty in Unreal Engine C++"
+export const snippet_category = "Unreal Engine"
+
+<HTMLSkeleton RegisterToSiteGuide={{ category : snippet_category, title : snippet_title }}>
+
+
+
+<H1>{snippet_title}</H1>
+
+Exposes a variable to Unreal's [reflection system][1]
+
+
+
+<H2>Syntax</H2>
+
+```cpp
+UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Custom Category", meta=(DisplayName="My Custom Property"))
+bool MyProperty = false;
+```
+
+
+
+<H2 TopBRCount={1}>Edit* & Visible* Specifiers</H2>
+
+```cpp
+// Allows property to be viewed/edited inside the details panel
+EditAnywhere    | EditInstanceOnly    | EditDefaultsOnly
+VisibleAnywhere | VisibleInstanceOnly | VisibleDefaultsOnly
+```
+
+
+
+<H2 TopBRCount={1}>Blueprint* Specifiers</H2>
+
+```cpp
+// Allows property to be used inside Blueprint's Event Graph
+BlueprintReadWrite | BlueprintReadOnly  
+```
+
+
+
+<H2 TopBRCount={1}>All Specifiers</H2>
+
+```cpp
+EditAnywhere
+EditInstanceOnly
+EditDefaultsOnly
+
+VisibleAnywhere
+VisibleInstanceOnly
+VisibleDefaultsOnly
+
+BlueprintReadWrite
+BlueprintReadOnly
+
+Category = "My Category | My Sub Category"  // Allows property to be placed in the given category
+```
+
+
+
+<H2 TopBRCount={1}>Meta Specifiers</H2>
+
+```cpp
+DisplayName = "My Property"  // Allows property name to be different inside editor
+
+AllowPrivateAccess = "true"  // Allows property to be placed inside `private` Access Specifier of the class
+```
+
+    
+
+[1]: https://www.unrealengine.com/en-US/blog/unreal-property-system-reflection
+</HTMLSkeleton>

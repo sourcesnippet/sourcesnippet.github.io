@@ -1,0 +1,49 @@
+import { HTMLSkeleton, H1, H2, Img } from "./global.jsx"
+
+export const snippet_title = "UClass in Unreal Engine C++"
+export const snippet_category = "Unreal Engine"
+
+<HTMLSkeleton RegisterToSiteGuide={{ category : snippet_category, title : snippet_title }}>
+
+
+
+<H1>{snippet_title}</H1>
+
+Exposes a class to Unreal's [reflection system][1]
+
+
+
+<H2>Syntax</H2>
+
+```cpp
+UCLASS(Blueprintable, BlueprintType)
+class PROJECTNAME_API UExample : public UObject
+{
+    GENERATED_BODY()
+    ...
+};
+```
+
+
+<H2 TopBRCount={1}>All Specifiers</H2>
+```cpp
+Blueprintable  // Allows blueprint to instance from this class
+
+BlueprintType  // Allows class to be used in variables inside blueprints
+
+BlueprintSpawnableComponent  // (If class is a component) Allows the class to be instantiated in the Component Tree Panel 
+
+Abstract  // Does not allow the class to be instantiated
+```
+
+
+
+<H2 TopBRCount={1}>Meta Specifiers</H2>
+```cpp
+DisplayName = "My Class"  // Allows class name to be different inside editor
+```
+
+
+
+[1]: https://www.unrealengine.com/en-US/blog/unreal-property-system-reflection
+</HTMLSkeleton>

@@ -16,11 +16,18 @@ Exposes a class to Unreal's [reflection system][1]
 <H2>Syntax</H2>
 
 ```cpp
+#pragma once
+
+#include "CoreMinimal.h"
+#include "UObject/NoExportTypes.h"
+#include "MyObject.generated.h"
+
+
 UCLASS(Blueprintable, BlueprintType)
-class PROJECTNAME_API UExample : public UObject
+class MYPROJECT_API UMyObject : public UObject
 {
-    GENERATED_BODY()
-    ...
+	GENERATED_BODY()
+	
 };
 ```
 

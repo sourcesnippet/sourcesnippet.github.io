@@ -1,18 +1,31 @@
-import { HTMLSkeleton, H1 } from "./global.jsx"
+import { HTMLSkeleton, H1, H2 } from "./global.jsx"
 
-export const snippet_title = "UEnum in Unreal Engine C++"
+export const snippet_title = "TSubclassOf in Unreal Engine C++"
 export const snippet_category = "Unreal Engine"
 
 <HTMLSkeleton RegisterToSiteGuide={{ category : snippet_category, title : snippet_title }}>
 
+
+
 <H1>{snippet_title}</H1>
 
+<H2>Syntax</H2>
+
 ```cpp
-UENUM(BlueprintType)
-enum class ECustomEnum : uint8 {
-    Value1, UMETA(DisplayName="My Value 1"),
-    Value2,
-    Value3
-}
+UPROPERTY(EditAnywhere, BlueprintReadWrite)
+TSubclassOf<UObject> MyObjectClass;
 ```
+
+How it looks in the details panel:
+<img width={"80%"} src="/_static/ue-tsubclassof-details-panel-screenshot.png"/>
+
+
+
+<H2 TopBRCount={2}>Instantiating</H2>
+
+```cpp
+UObject* MyObject = NewObject<UObject>(MyObjectClass);
+```
+
+
 </HTMLSkeleton>

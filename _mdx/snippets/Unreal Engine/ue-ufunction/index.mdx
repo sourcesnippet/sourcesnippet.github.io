@@ -16,7 +16,7 @@ Exposes a function to Unreal's [reflection system][1]
 <H2>Syntax</H2>
 
 ```cpp
-UFUNCTION(BlueprintCallable, Category="Custom Category", meta=(DisplayName="My Custom Function"))
+UFUNCTION(BlueprintCallable, Category="Custom Category")
 bool MyFunction(int32 MyArg);
 ```
 
@@ -68,6 +68,8 @@ Category = "My Category | My Sub Category"  // Allows property to be placed in t
 
 <H2 TopBRCount={1}>Meta Specifiers</H2>
 ```cpp
+// Use Syntax UFUNCTION(meta=(...))
+
 DisplayName = "My Function"  // Allows function name to be different inside editor
 
 AllowPrivateAccess = "true"  // Allows function to be placed inside `private` Access Specifier of the class

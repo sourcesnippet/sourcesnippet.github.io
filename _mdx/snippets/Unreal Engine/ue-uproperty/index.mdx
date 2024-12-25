@@ -16,7 +16,7 @@ Exposes a variable to Unreal's [reflection system][1]
 <H2>Syntax</H2>
 
 ```cpp
-UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Custom Category", meta=(DisplayName="My Custom Property"))
+UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Custom Category")
 bool MyProperty = false;
 ```
 
@@ -63,6 +63,8 @@ Category = "My Category | My Sub Category"  // Allows property to be placed in t
 <H2 TopBRCount={1}>Meta Specifiers</H2>
 
 ```cpp
+// Use Syntax UPROPERTY(meta=(...))
+
 DisplayName = "My Property"  // Allows property name to be different inside editor
 
 AllowPrivateAccess = "true"  // Allows property to be placed inside `private` Access Specifier of the class

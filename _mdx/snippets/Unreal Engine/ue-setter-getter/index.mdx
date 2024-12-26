@@ -11,14 +11,14 @@ This will expose the variable `Value` to Blueprints despite being private and ea
 
 ```cpp
 public:
-    UFUNCTION(BlueprintCallable) // Setter must be BlueprintCallable
+    UFUNCTION(BlueprintSetter)
     void SetValue(int NewValue);
 
-    UFUNCTION(BlueprintPure) // Getter must be BlueprintPure
-    int GetValue();
+    UFUNCTION(BlueprintGetter)
+    int GetValue() const;
 
 private:
-    UPROPERTY(BlueprintSetter=SetValue, BlueprintGetter=GetValue)
+    UPROPERTY(EditAnywhere, BlueprintSetter=SetValue, BlueprintGetter=GetValue)
     int Value = 10;
 ```
 </HTMLSkeleton>

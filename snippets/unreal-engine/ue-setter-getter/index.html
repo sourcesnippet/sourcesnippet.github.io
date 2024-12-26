@@ -1,11 +1,11 @@
 <html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Setter-Getter functions in Unreal Engine C++ - SourceSnippet</title><link rel="stylesheet" href="/_static/codestyle.css"><style>body{background-color:Canvas;color:CanvasText;color-scheme:light dark;font-size:18px;margin:0 auto;max-width:750px;line-height:1.3;padding:40px 1rem}</style></head><body><h1>Setter-Getter functions in Unreal Engine C++</h1><hr><br><p>This will expose the variable <code>Value</code> to Blueprints despite being private and each time it is modified in Blueprints it will invoke the setter getter functions</p><pre><code class="hljs language-cpp"><span class="hljs-keyword">public</span>:
-    <span class="hljs-built_in">UFUNCTION</span>(BlueprintCallable) <span class="hljs-comment">// Setter must be BlueprintCallable</span>
+    <span class="hljs-built_in">UFUNCTION</span>(BlueprintSetter)
     <span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">SetValue</span><span class="hljs-params">(<span class="hljs-type">int</span> NewValue)</span></span>;
 
-    <span class="hljs-built_in">UFUNCTION</span>(BlueprintPure) <span class="hljs-comment">// Getter must be BlueprintPure</span>
-    <span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">GetValue</span><span class="hljs-params">()</span></span>;
+    <span class="hljs-built_in">UFUNCTION</span>(BlueprintGetter)
+    <span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">GetValue</span><span class="hljs-params">()</span> <span class="hljs-type">const</span></span>;
 
 <span class="hljs-keyword">private</span>:
-    <span class="hljs-built_in">UPROPERTY</span>(BlueprintSetter=SetValue, BlueprintGetter=GetValue)
+    <span class="hljs-built_in">UPROPERTY</span>(EditAnywhere, BlueprintSetter=SetValue, BlueprintGetter=GetValue)
     <span class="hljs-type">int</span> Value = <span class="hljs-number">10</span>;
 </code></pre></body></html>

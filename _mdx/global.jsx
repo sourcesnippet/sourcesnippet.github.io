@@ -27,6 +27,10 @@ const DATE_STYLE = {
 let GuideGenerationCount = 0  // Keeps count of guide generation, deletes old guide.json if being generated for the first time
 
 
+// URLS
+export const UE_ABSOLUTE_INCLUDE_PATH_URL = "/snippets/unreal-engine/ue-allow-include-path-be-absolute/"
+
+
 // Functions
 function get_mdx_url(mdx_path) { // Get the mdx file path converted into site url
 
@@ -121,7 +125,7 @@ function create_local_guide(children) {  // Create a list of links towards Headi
         // Create Guide Component
         let guide_component = (<ol key={0}>{
             Object.keys(heading_urls).map((value, index) => (
-                <li key={index} style={{ marginTop: "0.5rem" }}>
+                <li key={index}>
                     <a href={value}>{heading_urls[value]}</a>
                 </li>
             ))
@@ -188,11 +192,15 @@ export function GlobalStyle({ AdditionalStyles = "" }) { // Returns a style tag 
             color-scheme: dark;
             font-size:18px;
             margin:0 auto;
-            max-width:750px;
-            line-height:1.3;
-            padding: 40px 1rem;
+            max-width:650px;
+            line-height:1.6;
+            padding: 40px 1rem
         }
-        
+
+        h1,h2,h3 {
+            line-height: 1.3;
+        }
+    
     ` + AdditionalStyles}</style>)
 }
 export function CodeStyle() { // Returns a style tag with global styles
@@ -240,7 +248,7 @@ export function SiteGuide() {  // Reads the guide.json and Creates links to all 
             <br />
             <h1 >{category}</h1>
             <ol>{
-                arr.map((dict, index) => (<li key={index} style={{ marginTop: "1rem" }}>
+                arr.map((dict, index) => (<li key={index}>
                     <a target="_blank" href={dict.site_url}>{dict.title}</a>
                 </li>))
             }</ol>
@@ -277,8 +285,6 @@ export function Heading({ children, UseHR = false, TopBRCount = 0, BottomBRCount
         {is_valid_written_date && <div style={DATE_STYLE}>{WRITTEN_DATE_PREFIX}{written_date_in_words}</div>}
 
         {is_valid_updated_date && <div style={DATE_STYLE}>{UPDATED_DATE_PREFIX}{updated_date_in_words}</div>}
-
-        {(is_valid_written_date || is_valid_updated_date) && <br />}
 
         {UseHR && <hr />}
 

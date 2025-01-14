@@ -14,6 +14,16 @@ const MDX_ROOT_DIRECTORY = "./"  // path to mdx root directory, relative to this
 const SITE_GUIDE_PATH = "../_static/siteguide.json"  // path to site guide, relative to this file's location
 const ABS_MDX_ROOT_DIRECTORY = path.join(import.meta.dirname, MDX_ROOT_DIRECTORY)  // path to mdx root directory, absolute location
 const ABS_SITE_GUIDE_PATH = path.resolve(path.join(import.meta.dirname, SITE_GUIDE_PATH))  // path to site guide, absolute location
+const WRITTEN_DATE_PREFIX = "Written on:  "
+const UPDATED_DATE_PREFIX = "Updated on: "
+const DATE_OPTIONS = {
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric'
+}
+const DATE_STYLE = {
+    opacity: "0.75"
+}
 let GuideGenerationCount = 0  // Keeps count of guide generation, deletes old guide.json if being generated for the first time
 
 
@@ -125,7 +135,9 @@ function create_local_guide(children) {  // Create a list of links towards Headi
     return modified_children
 
 }
-
+function is_valid_date(d) {  // Checks if date is valid
+    return d instanceof Date && !isNaN(d);
+}
 
 // Components
 export function HTMLSkeleton({   // The "Boilerplate" html, Useful for cross device compatibility
@@ -173,7 +185,7 @@ export function GlobalStyle({ AdditionalStyles = "" }) { // Returns a style tag 
         body {
             background-color: Canvas;
             color: CanvasText;
-            color-scheme: light dark;
+            color-scheme: dark;
             font-size:18px;
             margin:0 auto;
             max-width:750px;
@@ -239,10 +251,21 @@ export function SiteGuide() {  // Reads the guide.json and Creates links to all 
 export function LocalGuide({ children, HeadingFunc = H2 }) {  // Component which points to where the local guide should be created
     return <HeadingFunc>{children}</HeadingFunc>
 }
-export function Heading({ children, UseHR = false, TopBRCount = 0, BottomBRCount = 0 }) {  // Create heading component with linebreak and horizontal rule
+export function Heading({ children, UseHR = false, TopBRCount = 0, BottomBRCount = 0, WrittenOn, UpdatedOn }) {  // Create heading component with linebreak and horizontal rule
 
     const TopMultiLineBreak = Array.from({ length: TopBRCount }, (_, index) => <br key={index}></br>)
     const BottomMultiLineBreak = Array.from({ length: BottomBRCount }, (_, index) => <br key={index}></br>)
+
+    // Set written on date
+    let written_date = new Date(WrittenOn)
+    let is_valid_written_date = is_valid_date(written_date)
+    let written_date_in_words = written_date.toLocaleDateString('en-GB', DATE_OPTIONS)
+
+
+    // Set updated on date
+    let updated_date = new Date(UpdatedOn)
+    let is_valid_updated_date = is_valid_date(updated_date)
+    let updated_date_in_words = updated_date.toLocaleDateString('en-GB', DATE_OPTIONS)
 
 
     return (<>
@@ -250,6 +273,12 @@ export function Heading({ children, UseHR = false, TopBRCount = 0, BottomBRCount
         {TopMultiLineBreak}
 
         {children}
+
+        {is_valid_written_date && <div style={DATE_STYLE}>{WRITTEN_DATE_PREFIX}{written_date_in_words}</div>}
+
+        {is_valid_updated_date && <div style={DATE_STYLE}>{UPDATED_DATE_PREFIX}{updated_date_in_words}</div>}
+
+        {(is_valid_written_date || is_valid_updated_date) && <br />}
 
         {UseHR && <hr />}
 

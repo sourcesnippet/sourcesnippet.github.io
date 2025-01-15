@@ -235,7 +235,14 @@ export function SiteGuide() {  // Reads the guide.json and Creates links to all 
     }
 
 
-    // Sort site guide links alphabetically in each category
+    // Sort categories alphabetically
+    let category_arr = Object.keys(content_guide)
+    category_arr.sort((obj1, obj2) => {
+        return obj1.localeCompare(obj2)
+    })
+
+
+    // Sort links alphabetically in each category
     for (let key in content_guide) {
         content_guide[key].sort((obj1, obj2) => {
             return obj1.title.localeCompare(obj2.title)
@@ -244,11 +251,11 @@ export function SiteGuide() {  // Reads the guide.json and Creates links to all 
 
     return (<>{
 
-        Object.entries(content_guide).map(([category, arr]) => (<Fragment key={category}>
+        category_arr.map((category) => (<Fragment key={category}>
             <br />
             <h1 >{category}</h1>
             <ol>{
-                arr.map((dict, index) => (<li key={index}>
+                content_guide[category].map((dict, index) => (<li key={index}>
                     <a target="_blank" href={dict.site_url}>{dict.title}</a>
                 </li>))
             }</ol>

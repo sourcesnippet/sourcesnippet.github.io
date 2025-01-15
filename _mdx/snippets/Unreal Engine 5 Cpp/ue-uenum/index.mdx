@@ -1,0 +1,32 @@
+import { HTMLSkeleton, H1, H2 } from "./global.jsx"
+
+export const snippet_title = "UEnum in Unreal Engine 5 C++"
+export const snippet_category = "Unreal Engine 5 C++"
+
+<HTMLSkeleton RegisterToSiteGuide={{ category : snippet_category, title : snippet_title }}>
+
+<H1>{snippet_title}</H1>
+
+<H2>Syntax</H2>
+```cpp
+UENUM(BlueprintType)
+enum class ECustomEnum : uint8 {
+    ValueA UMETA(DisplayName="My Value 1"),
+    ValueB,
+    ValueC
+};
+```
+
+<H2>Bitflag Syntax</H2>
+```cpp
+UENUM(BlueprintType, meta = (Bitflags, UseEnumValuesAsMaskValuesInEditor = "true"))
+enum class ECustomBitFlagEnum: uint8
+{
+	BitValueNone = 0,
+	BitValueA = 1 << 0,
+	BitValueB = 1 << 1,
+	BitValueC  = 1 << 2
+};
+ENUM_CLASS_FLAGS(ECustomBitFlagEnum);
+```
+</HTMLSkeleton>

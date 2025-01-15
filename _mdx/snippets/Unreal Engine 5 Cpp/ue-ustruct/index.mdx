@@ -1,0 +1,36 @@
+import { HTMLSkeleton, H1 } from "./global.jsx"
+
+export const snippet_title = "UStruct in Unreal Engine 5 C++"
+export const snippet_category = "Unreal Engine 5 C++"
+
+<HTMLSkeleton RegisterToSiteGuide={{ category : snippet_category, title : snippet_title }}>
+
+
+<H1>{snippet_title}</H1>
+
+
+**Note:** `USTRUCT()` cannot have have `UFUNCTION()` methods
+```cpp
+#pragma once
+
+#include "CoreMinimal.h"
+#include "CustomStruct.generated.h"
+
+
+
+USTRUCT(BlueprintType)
+struct FCustomStruct{
+  
+  GENERATED_BODY()
+  
+  UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
+  FName Name;
+
+  UPROPERTY()
+  int Value;
+
+  // UFUNCTION() not useable in structs
+  void Add() { Value++; }
+};
+```
+</HTMLSkeleton>

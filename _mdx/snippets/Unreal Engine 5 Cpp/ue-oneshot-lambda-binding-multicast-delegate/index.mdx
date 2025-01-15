@@ -1,0 +1,46 @@
+import { HTMLSkeleton, H1 } from "./global.jsx"
+
+export const snippet_title = "Oneshot Lambda binding to a multicast delegate in Unreal Engine 5 C++"
+export const snippet_category = "Unreal Engine 5 C++"
+
+<HTMLSkeleton RegisterToSiteGuide={{ category : snippet_category, title : snippet_title }}>
+
+<H1>{snippet_title}</H1>
+
+**Note:**  the definition of `OneshotBindLambda` is not written inside .cpp file since `template` [causes problems][1] and must only be used in .h files
+
+```cpp
+// *.h file
+#pragma once
+
+class FUtility {
+   public:
+   
+    template <typename DelegateType, typename LambdaType>
+    static void OneshotBindLambda(DelegateType& Delegate, LambdaType&& LambdaFunction) {
+        TSharedPtr<FDelegateHandle> Handle = MakeShared<FDelegateHandle>();
+
+        // Bind the lambda function to the delegate
+        *Handle = Delegate.AddLambda([Handle, &Delegate, LambdaFunction]() {
+            LambdaFunction();
+
+            if (Handle.IsValid()) // Remove this delegate handle to make it one-shot
+                Delegate.Remove(*Handle);
+        });
+    }
+};
+```
+
+**Usage:**
+```cpp
+DECLARE_MULTICAST_DELEGATE(FMyDelegate);
+
+FMyDelegate MyDelegate;
+
+FUtility::OneshotBindLambda(MyDelegate, []{
+  GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("This will be invoked only once!"));
+});
+```
+
+[1]: https://stackoverflow.com/questions/115703/storing-c-template-function-definitions-in-a-cpp-file
+</HTMLSkeleton>

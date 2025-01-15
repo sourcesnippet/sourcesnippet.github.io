@@ -1,0 +1,85 @@
+import { HTMLSkeleton, H1 } from "./global.jsx"
+
+export const snippet_title = "UDelegate in Unreal Engine 5 C++"
+export const snippet_category = "Unreal Engine 5 C++"
+
+
+<HTMLSkeleton RegisterToSiteGuide={{ category : snippet_category, title : snippet_title }}>
+
+<H1>{snippet_title}</H1>
+
+
+```cpp
+/* ExampleActor.h */
+
+#include "Delegates/Delegate.h"
+
+// Delegate signature declarations
+DECLARE_DELEGATE_TwoParams(FMyDelegateA, int32 /* FirstVar */, float /* SecondVar */);
+DECLARE_MULTICAST_DELEGATE_TwoParams(FMyDelegateB, int32 /* FirstVar */, float /* SecondVar */);
+
+UDELEGATE()
+DECLARE_DYNAMIC_DELEGATE_TwoParams(FMyDelegateC, int32, FirstVar, float, SecondVar);
+
+UDELEGATE()
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FMyDelegateD, int32, FirstVar, float, SecondVar);
+
+
+
+// Delegate declarations
+FMyDelegateA DelegateVarA; // Single + NON Dynamic, No UPROPERTY()
+FMyDelegateB DelegateVarB; // Mulicast + NON Dynamic, No UPROPERTY()
+
+UPROPERTY()
+FMyDelegateC DelegateVarC; // Single + Dynamic
+
+UPROPERTY(BlueprintAssignable, BlueprintCallable)
+FMyDelegateD DelegateVarD; // Multicast + Dynamic
+
+
+
+// Function declerations
+void MyFunction(int32 Var1, float Var2);
+
+UFUNCTION()
+void AnotherFunction(int32 Var1, float Var2);  // UFUNCTION required for Dynamic Delegates
+
+
+
+/* ExampleActor.cpp */
+void AExampleActor::BeginPlay() {
+    Super::BeginPlay();
+
+
+    // Delegate A, Single + NON Dynamic
+    DelegateVarA.BindUObject(this, &AExampleActor::MyFunction);
+    DelegateVarA.Execute(23, 8.7);
+    bool IsBoundA = DelegateVarA.ExecuteIfBound(23, 8.7);
+    DelegateVarA.Unbind();
+
+
+    // Delegate B, Multicast + NON Dynamic
+    FDelegateHandle HandleB = DelegateVarB.AddUObject(this, &AExampleActor::MyFunction);
+    DelegateVarB.Broadcast(42, 3.14f);
+    DelegateVarB.Remove(HandleB);  
+    DelegateVarB.RemoveAll(this);
+    DelegateVarB.Clear()
+
+    
+    // Delegate C, Single + Dynamic
+    DelegateVarC.BindDynamic(this, &AExampleActor::AnotherFunction); // Make sure AnotherFunction has UFUNCTION()
+    DelegateVarC.Execute(23, 8.7);
+    bool IsBoundC = DelegateVarC.ExecuteIfBound(23, 8.7);
+    DelegateVarC.Unbind();
+
+
+    // Delegate D, Multicast + Dynamic
+    DelegateVarD.AddDynamic(this, &AExampleActor::AnotherFunction);  // Make sure AnotherFunction has UFUNCTION()
+    DelegateVarD.Broadcast(23, 8.7);
+    DelegateVarD.RemoveDynamic(this, &AExampleActor::AnotherFunction);
+    DelegateVarD.RemoveAll(this);
+    DelegateVarD.Clear();
+}
+```
+
+</HTMLSkeleton>

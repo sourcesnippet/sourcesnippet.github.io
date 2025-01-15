@@ -256,7 +256,7 @@ export function SiteGuide() {  // Reads the guide.json and Creates links to all 
             <h1 >{category}</h1>
             <ol>{
                 content_guide[category].map((dict, index) => (<li key={index}>
-                    <a target="_blank" href={dict.site_url}>{dict.title}</a>
+                    <a href={dict.site_url}>{dict.title}</a>
                 </li>))
             }</ol>
         </Fragment>))

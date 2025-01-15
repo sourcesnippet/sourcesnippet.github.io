@@ -28,5 +28,18 @@ enum class ECustomBitFlagEnum: uint8
 	BitValueC  = 1 << 2
 };
 ENUM_CLASS_FLAGS(ECustomBitFlagEnum);
+
+
+// Creating
+ECustomBitFlagEnum MyBitFlag = ECustomBitFlagEnum::FlagA | ECustomBitFlagEnum::FlagC;
+
+// Turning On Flag
+MyBitFlag |= ECustomBitFlagEnum::FlagB;
+
+// Turning Off Flag
+MyBitFlag &= ~ECustomBitFlagEnum::FlagA;
+
+// Checking for Flag
+bool bIsFlagActive = (MyBitFlag & ECustomBitFlagEnum::FlagC) == ECustomBitFlagEnum::FlagC;
 ```
 </HTMLSkeleton>

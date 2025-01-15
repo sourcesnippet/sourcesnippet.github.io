@@ -13,4 +13,17 @@
 	BitValueC  = <span class="hljs-number">1</span> &lt;&lt; <span class="hljs-number">2</span>
 };
 <span class="hljs-built_in">ENUM_CLASS_FLAGS</span>(ECustomBitFlagEnum);
+
+
+<span class="hljs-comment">// Creating</span>
+ECustomBitFlagEnum MyBitFlag = ECustomBitFlagEnum::FlagA | ECustomBitFlagEnum::FlagC;
+
+<span class="hljs-comment">// Turning On Flag</span>
+MyBitFlag |= ECustomBitFlagEnum::FlagB;
+
+<span class="hljs-comment">// Turning Off Flag</span>
+MyBitFlag &amp;= ~ECustomBitFlagEnum::FlagA;
+
+<span class="hljs-comment">// Checking for Flag</span>
+<span class="hljs-type">bool</span> bIsFlagActive = (MyBitFlag &amp; ECustomBitFlagEnum::FlagC) == ECustomBitFlagEnum::FlagC;
 </code></pre></body></html>

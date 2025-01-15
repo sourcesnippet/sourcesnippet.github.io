@@ -50,5 +50,12 @@ UE_LOG(LogTemp, Warning, TEXT("FString: %s"), *MyString);
 FName MyName = TEXT("Hello World");
 GEngine->AddOnScreenDebugMessage(-1, 10.0f, FColor::Red, FString::Printf(TEXT("FName: %s"), *MyName.ToString()));
 UE_LOG(LogTemp, Warning, TEXT("FName: %s"), *MyName.ToString());
+
+
+
+// print FVector
+FVector MyVector = FVector(1, 2, 3);
+GEngine->AddOnScreenDebugMessage(-1, 10.0f, FColor::Red, FString::Printf(TEXT("FVector: %s"), *MyVector.ToString()));
+UE_LOG(LogTemp, Warning, TEXT("FVector: %s"), *MyVector.ToString());
 ```
 </HTMLSkeleton>

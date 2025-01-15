@@ -40,4 +40,11 @@ GEngine-&gt;<span class="hljs-built_in">AddOnScreenDebugMessage</span>(<span cla
 FName MyName = <span class="hljs-built_in">TEXT</span>(<span class="hljs-string">&quot;Hello World&quot;</span>);
 GEngine-&gt;<span class="hljs-built_in">AddOnScreenDebugMessage</span>(<span class="hljs-number">-1</span>, <span class="hljs-number">10.0f</span>, FColor::Red, FString::<span class="hljs-built_in">Printf</span>(<span class="hljs-built_in">TEXT</span>(<span class="hljs-string">&quot;FName: %s&quot;</span>), *MyName.<span class="hljs-built_in">ToString</span>()));
 <span class="hljs-built_in">UE_LOG</span>(LogTemp, Warning, <span class="hljs-built_in">TEXT</span>(<span class="hljs-string">&quot;FName: %s&quot;</span>), *MyName.<span class="hljs-built_in">ToString</span>());
+
+
+
+<span class="hljs-comment">// print FVector</span>
+FVector MyVector = <span class="hljs-built_in">FVector</span>(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>);
+GEngine-&gt;<span class="hljs-built_in">AddOnScreenDebugMessage</span>(<span class="hljs-number">-1</span>, <span class="hljs-number">10.0f</span>, FColor::Red, FString::<span class="hljs-built_in">Printf</span>(<span class="hljs-built_in">TEXT</span>(<span class="hljs-string">&quot;FVector: %s&quot;</span>), *MyVector.<span class="hljs-built_in">ToString</span>()));
+<span class="hljs-built_in">UE_LOG</span>(LogTemp, Warning, <span class="hljs-built_in">TEXT</span>(<span class="hljs-string">&quot;FVector: %s&quot;</span>), *MyVector.<span class="hljs-built_in">ToString</span>());
 </code></pre></body></html>

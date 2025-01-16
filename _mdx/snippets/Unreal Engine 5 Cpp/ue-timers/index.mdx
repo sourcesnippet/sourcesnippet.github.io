@@ -1,0 +1,50 @@
+import { HTMLSkeleton, H1 } from "./global.jsx"
+
+export const snippet_title = "Timers in Unreal Engine 5 C++"
+export const snippet_category = "Unreal Engine 5 C++"
+
+<HTMLSkeleton RegisterToSiteGuide={{ category : snippet_category, title : snippet_title }}>
+
+<H1 WrittenOn={new Date("2025-01-16")}>{snippet_title}</H1>
+
+Creating Timer without arguments
+```cpp
+FTimerManager& TimerManager = GetWorld()->GetTimerManager();
+FTimerHandle TimerHandle;
+
+TimerManager.SetTimer(
+    TimerHandle,                // Timer Handler
+    this,                       // Object to call the function on
+    &AMyCharacter::MyFunction,  // Function address
+    5.0,                        // Delay
+    true,                       // To Loop?
+    1.0                         // First Delay, by Default -1
+);
+
+// Clear Timer
+TimerManager.ClearTimer(TimerHandle);
+```
+
+<br/>
+
+Creating Timer with arguments
+```cpp
+FTimerManager& TimerManager = GetWorld()->GetTimerManager();
+FTimerHandle TimerArgHandle;
+FTimerDelegate TimerDelegate;
+TimerDelegate.BindUObject(this, &AMyCharacter::MyArgFunction, 712);
+// TimerDelegate.BindUFunction(this, FName("MyArgFunction"), 712);  // Make sure function is marked as UFUNCTION()
+// TimerDelegate.BindLambda([]() { GEngine->AddOnScreenDebugMessage(-1, 10.0f, FColor::Red, TEXT("Lambda Called!")); });
+
+TimerManager.SetTimer(
+    TimerArgHandle,  // Timer Handler
+    TimerDelegate,   // Timer Delegate
+    5.0,             // Delay
+    true,            // To Loop?
+    1.0              // First Delay, by Default -1
+);
+
+// Clear Timer
+TimerManager.ClearTimer(TimerArgHandle);
+```
+</HTMLSkeleton>

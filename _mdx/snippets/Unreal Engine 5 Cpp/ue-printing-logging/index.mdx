@@ -39,6 +39,13 @@ UE_LOG(LogTemp, Warning, TEXT("bool: %s"), bMyBool ? TEXT("true") : TEXT("false"
 
 
 
+// print enum
+ECustomEnum EMyEnum = ECustomEnum::ValueA;
+GEngine->AddOnScreenDebugMessage(-1, 10.0f, FColor::Red, FString::Printf(TEXT("Enum: %s"), *UEnum::GetValueAsString(EMyEnum)));
+UE_LOG(LogTemp, Warning, TEXT("Enum: %s"), *UEnum::GetValueAsString(EMyEnum));
+
+
+
 // print FString
 FString MyString = TEXT("Hello World");
 GEngine->AddOnScreenDebugMessage(-1, 10.0f, FColor::Red, FString::Printf(TEXT("FString: %s"), *MyString));

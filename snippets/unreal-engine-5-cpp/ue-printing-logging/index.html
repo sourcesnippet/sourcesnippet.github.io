@@ -29,6 +29,13 @@ GEngine-&gt;<span class="hljs-built_in">AddOnScreenDebugMessage</span>(<span cla
 
 
 
+<span class="hljs-comment">// print enum</span>
+ECustomEnum EMyEnum = ECustomEnum::ValueA;
+GEngine-&gt;<span class="hljs-built_in">AddOnScreenDebugMessage</span>(<span class="hljs-number">-1</span>, <span class="hljs-number">10.0f</span>, FColor::Red, FString::<span class="hljs-built_in">Printf</span>(<span class="hljs-built_in">TEXT</span>(<span class="hljs-string">&quot;Enum: %s&quot;</span>), *UEnum::<span class="hljs-built_in">GetValueAsString</span>(EMyEnum)));
+<span class="hljs-built_in">UE_LOG</span>(LogTemp, Warning, <span class="hljs-built_in">TEXT</span>(<span class="hljs-string">&quot;Enum: %s&quot;</span>), *UEnum::<span class="hljs-built_in">GetValueAsString</span>(EMyEnum));
+
+
+
 <span class="hljs-comment">// print FString</span>
 FString MyString = <span class="hljs-built_in">TEXT</span>(<span class="hljs-string">&quot;Hello World&quot;</span>);
 GEngine-&gt;<span class="hljs-built_in">AddOnScreenDebugMessage</span>(<span class="hljs-number">-1</span>, <span class="hljs-number">10.0f</span>, FColor::Red, FString::<span class="hljs-built_in">Printf</span>(<span class="hljs-built_in">TEXT</span>(<span class="hljs-string">&quot;FString: %s&quot;</span>), *MyString));

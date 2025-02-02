@@ -34,6 +34,10 @@ MyMap.Add(4, TEXT("Item 4"));
 MyMap.Remove(2);
 
 
+// Emptying
+MyMap.Empty(); // or MyMap.Reset()
+
+
 // Checking
 bool bHasKey = MyMap.Contains(5);
 
@@ -96,6 +100,10 @@ MyArray.RemoveSingle(TEXT("Item 2"));  // Finds and removes single matching item
 MyArray.RemoveAt(2);                   // Removes Item at given index, will cause crash if does not exist
 
 
+// Emptying
+MyArray.Empty();
+
+
 // Checking
 bool bHasItem = MyArray.Contains(TEXT("Somet"));
 
@@ -137,6 +145,10 @@ MySet.Add(TEXT("Item 5"));
 
 // Removing
 MySet.Remove(TEXT("Item 2"));
+
+
+// Emptying
+MySet.Empty();  // or MySet.Reset()
 
 
 // Checking

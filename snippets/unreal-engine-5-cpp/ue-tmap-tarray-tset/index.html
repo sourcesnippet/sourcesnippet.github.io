@@ -23,6 +23,10 @@ MyMap.<span class="hljs-built_in">Add</span>(<span class="hljs-number">4</span>,
 MyMap.<span class="hljs-built_in">Remove</span>(<span class="hljs-number">2</span>);
 
 
+<span class="hljs-comment">// Emptying</span>
+MyMap.<span class="hljs-built_in">Empty</span>(); <span class="hljs-comment">// or MyMap.Reset()</span>
+
+
 <span class="hljs-comment">// Checking</span>
 <span class="hljs-type">bool</span> bHasKey = MyMap.<span class="hljs-built_in">Contains</span>(<span class="hljs-number">5</span>);
 
@@ -80,6 +84,10 @@ MyArray.<span class="hljs-built_in">RemoveSingle</span>(<span class="hljs-built_
 MyArray.<span class="hljs-built_in">RemoveAt</span>(<span class="hljs-number">2</span>);                   <span class="hljs-comment">// Removes Item at given index, will cause crash if does not exist</span>
 
 
+<span class="hljs-comment">// Emptying</span>
+MyArray.<span class="hljs-built_in">Empty</span>();
+
+
 <span class="hljs-comment">// Checking</span>
 <span class="hljs-type">bool</span> bHasItem = MyArray.<span class="hljs-built_in">Contains</span>(<span class="hljs-built_in">TEXT</span>(<span class="hljs-string">&quot;Somet&quot;</span>));
 
@@ -116,6 +124,10 @@ MySet.<span class="hljs-built_in">Add</span>(<span class="hljs-built_in">TEXT</s
 
 <span class="hljs-comment">// Removing</span>
 MySet.<span class="hljs-built_in">Remove</span>(<span class="hljs-built_in">TEXT</span>(<span class="hljs-string">&quot;Item 2&quot;</span>));
+
+
+<span class="hljs-comment">// Emptying</span>
+MySet.<span class="hljs-built_in">Empty</span>();  <span class="hljs-comment">// or MySet.Reset()</span>
 
 
 <span class="hljs-comment">// Checking</span>

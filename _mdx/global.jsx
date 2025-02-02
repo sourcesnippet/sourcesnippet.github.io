@@ -29,9 +29,9 @@ let GuideGenerationCount = 0  // Keeps count of guide generation, deletes old gu
 
 // URLS
 export const UE_ABSOLUTE_INCLUDE_PATH_URL = "/snippets/unreal-engine/ue-allow-include-path-be-absolute/"
-export const UE_CREATING_NEW_OBJECT_PATH_URL = "/snippets/unreal-engine-5-cpp/ue-creating-new-objects/"
-export const UE_EDIT_OBJECT_IN_EDITOR_PATH_URL = "/snippets/unreal-engine-5-cpp/ue-edit-custom-object-in-editor/"
-
+export const UE_CREATING_NEW_OBJECT_URL = "/snippets/unreal-engine-5-cpp/ue-creating-new-objects/"
+export const UE_EDIT_OBJECT_IN_EDITOR_URL = "/snippets/unreal-engine-5-cpp/ue-edit-custom-object-in-editor/"
+export const UOBJECT_BLUEPRINT_VARIABLE_DETAILS_PANEL_URL = "https://forums.unrealengine.com/t/uobject-as-blueprint-variable-with-details-panel/445256"
 
 
 // Functions
@@ -145,6 +145,7 @@ function create_local_guide(children) {  // Create a list of links towards Headi
 function is_valid_date(d) {  // Checks if date is valid
     return d instanceof Date && !isNaN(d);
 }
+
 
 // Components
 export function HTMLSkeleton({   // The "Boilerplate" html, Useful for cross device compatibility

@@ -1,4 +1,4 @@
-import { HTMLSkeleton, H1, H2 } from "./global.jsx"
+import { HTMLSkeleton, H1, H2, UE_EDIT_OBJECT_IN_EDITOR_PATH_URL } from "./global.jsx"
 
 export const snippet_title = "UProperty in Unreal Engine 5 C++"
 export const snippet_category = "Unreal Engine 5 C++"
@@ -55,6 +55,8 @@ VisibleDefaultsOnly
 BlueprintReadWrite
 BlueprintReadOnly
 
+Instanced  // Allows property (if of type UObject derived) to be editable in-editor, More info below
+
 Category = "My Category | My Sub Category"  // Allows property to be placed in the given category
 ```
 
@@ -70,6 +72,7 @@ DisplayName = "My Property"  // Allows property name to be different inside edit
 AllowPrivateAccess = "true"  // Allows property to be placed inside `private` Access Specifier of the class
 ```
 
+Example of `Instanced` specifier <a href={UE_EDIT_OBJECT_IN_EDITOR_PATH_URL}>here</a>
     
 
 [1]: https://www.unrealengine.com/en-US/blog/unreal-property-system-reflection

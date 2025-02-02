@@ -1,0 +1,33 @@
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="preload" as="image" href="/_static/ue-custom-object-in-editor-screenshot.png"><title>Edit Custom Object in Editor in Unreal Engine 5 C++ - SourceSnippet</title><link rel="stylesheet" href="/_static/codestyle.css"><style>body{background-color:Canvas;color:CanvasText;color-scheme:dark;font-size:18px;margin:0 auto;max-width:650px;line-height:1.6;padding:40px 1rem}h1,h2,h3{line-height:1.3}</style></head><body><h1>Edit Custom Object in Editor in Unreal Engine 5 C++</h1><div style="opacity:.75">Written on:  <!-- -->2 February 2025</div><hr><br><pre><code class="hljs language-cpp"><span class="hljs-comment">// MyObject.h</span>
+<span class="hljs-built_in">UCLASS</span>(DefaultToInstanced, EditInlineNew, Blueprintable) <span class="hljs-comment">// Add DefaultToInstanced &amp; EditInlineNew</span>
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">TESTING_API</span> UMyObject : <span class="hljs-keyword">public</span> UObject {
+
+    <span class="hljs-built_in">GENERATED_BODY</span>()
+
+   <span class="hljs-keyword">public</span>:
+    <span class="hljs-built_in">UPROPERTY</span>(EditAnywhere)
+    <span class="hljs-type">int</span> MyValue = <span class="hljs-number">10</span>;
+};
+
+
+
+
+<span class="hljs-comment">// MyPawn.h</span>
+<span class="hljs-built_in">UCLASS</span>()
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">TESTING_API</span> AMyPawn : <span class="hljs-keyword">public</span> APawn {
+    <span class="hljs-built_in">GENERATED_BODY</span>()
+
+   <span class="hljs-keyword">public</span>:
+    <span class="hljs-built_in">AMyPawn</span>();
+
+    <span class="hljs-built_in">UPROPERTY</span>(Instanced, EditAnywhere)
+    UMyObject* MyObject;
+};
+
+
+
+<span class="hljs-comment">// MyPawn.cpp</span>
+AMyPawn::<span class="hljs-built_in">AMyPawn</span>(){
+    MyObject = <span class="hljs-built_in">CreateDefaultSubobject</span>&lt;UMyObject&gt;(<span class="hljs-built_in">TEXT</span>(<span class="hljs-string">&quot;MyObject&quot;</span>));
+}
+</code></pre><p>This is how it looks in the editor:</p><img width="100%" src="/_static/ue-custom-object-in-editor-screenshot.png"></body></html>

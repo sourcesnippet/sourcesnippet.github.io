@@ -29,6 +29,9 @@ let GuideGenerationCount = 0  // Keeps count of guide generation, deletes old gu
 
 // URLS
 export const UE_ABSOLUTE_INCLUDE_PATH_URL = "/snippets/unreal-engine/ue-allow-include-path-be-absolute/"
+export const UE_CREATING_NEW_OBJECT_PATH_URL = "/snippets/unreal-engine-5-cpp/ue-creating-new-objects/"
+export const UE_EDIT_OBJECT_IN_EDITOR_PATH_URL = "/snippets/unreal-engine-5-cpp/ue-edit-custom-object-in-editor/"
+
 
 
 // Functions

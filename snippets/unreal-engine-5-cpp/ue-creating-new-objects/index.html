@@ -1,0 +1,11 @@
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>CreateDefaultSubobject() &amp; NewObject() in Unreal Engine 5 C++ - SourceSnippet</title><link rel="stylesheet" href="/_static/codestyle.css"><style>body{background-color:Canvas;color:CanvasText;color-scheme:dark;font-size:18px;margin:0 auto;max-width:650px;line-height:1.6;padding:40px 1rem}h1,h2,h3{line-height:1.3}</style></head><body><h1>CreateDefaultSubobject() &amp; NewObject() in Unreal Engine 5 C++</h1><div style="opacity:.75">Written on:  <!-- -->2 February 2025</div><hr><br><pre><code class="hljs language-cpp"><span class="hljs-comment">// Use in Constructor</span>
+UMyComponent* MyComp = <span class="hljs-built_in">CreateDefaultSubobject</span>&lt;UMyComponent&gt;(<span class="hljs-built_in">TEXT</span>(<span class="hljs-string">&quot;MyComponent&quot;</span>));
+
+
+<span class="hljs-comment">// Use during Runtime</span>
+UMyObject* MyObj = <span class="hljs-built_in">NewObject</span>&lt;UMyObject&gt;(<span class="hljs-keyword">this</span>);
+
+
+TSubclassOf&lt;UObject&gt; MyDerivedClass;
+UObject* MyDerivedObj = <span class="hljs-built_in">NewObject</span>&lt;UObject&gt;(<span class="hljs-keyword">this</span>, MyDerivedClass);
+</code></pre></body></html>

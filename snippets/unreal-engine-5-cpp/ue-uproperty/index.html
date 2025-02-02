@@ -16,10 +16,12 @@ VisibleDefaultsOnly
 BlueprintReadWrite
 BlueprintReadOnly
 
+Instanced  <span class="hljs-comment">// Allows property (if of type UObject derived) to be editable in-editor, More info below</span>
+
 Category = <span class="hljs-string">&quot;My Category | My Sub Category&quot;</span>  <span class="hljs-comment">// Allows property to be placed in the given category</span>
 </code></pre><br><h2>Meta Specifiers</h2><pre><code class="hljs language-cpp"><span class="hljs-comment">// Use Syntax UPROPERTY(meta=(...))</span>
 
 DisplayName = <span class="hljs-string">&quot;My Property&quot;</span>  <span class="hljs-comment">// Allows property name to be different inside editor</span>
 
 AllowPrivateAccess = <span class="hljs-string">&quot;true&quot;</span>  <span class="hljs-comment">// Allows property to be placed inside `private` Access Specifier of the class</span>
-</code></pre></body></html>
+</code></pre><p>Example of <code>Instanced</code> specifier <a href="/snippets/unreal-engine-5-cpp/ue-edit-custom-object-in-editor/">here</a></p></body></html>

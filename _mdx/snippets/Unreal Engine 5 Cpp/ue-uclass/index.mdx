@@ -1,4 +1,4 @@
-import { HTMLSkeleton, H1, H2 } from "./global.jsx"
+import { HTMLSkeleton, H1, H2, UE_EDIT_OBJECT_IN_EDITOR_PATH_URL } from "./global.jsx"
 
 export const snippet_title = "UClass in Unreal Engine 5 C++"
 export const snippet_category = "Unreal Engine 5 C++"
@@ -41,6 +41,10 @@ BlueprintType  // Allows class to be used in variables inside blueprints
 BlueprintSpawnableComponent  // (If class is a component) Allows the class to be instantiated in the Component Tree Panel 
 
 Abstract  // Does not allow the class to be instantiated
+
+DefaultToInstanced
+
+EditInlineNew
 ```
 
 
@@ -50,7 +54,7 @@ Abstract  // Does not allow the class to be instantiated
 DisplayName = "My Class"  // Allows class name to be different inside editor
 ```
 
-
+Example of `DefaultToInstanced` & `EditInlineNew` specifiers <a href={UE_EDIT_OBJECT_IN_EDITOR_PATH_URL}>here</a>
 
 [1]: https://www.unrealengine.com/en-US/blog/unreal-property-system-reflection
 </HTMLSkeleton>

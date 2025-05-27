@@ -1,9 +1,0 @@
-<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Print Readable Date in JavaScript - SourceSnippet</title><link rel="stylesheet" href="/_static/codestyle.css"><style>body{background-color:Canvas;color:CanvasText;color-scheme:dark;font-size:18px;margin:0 auto;max-width:650px;line-height:1.6;padding:40px 1rem}h1,h2,h3{line-height:1.3}</style></head><body><h1>Print Readable Date in JavaScript</h1><div style="opacity:.75">Written on:  <!-- -->15 January 2025</div><hr><br><pre><code class="hljs language-js"><span class="hljs-keyword">const</span> date = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Date</span>(<span class="hljs-string">&quot;2003-03-13&quot;</span>);
-<span class="hljs-keyword">const</span> formatted_date = date.<span class="hljs-title function_">toLocaleDateString</span>(<span class="hljs-string">&#x27;en-GB&#x27;</span>, {
-    <span class="hljs-attr">weekday</span>: <span class="hljs-string">&#x27;long&#x27;</span>, <span class="hljs-comment">// or &#x27;short&#x27;</span>
-    <span class="hljs-attr">day</span>: <span class="hljs-string">&#x27;numeric&#x27;</span>,
-    <span class="hljs-attr">month</span>: <span class="hljs-string">&#x27;long&#x27;</span>, <span class="hljs-comment">// or &#x27;short&#x27;, &#x27;numeric&#x27;</span>
-    <span class="hljs-attr">year</span>: <span class="hljs-string">&#x27;numeric&#x27;</span>
-});
-<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(formatted_date); <span class="hljs-comment">// Thursday 13 March 2003</span>
-</code></pre></body></html>

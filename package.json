@@ -8,8 +8,7 @@
   },
   "type": "module",
   "scripts": {
-    "create": "deno -A createsite.js",
-    "server": "deno -A server.js"
+    "create-site": "deno -A app.js"
   },
   "permissions": {
     "allow-all": true

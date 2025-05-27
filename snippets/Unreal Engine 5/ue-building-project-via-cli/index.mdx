@@ -1,0 +1,19 @@
+import { HTMLSkeleton, H1 } from "./_jsx/global.jsx"
+
+export const snippet_title = "Build Project in Unreal Engine 5 on Ubuntu Linux"
+export const snippet_category = "Unreal Engine 5"
+
+<HTMLSkeleton RegisterToSiteGuide={{ category : snippet_category, title : snippet_title }}>
+
+<H1 WrittenOn={new Date("2025-01-15")}>{snippet_title}</H1>
+
+
+```bash
+# Navigate to following folder
+cd Path/To/Engine/Build/BatchFiles/Linux
+
+# Run the Build
+./Build.sh Development Linux -Project="Path/To/ProjectFile.uproject" -TargetType=Editor
+```
+
+</HTMLSkeleton>

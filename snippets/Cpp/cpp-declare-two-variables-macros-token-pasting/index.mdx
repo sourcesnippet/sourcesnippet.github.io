@@ -1,0 +1,32 @@
+import { HTMLSkeleton, H1 } from "./_jsx/global.jsx"
+
+export const snippet_title = "Declare two variables using MACROS token-pasting operator (##) in C++"
+export const snippet_category = "C++"
+
+
+<HTMLSkeleton RegisterToSiteGuide={{ category : snippet_category, title : snippet_title }}>
+
+
+<H1>{snippet_title}</H1>
+
+
+```cpp
+#include <iostream>
+
+#define DECLARE_TWO_VARIABLES(datatype, var, default_value) \
+    datatype var = default_value; \
+    datatype var##_two = default_value;
+
+using namespace std;
+
+int main() {
+    DECLARE_TWO_VARIABLES(int, MyVar, 12);
+
+    cout<<"MyVar: "<<MyVar<<endl;
+    cout<<"MyVar_two: "<<MyVar_two<<endl;
+
+    return 0;
+}
+```
+
+</HTMLSkeleton>

@@ -1,0 +1,25 @@
+import { HTMLSkeleton, H1 } from "./_jsx/global.jsx"
+
+export const snippet_title = "Boilerplate UObject in Unreal Engine 5 C++"
+export const snippet_category = "Unreal Engine 5 C++"
+
+<HTMLSkeleton RegisterToSiteGuide={{ category : snippet_category, title : snippet_title }}>
+
+<H1>{snippet_title}</H1>
+
+```cpp
+#pragma once
+
+#include "CoreMinimal.h"
+#include "UObject/NoExportTypes.h"
+#include "MyObject.generated.h"
+
+
+UCLASS()
+class TESTING_API UMyObject : public UObject
+{
+	GENERATED_BODY()
+	
+};
+```
+</HTMLSkeleton>

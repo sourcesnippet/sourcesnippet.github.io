@@ -1,0 +1,32 @@
+import { SiteName, HTMLSkeleton, GlobalStyle, SiteGuide } from "./_jsx/global.jsx"
+
+export const SOURCE_URL = "https://github.com/sourcesnippet/sourcesnippet.github.io"
+export const HEADING_STYLE = {
+    color: "CanvasText",
+    textDecoration: "underline"
+}
+
+<HTMLSkeleton UseGlobalStyle={false} UseCodeStyle={false}>
+
+    {/* Heading */}
+    <h1>Welcome to <a href={SOURCE_URL} style={HEADING_STYLE}>SourceSnippet</a></h1>
+    <div style={{ opacity:0.75 }}> - Years of experience, Stored in snippets </div>
+    <hr/>
+
+
+    {/* Index Guide of all content available on site */}
+    <SiteGuide />
+
+
+    {/* Styling */}
+    <GlobalStyle AdditionalStyles={`
+        a {
+            text-decoration:none; 
+        }
+
+        a:hover { 
+            text-decoration:underline; 
+        }
+    `}/>
+
+</HTMLSkeleton>

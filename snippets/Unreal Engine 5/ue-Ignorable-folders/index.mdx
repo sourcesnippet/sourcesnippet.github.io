@@ -1,0 +1,29 @@
+import { HTMLSkeleton, H1 } from "./_jsx/global.jsx"
+
+export const snippet_title = "Necessary files & folders to recreate project in Unreal Engine 5"
+export const snippet_category = "Unreal Engine 5"
+
+<HTMLSkeleton RegisterToSiteGuide={{ category : snippet_category, title : snippet_title }}>
+
+<H1>{snippet_title}</H1>
+
+There are the bare minimum files & folders you need to rebuild your project:
+
+```plaintext
+/Config
+/Content
+/Plugins
+/Source
+*.UPROJECT
+```
+
+These are some of the files & folders you can safely delete:
+```plaintext
+/.vscode
+/Binaries
+/DerivedDataCache
+/Intermediate
+/Saved
+```
+
+</HTMLSkeleton>

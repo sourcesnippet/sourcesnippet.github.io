@@ -1,0 +1,54 @@
+import { HTMLSkeleton, H1 } from "./_jsx/global.jsx"
+
+export const snippet_title = "Naming Conventions in Unreal Engine 5 C++"
+export const snippet_category = "Unreal Engine 5 C++"
+
+<HTMLSkeleton RegisterToSiteGuide={{ category : snippet_category, title : snippet_title }}>
+
+<H1 WrittenOn={new Date("2025-01-16")}>{snippet_title}</H1>
+
+```cpp
+// Use PascalCase for variables
+float MyVariable
+
+
+// b* prefix for Boolean
+bool bHasValue
+
+
+// E* prefix for Enum
+enum class EMyEnum
+
+
+// F* prefix for Struct (and some other internal classes)
+struct FMyStruct
+
+
+// T* prefix for Templates
+template <typename T>
+class TMyClass
+
+
+// U* prefix for UObject inherited
+class UMyObject
+
+
+// A* prefix for AActor inherited
+class AMyActor
+
+
+// S* prefix for SWidget inherited
+class SMyWidget
+
+
+// I* prefix for abstract interfaces inherited
+class IMyInterface
+
+
+// UE_* prefix & capitalized snake_case for Macros
+#define UE_MY_MACRO
+```
+
+[Source](https://dev.epicgames.com/documentation/en-us/unreal-engine/epic-cplusplus-coding-standard-for-unreal-engine)
+
+</HTMLSkeleton>

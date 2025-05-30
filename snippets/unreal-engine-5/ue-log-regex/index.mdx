@@ -1,0 +1,32 @@
+import { HTMLSkeleton, H1 } from "./_jsx/global.jsx"
+
+export const snippet_title = "Regex for Log output prefix in Unreal Engine 5"
+export const snippet_category = "Unreal Engine 5"
+
+<HTMLSkeleton RegisterToSiteGuide={{ category : snippet_category, title : snippet_title }}>
+
+<H1 WrittenOn={new Date("2025-05-30")}>{snippet_title}</H1>
+
+```regex
+\[[^\]]*\]\[[^\]]*\]LogTemp: Warning: 
+```
+
+<br/>
+
+Useful when you copy paste all the log output and need to remove all the prefixes using find and replace in text editor as such:
+
+```plaintext
+[2025.05.30-03.31.14:816][520]LogTemp: Warning: Some Message 1
+[2025.05.30-03.31.14:816][520]LogTemp: Warning: Some Message 2
+[2025.05.30-03.31.14:816][520]LogTemp: Warning: Some Message 3
+[2025.05.30-03.31.14:816][520]LogTemp: Warning: Some Message 4
+[2025.05.30-03.31.14:816][520]LogTemp: Warning: Some Message 5
+
+
+Some Message 1
+Some Message 2
+Some Message 3
+Some Message 4
+Some Message 5
+```
+</HTMLSkeleton>

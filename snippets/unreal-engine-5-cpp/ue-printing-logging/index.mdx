@@ -64,5 +64,13 @@ UE_LOG(LogTemp, Warning, TEXT("FName: %s"), *MyName.ToString());
 FVector MyVector = FVector(1, 2, 3);
 GEngine->AddOnScreenDebugMessage(-1, 10.0f, FColor::Red, FString::Printf(TEXT("FVector: %s"), *MyVector.ToString()));
 UE_LOG(LogTemp, Warning, TEXT("FVector: %s"), *MyVector.ToString());
+
+
+
+// print UObject
+UObject* MyObject = NewObject<UObject>(this, TEXT("MyObject"));
+GEngine->AddOnScreenDebugMessage(-1, 10.0f, FColor::Red, FString::Printf(TEXT("UObject: %s"), MyObject ? *MyObject->GetName() : TEXT("NULL")));
+UE_LOG(LogTemp, Warning, TEXT("UObject: %s"), MyObject ? *MyObject->GetName() : TEXT("NULL"));
+
 ```
 </HTMLSkeleton>

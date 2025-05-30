@@ -13,10 +13,10 @@ UMyComponent* MyComp = CreateDefaultSubobject<UMyComponent>(TEXT("MyComponent"))
 
 
 // Use during Runtime
-UMyObject* MyObj = NewObject<UMyObject>(this);
+UMyObject* MyObj = NewObject<UMyObject>(this, TEXT("MyObject"));
 
 
 TSubclassOf<UObject> MyDerivedClass;
-UObject* MyDerivedObj = NewObject<UObject>(this, MyDerivedClass);
+UObject* MyDerivedObj = NewObject<UObject>(this, MyDerivedClass, TEXT("MyDerivedObj"));
 ```
 </HTMLSkeleton>

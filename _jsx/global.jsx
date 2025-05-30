@@ -153,7 +153,8 @@ export function HTMLSkeleton({   // The "Boilerplate" html, Useful for cross dev
     UseGlobalStyle = true,  // Adds the GlobalStyle Component
     UseCodeStyle = true,  // Adds the CodeStyle Component
     RegisterToSiteGuide = {},  // Register provided dictionary to site guide 
-    UseLocalGuide = true  // Creates a local guide at the last LocalGuide component found
+    UseLocalGuide = true,  // Creates a local guide at the last LocalGuide component found
+    ExtendHead = <></>
 }) {
 
     // Register into guide if objects are passed
@@ -176,10 +177,11 @@ export function HTMLSkeleton({   // The "Boilerplate" html, Useful for cross dev
             <head>
                 <meta charSet="UTF-8" />
                 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-                <meta name="description" content={RegisterToSiteGuide.title} />
+                {RegisterToSiteGuide.title !== undefined && <meta name="description" content={RegisterToSiteGuide.title} />}
                 <title>{page_title}</title>
                 {UseCodeStyle && <CodeStyle />}
                 {UseGlobalStyle && <GlobalStyle />}
+                {ExtendHead}
             </head>
             <body>
                 {children}

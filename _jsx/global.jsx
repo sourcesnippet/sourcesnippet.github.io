@@ -176,6 +176,7 @@ export function HTMLSkeleton({   // The "Boilerplate" html, Useful for cross dev
             <head>
                 <meta charSet="UTF-8" />
                 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+                <meta name="description" content={RegisterToSiteGuide.title} />
                 <title>{page_title}</title>
                 {UseCodeStyle && <CodeStyle />}
                 {UseGlobalStyle && <GlobalStyle />}

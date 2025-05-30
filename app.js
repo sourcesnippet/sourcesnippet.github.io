@@ -27,7 +27,7 @@ async function mdx_to_html(mdx_code, base_url = MDX_ROOT_FILE_URI) {  // convert
         rehypePlugins: [[rehypeHighlight, { languages: { ...common, gdscript } }]],
         baseUrl: base_url
     })).default
-    const html_code = renderToString(createElement(jsx))
+    const html_code = "<!DOCTYPE html>" + renderToString(createElement(jsx))
 
     return minify(html_code, { minifyCSS: true })
 

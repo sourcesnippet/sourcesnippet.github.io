@@ -1,0 +1,284 @@
+import { HTMLSkeleton, H1 } from "./_jsx/global.jsx"
+
+export const snippet_title = "Draw Debug shapes in Unreal Engine 5 C++"
+export const snippet_category = "Unreal Engine 5 C++"
+
+<HTMLSkeleton RegisterToSiteGuide={{ category : snippet_category, title : snippet_title }}>
+
+<H1 WrittenOn={new Date("2025-06-19")}>{snippet_title}</H1>
+
+
+## Point
+![Point Draw Debug Shape Screenshot](/static/ue-debug-shapes/ue-debug-shape-point.png)
+
+```cpp
+DrawDebugPoint(
+    GetWorld(),                   // World
+    FVector(0.0f, 0.0f, 100.0f),  // Location
+    15.0f,                        // Point size
+    FColor::Red,                  // Color
+    false,                        // Persistent?             Default = false
+    10.0f,                        // Life Time (Seconds)     Default = -1.f
+    0                             // Depth Priority          Default = 0
+);
+```
+
+<br/>
+
+## Line
+![Line Draw Debug Shape Screenshot](/static/ue-debug-shapes/ue-debug-shape-line.png)
+
+```cpp
+DrawDebugLine(
+    GetWorld(),                   // World
+    FVector(0.0f, 0.0f, 50.0f),   // Start location
+    FVector(0.0f, 0.0f, 130.0f),  // End location
+    FColor::Red,                  // Color
+    false,                        // Persistent?             Default = false
+    10.0f,                        // Life Time (Seconds)     Default = -1.f
+    0,                            // Depth Priority          Default = 0
+    0.f                           // Line Thickness          Default = 0.f
+);
+```
+
+<br/>
+
+## Sphere
+![Sphere Draw Debug Shape Screenshot](/static/ue-debug-shapes/ue-debug-shape-sphere.png)
+
+```cpp
+DrawDebugSphere(
+    GetWorld(),                   // World
+    FVector(0.0f, 0.0f, 120.0f),  // Center location
+    30.0f,                        // Radius
+    12,                           // Segments
+    FColor::Red,                  // Color
+    false,                        // Persistant?             Default = false
+    10.0f,                        // Life Time (Seconds)     Default = -1.f
+    0,                            // DepthPriority           Default = 0
+    0.f                           // Line Thickness          Default = 0.f
+);
+```
+
+<br/>
+
+## Box
+![Box Draw Debug Shape Screenshot](/static/ue-debug-shapes/ue-debug-shape-box.png)
+
+```cpp
+DrawDebugBox(
+    GetWorld(),                    // World
+    FVector(0.0f, 0.0f, 100.0f),   // Center location
+    FVector(40.0f, 40.0f, 40.0f),  // Extent (Half length)
+    FColor::Red,                   // Color
+    false,                         // Persistent?           Default = false
+    10.0f,                         // Life Time (Seconds)   Default = -1.f
+    0,                             // Depth Priority        Default = 0
+    0.0f                           // Line Thickness        Default = 0.f
+);
+
+
+// With Rotation
+DrawDebugBox(
+    GetWorld(),                          // World
+    FVector(0.0f, 0.0f, 100.0f),         // Center location
+    FVector(40.0f, 40.0f, 40.0f),        // Extent (Half length)
+    FQuat(FRotator(0.0f, 45.0f, 0.0f)),  // Rotation
+    FColor::Red,                         // Color
+    false,                               // Persistent?           Default = false
+    10.0f,                               // Life Time (Seconds)   Default = -1.f
+    0,                                   // Depth Priority        Default = 0
+    0.0f                                 // Line Thickness        Default = 0.f
+);
+```
+
+<br/>
+
+## Solid Box
+![Solid Box Draw Debug Shape Screenshot](/static/ue-debug-shapes/ue-debug-shape-solidbox.png)
+
+```cpp
+DrawDebugSolidBox(
+    GetWorld(),                    // World
+    FVector(0.0f, 0.0f, 100.0f),   // Center location
+    FVector(30.0f, 30.0f, 30.0f),  // Extent (Half length)
+    FColor::Red,                   // Color
+    false,                         // Persistent?          Default = false
+    10.0f,                         // Life Time (Seconds)  Default = -1.f
+    0                              // Depth Priority       Default = 0
+);
+
+
+// With Rotation
+DrawDebugSolidBox(
+    GetWorld(),                          // World
+    FVector(0.0f, 0.0f, 100.0f),         // Center location
+    FVector(30.0f, 30.0f, 30.0f),        // Extent (Half length)
+    FQuat(FRotator(0.0f, 45.0f, 0.0f)),  // Rotation
+    FColor::Red,                         // Color
+    false,                               // Persistent?          Default = false
+    10.0f,                               // Life Time (Seconds)  Default = -1.f
+    0                                    // Depth Priority       Default = 0
+);
+
+
+// Using FBox & FTransform
+DrawDebugSolidBox(
+    GetWorld(),                                         // World
+    FBox(FVector(-30, -30, 70), FVector(30, 30, 130)),  // Box (Min location, Max location)
+    FColor::Red,                                        // Color
+    FTransform::Identity,                               // Transform            Default = FTransform::Identity
+    false,                                              // Persistent?          Default = false
+    10.0f,                                              // Life Time (Seconds)  Default = -1.f
+    0                                                   // Depth Priority       Default = 0
+);
+```
+
+<br/>
+
+## Cone
+![Cone Draw Debug Shape Screenshot](/static/ue-debug-shapes/ue-debug-shape-cone.png)
+
+```cpp
+DrawDebugCone(
+    GetWorld(),                      // World
+    FVector(0.0f, 0.0f, 150.0f),     // Origin location
+    FVector(0.0f, 0.0f, -1.0f),      // Direction
+    75.0f,                           // Length
+    FMath::DegreesToRadians(30.0f),  // Angle width (Radians)
+    FMath::DegreesToRadians(30.0f),  // Angle height (Radians)
+    12,                              // Segments
+    FColor::Red,                     // Color
+    false,                           // Persistent?          Default = false
+    10.0f,                           // Life Time (Seconds)  Default = -1.f
+    0,                               // Depth Priority       Default = 0
+    0.0f                             // Line Thickness       Default = 0.f
+);
+```
+
+<br/>
+
+## Capsule
+![Capsule Draw Debug Shape Screenshot](/static/ue-debug-shapes/ue-debug-shape-capsule.png)
+
+```cpp
+DrawDebugCapsule(
+    GetWorld(),                   // World
+    FVector(0.0f, 0.0f, 100.0f),  // Center location
+    50.0f,                        // Half height
+    20.0f,                        // Radius
+    FQuat::Identity,              // Rotation
+    FColor::Red,                  // Color
+    false,                        // Persistent?             Default = false
+    10.0f,                        // Life Time (Seconds)     Default = -1.f
+    0,                            // Depth Priority          Default = 0
+    0.0f                          // Line Thickness          Default = 0.f
+);
+```
+
+<br/>
+
+## Cylinder
+![Cylinder Draw Debug Shape Screenshot](/static/ue-debug-shapes/ue-debug-shape-cylinder.png)
+
+```cpp
+DrawDebugCylinder(
+    GetWorld(),                   // World
+    FVector(0.0f, 0.0f, 50.0f),   // Start location
+    FVector(0.0f, 0.0f, 150.0f),  // End location
+    30.0f,                        // Radius
+    12,                           // Segments
+    FColor::Red,                  // Color
+    false,                        // Persistent?             Default = false
+    10.0f,                        // Life Time (Seconds)     Default = -1.f
+    0,                            // Depth Priority          Default = 0
+    0.0f                          // Line Thickness          Default = 0.f
+);
+```
+
+<br/>
+
+## Crosshairs
+![Crosshairs Draw Debug Shape Screenshot](/static/ue-debug-shapes/ue-debug-shape-crosshairs.png)
+
+```cpp
+DrawDebugCrosshairs(
+    GetWorld(),                   // World
+    FVector(0.0f, 0.0f, 130.0f),  // Location
+    FRotator::ZeroRotator,        // Rotation
+    50.0f,                        // Scale
+    FColor::Red,                  // Color                  Default = FColor::White
+    false,                        // Persistent?            Default = false
+    10.0f,                        // Life Time (Seconds)    Default = -1.f
+    0                             // Depth Priority         Default = 0
+);
+```
+
+<br/>
+
+## Coordinate System
+![Coordinate System Draw Debug Shape Screenshot](/static/ue-debug-shapes/ue-debug-shape-coordinatesystem.png)
+
+```cpp
+DrawDebugCoordinateSystem(
+    GetWorld(),                   // World
+    FVector(0.0f, 0.0f, 100.0f),  // Location
+    FRotator(0.0f, 0.0f, 0.0f),   // Rotation
+    50.0f,                        // Scale
+    false,                        // Persistent?            Default = false
+    10.0f,                        // Life Time (Seconds)    Default = -1.f
+    0,                            // Depth Priority         Default = 0
+    2.0f                          // Line Thickness         Default = 0.f
+);
+```
+
+<br/>
+
+## Directional Arrow
+![Directional Arrow Draw Debug Shape Screenshot](/static/ue-debug-shapes/ue-debug-shape-directionalarrow.png)
+
+```cpp
+DrawDebugDirectionalArrow(
+    GetWorld(),                   // World
+    FVector(0.0f, 0.0f, 50.0f),   // Start location
+    FVector(0.0f, 0.0f, 130.0f),  // End location
+    30.0f,                        // Size
+    FColor::Red,                  // Color
+    false,                        // Persistent?          Default = false
+    10.0f,                        // Life Time (Seconds)  Default = -1.f
+    0,                            // Depth Priority       Default = 0
+    1.0f                          // Line Thickness       Default = 0.f
+);
+```
+
+<br/>
+
+## Solid Plane
+![Solid Plane Draw Debug Shape Screenshot](/static/ue-debug-shapes/ue-debug-shape-solidplane.png)
+
+```cpp
+DrawDebugSolidPlane(
+    GetWorld(),                         // World
+    FPlane(FVector::UpVector, 120.0f),  // Plane
+    FVector(0.0f, 0.0f, 120.0f),        // Center Location
+    50.0f,                              // Size
+    FColor::Red,                        // Color
+    false,                              // Persistent?          Default = false
+    10.0f,                              // Life Time (Seconds)  Default = -1.f
+    0                                   // Depth Priority       Default = 0
+);
+
+
+// Using Extent
+DrawDebugSolidPlane(
+    GetWorld(),                         // World
+    FPlane(FVector::UpVector, 120.0f),  // Plane
+    FVector(0.0f, 0.0f, 120.0f),        // Center Location
+    FVector2D(100.0f, 50.0f),           // Extent (Half length)
+    FColor::Red,                        // Color
+    false,                              // Persistent?          Default = false
+    10.0f,                              // Life Time (Seconds)  Default = -1.f
+    0                                   // Depth Priority       Default = 0
+);
+```
+</HTMLSkeleton>

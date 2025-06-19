@@ -1,0 +1,49 @@
+name: Setup site branch
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  setup-site-branch:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout the code branch
+      uses: actions/checkout@v3
+      with:
+        ref: code
+    
+    - name: Use Deno v2
+      uses: denoland/setup-deno@v2
+    
+    - name: Set up Git
+      run: |
+        git config user.name "GitHub Actions"
+        git config user.email "actions@github.com"
+
+    - name: Clone 'main' branch into directory
+      run: |
+        git clone https://github.com/${{ github.repository }} site
+        rm -rf site/.git
+
+    - name: Setup npm
+      run: |
+        npm i
+
+    - name: Create site
+      run: |
+        npm run create-site
+
+    - name: Commit the changes
+      run: |
+        cd site
+        git init
+        git config user.name github-actions
+        git config user.email github-actions@github.com
+        git remote add origin  https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}
+        git checkout -b site
+        git add -A
+        git commit -m "Updated Site"
+        git push origin site --force

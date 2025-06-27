@@ -1,6 +1,6 @@
 import { HTMLSkeleton, H1 } from "./_jsx/global.jsx"
 
-export const snippet_title = "Compare floats using IsNearlyEqual() & IsNearlyZero() in Unreal Engine 5 C++"
+export const snippet_title = "Compare floats using FMath::IsNearlyEqual() & FMath::IsNearlyZero() in Unreal Engine 5 C++"
 export const snippet_category = "Unreal Engine 5 C++"
 
 <HTMLSkeleton RegisterToSiteGuide={{ category : snippet_category, title : snippet_title }}>
@@ -10,9 +10,9 @@ export const snippet_category = "Unreal Engine 5 C++"
 ## Syntax
 ```cpp
 
-bool IsNearlyZero(float Value, float ErrorTolerance = UE_SMALL_NUMBER);
+bool FMath::IsNearlyZero(float Value, float ErrorTolerance = UE_SMALL_NUMBER);
 
-bool IsNearlyEqual(float A, float B, float ErrorTolerance = UE_SMALL_NUMBER);
+bool FMath::IsNearlyEqual(float A, float B, float ErrorTolerance = UE_SMALL_NUMBER);
 
 ```
 

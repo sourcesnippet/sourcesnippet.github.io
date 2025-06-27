@@ -1,0 +1,22 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="Compare floats using FMath::IsNearlyEqual() &amp; FMath::IsNearlyZero() in Unreal Engine 5 C++"><title>Compare floats using FMath::IsNearlyEqual() &amp; FMath::IsNearlyZero() in Unreal Engine 5 C++ - SourceSnippet</title><link rel="stylesheet" href="/static/codestyle.css"><style>body{background-color:Canvas;color:CanvasText;color-scheme:dark;font-size:18px;margin:0 auto;max-width:650px;line-height:1.6;padding:40px 1rem}h1,h2,h3{line-height:1.3}</style></head><body><h1>Compare floats using FMath::IsNearlyEqual() &amp; FMath::IsNearlyZero() in Unreal Engine 5 C++</h1><div style="opacity:.75">Written on:  <!-- -->30 May 2025</div><hr><br><h2>Syntax</h2><pre><code class="hljs language-cpp">
+<span class="hljs-function"><span class="hljs-type">bool</span> <span class="hljs-title">FMath::IsNearlyZero</span><span class="hljs-params">(<span class="hljs-type">float</span> Value, <span class="hljs-type">float</span> ErrorTolerance = UE_SMALL_NUMBER)</span></span>;
+
+<span class="hljs-function"><span class="hljs-type">bool</span> <span class="hljs-title">FMath::IsNearlyEqual</span><span class="hljs-params">(<span class="hljs-type">float</span> A, <span class="hljs-type">float</span> B, <span class="hljs-type">float</span> ErrorTolerance = UE_SMALL_NUMBER)</span></span>;
+
+</code></pre><br><h2>Explanation</h2><pre><code class="hljs language-cpp"><span class="hljs-comment">// Error 1: Substracting the same value does not give 0</span>
+<span class="hljs-type">float</span> A = <span class="hljs-number">1.2</span>;
+<span class="hljs-type">bool</span> bIsAZero = (A - <span class="hljs-number">1.2</span> == <span class="hljs-number">0.0</span>);  <span class="hljs-comment">// false</span>
+<span class="hljs-type">bool</span> bIsANearlyZero = FMath::<span class="hljs-built_in">IsNearlyZero</span>(A - <span class="hljs-number">1.2</span>, UE_KINDA_SMALL_NUMBER);  <span class="hljs-comment">// true, Use `UE_KINDA_SMALL_NUMBER` not the default `UE_SMALL_NUMBER`</span>
+
+
+<span class="hljs-comment">// Error 2: Comparing same values does not give true</span>
+<span class="hljs-type">float</span> B = <span class="hljs-number">2.8</span>;
+<span class="hljs-type">bool</span> bIsBEqual = (B + <span class="hljs-number">2.8</span> == B * <span class="hljs-number">2.0</span>);  <span class="hljs-comment">// false</span>
+<span class="hljs-type">bool</span> bIsBNearlyEqual = FMath::<span class="hljs-built_in">IsNearlyEqual</span>(B + <span class="hljs-number">2.8</span>, B * <span class="hljs-number">2.0</span>, UE_KINDA_SMALL_NUMBER);  <span class="hljs-comment">// true, Use `UE_KINDA_SMALL_NUMBER` not the default `UE_SMALL_NUMBER`</span>
+
+
+<span class="hljs-built_in">UE_LOG</span>(LogTemp, Warning, <span class="hljs-built_in">TEXT</span>(<span class="hljs-string">&quot;bIsAZero: %s&quot;</span>), bIsAZero ? <span class="hljs-built_in">TEXT</span>(<span class="hljs-string">&quot;true&quot;</span>) : <span class="hljs-built_in">TEXT</span>(<span class="hljs-string">&quot;false&quot;</span>));
+<span class="hljs-built_in">UE_LOG</span>(LogTemp, Warning, <span class="hljs-built_in">TEXT</span>(<span class="hljs-string">&quot;bIsANearlyZero: %s&quot;</span>), bIsANearlyZero ? <span class="hljs-built_in">TEXT</span>(<span class="hljs-string">&quot;true&quot;</span>) : <span class="hljs-built_in">TEXT</span>(<span class="hljs-string">&quot;false&quot;</span>));
+<span class="hljs-built_in">UE_LOG</span>(LogTemp, Warning, <span class="hljs-built_in">TEXT</span>(<span class="hljs-string">&quot;bIsBEqual: %s&quot;</span>), bIsBEqual ? <span class="hljs-built_in">TEXT</span>(<span class="hljs-string">&quot;true&quot;</span>) : <span class="hljs-built_in">TEXT</span>(<span class="hljs-string">&quot;false&quot;</span>));
+<span class="hljs-built_in">UE_LOG</span>(LogTemp, Warning, <span class="hljs-built_in">TEXT</span>(<span class="hljs-string">&quot;bIsBNearlyEqual: %s&quot;</span>), bIsBNearlyEqual ? <span class="hljs-built_in">TEXT</span>(<span class="hljs-string">&quot;true&quot;</span>) : <span class="hljs-built_in">TEXT</span>(<span class="hljs-string">&quot;false&quot;</span>));
+</code></pre></body></html>

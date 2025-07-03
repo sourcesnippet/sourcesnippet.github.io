@@ -1,0 +1,25 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="Blueprint Function Library in Unreal Engine 5 C++"><title>Blueprint Function Library in Unreal Engine 5 C++ - SourceSnippet</title><link rel="stylesheet" href="/static/codestyle.css"><style>body{background-color:Canvas;color:CanvasText;color-scheme:dark;font-size:18px;margin:0 auto;max-width:650px;line-height:1.6;padding:40px 1rem}h1,h2,h3{line-height:1.3}</style></head><body><h1>Blueprint Function Library in Unreal Engine 5 C++</h1><div style="opacity:.75">Written on:  <!-- -->30 May 2025</div><hr><br><pre><code class="hljs language-cpp"><span class="hljs-meta">#<span class="hljs-keyword">pragma</span> once</span>
+
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&quot;CoreMinimal.h&quot;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&quot;Kismet/BlueprintFunctionLibrary.h&quot;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&quot;MyBFL.generated.h&quot;</span></span>
+
+
+<span class="hljs-built_in">UCLASS</span>()
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">TESTING_API</span> UMyBFL : <span class="hljs-keyword">public</span> UBlueprintFunctionLibrary {
+    <span class="hljs-built_in">GENERATED_BODY</span>()
+
+   <span class="hljs-keyword">public</span>:
+    <span class="hljs-built_in">UFUNCTION</span>(BlueprintCallable, BlueprintPure)
+    <span class="hljs-function"><span class="hljs-type">static</span> <span class="hljs-type">int</span> <span class="hljs-title">Add</span><span class="hljs-params">(<span class="hljs-type">int</span> A, <span class="hljs-type">int</span> B)</span></span>{
+        <span class="hljs-keyword">return</span> A + B;
+    }
+
+    <span class="hljs-built_in">UFUNCTION</span>(BlueprintCallable)
+    <span class="hljs-function"><span class="hljs-type">static</span> <span class="hljs-type">void</span> <span class="hljs-title">AddTo</span><span class="hljs-params">(UPARAM(ref) <span class="hljs-type">int</span> &amp;A, <span class="hljs-type">int</span> B)</span></span>{
+        A += B;
+    }
+};
+</code></pre><p>References:</p><ul>
+<li><a href="https://www.youtube.com/watch?v=Nr7r-j68Czo">Pobato Tutorials - Blueprint Function Library in C++ for Unreal Engine in 2 Minutes!</a></li>
+</ul></body></html>

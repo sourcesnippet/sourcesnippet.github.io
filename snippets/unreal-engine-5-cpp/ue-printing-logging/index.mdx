@@ -7,70 +7,94 @@ export const snippet_category = "Unreal Engine 5 C++"
 
 <H1>{snippet_title}</H1>
 
+
+## Syntax
 ```cpp
 // Writing On Screen
 if(GEngine)
-    GEngine->AddOnScreenDebugMessage(-1, 10.0f, FColor::Red, TEXT("Some message"));   
+    GEngine->AddOnScreenDebugMessage(-1, 10.0f, FColor::Red, TEXT("Message"));   
 
 
 // Writting in Output Log 
-UE_LOG(LogTemp, Warning, TEXT("Some message"));
+UE_LOG(LogTemp, Warning, TEXT("Message"));
+```
 
+<br/>
 
-
-// print int
+## Default datatypes
+```cpp
+// int
 int MyInt = 3;
 GEngine->AddOnScreenDebugMessage(-1, 10.0f, FColor::Red, FString::Printf(TEXT("int: %d"), MyInt));
 UE_LOG(LogTemp, Warning, TEXT("int: %d"), MyInt);
 
 
 
-// print float
+// float
 float MyFloat = 10.5f;
 GEngine->AddOnScreenDebugMessage(-1, 10.0f, FColor::Red, FString::Printf(TEXT("float: %f"), MyFloat));
 UE_LOG(LogTemp, Warning, TEXT("float: %f"), MyFloat);
 
 
 
-// print boolean
+// boolean
 bool bMyBool = true;
 GEngine->AddOnScreenDebugMessage(-1, 10.0f, FColor::Red, FString::Printf(TEXT("bool: %s"), bMyBool ? TEXT("true") : TEXT("false")));
 UE_LOG(LogTemp, Warning, TEXT("bool: %s"), bMyBool ? TEXT("true") : TEXT("false"));
+```
+
+<br/>
 
 
+## Unreal datatypes
 
-// print enum
+```cpp
+// Enum
 ECustomEnum EMyEnum = ECustomEnum::ValueA;
 GEngine->AddOnScreenDebugMessage(-1, 10.0f, FColor::Red, FString::Printf(TEXT("Enum: %s"), *UEnum::GetValueAsString(EMyEnum)));
 UE_LOG(LogTemp, Warning, TEXT("Enum: %s"), *UEnum::GetValueAsString(EMyEnum));
 
 
 
-// print FString
+// FString
 FString MyString = TEXT("Hello World");
 GEngine->AddOnScreenDebugMessage(-1, 10.0f, FColor::Red, FString::Printf(TEXT("FString: %s"), *MyString));
 UE_LOG(LogTemp, Warning, TEXT("FString: %s"), *MyString);
 
 
 
-// print FName
+// FName
 FName MyName = TEXT("Hello World");
 GEngine->AddOnScreenDebugMessage(-1, 10.0f, FColor::Red, FString::Printf(TEXT("FName: %s"), *MyName.ToString()));
 UE_LOG(LogTemp, Warning, TEXT("FName: %s"), *MyName.ToString());
 
 
 
-// print FVector
+// FVector
 FVector MyVector = FVector(1, 2, 3);
 GEngine->AddOnScreenDebugMessage(-1, 10.0f, FColor::Red, FString::Printf(TEXT("FVector: %s"), *MyVector.ToString()));
 UE_LOG(LogTemp, Warning, TEXT("FVector: %s"), *MyVector.ToString());
 
 
 
-// print UObject
+// FRotator
+FRotator MyRotator = FRotator(90.0f, 45.0f, 0.0f);
+GEngine->AddOnScreenDebugMessage(-1, 10.0f, FColor::Red, FString::Printf(TEXT("FRotator: %s"), *MyRotator.ToString()));
+UE_LOG(LogTemp, Warning, TEXT("FRotator: %s"), *MyRotator.ToString());
+
+
+
+// UObject
 UObject* MyObject = NewObject<UObject>(this, TEXT("MyObject"));
 GEngine->AddOnScreenDebugMessage(-1, 10.0f, FColor::Red, FString::Printf(TEXT("UObject: %s"), MyObject ? *MyObject->GetName() : TEXT("NULL")));
 UE_LOG(LogTemp, Warning, TEXT("UObject: %s"), MyObject ? *MyObject->GetName() : TEXT("NULL"));
+
+
+
+// UClass
+UClass* MyClass = UObject::StaticClass();
+GEngine->AddOnScreenDebugMessage(-1, 10.0f, FColor::Red, FString::Printf(TEXT("UClass: %s"), MyClass ? *MyClass->GetName() : TEXT("NULL")));
+UE_LOG(LogTemp, Warning, TEXT("UClass: %s"), MyClass ? *MyClass->GetName() : TEXT("NULL"));
 
 ```
 </HTMLSkeleton>

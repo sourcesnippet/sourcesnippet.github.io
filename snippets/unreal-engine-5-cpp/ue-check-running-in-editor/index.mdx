@@ -1,0 +1,20 @@
+import { HTMLSkeleton, H1, UE_EDIT_OBJECT_IN_EDITOR_URL } from "./_jsx/global.jsx"
+
+export const snippet_title = "Check if running in editor in Unreal Engine 5 C++"
+export const snippet_category = "Unreal Engine 5 C++"
+
+<HTMLSkeleton RegisterToSiteGuide={{ category : snippet_category, title : snippet_title }}>
+
+<H1>{snippet_title}</H1>
+
+This will work on all `UObject` derived classes
+
+```cpp
+if (UWorld* World = GetWorld()) {
+    if (World->WorldType == EWorldType::Editor || World->WorldType == EWorldType::EditorPreview) {
+        return;
+    }
+}
+```
+
+</HTMLSkeleton>

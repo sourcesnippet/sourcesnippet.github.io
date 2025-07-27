@@ -7,14 +7,13 @@ export const snippet_category = "Unreal Engine 5"
 
 <H1 WrittenOn={new Date("2025-05-30")}>{snippet_title}</H1>
 
+
+## To Remove All Prefix
 ```regex
 \[[^\]]*\]\[[^\]]*\]LogTemp: Warning: 
 ```
 
-<br/>
-
-Useful when you copy paste all the log output and need to remove all the prefixes using find and replace in text editor as such:
-
+#### Example
 ```plaintext
 [2025.05.30-03.31.14:816][520]LogTemp: Warning: Some Message 1
 [2025.05.30-03.31.14:816][520]LogTemp: Warning: Some Message 2
@@ -28,5 +27,29 @@ Some Message 2
 Some Message 3
 Some Message 4
 Some Message 5
+```
+
+<br/>
+
+## To Remove date and time
+
+```regex
+^\[[^\]]+\]
+```
+
+#### Example
+```plaintext
+[2025.05.30-03.31.14:816][520]LogTemp: Warning: Some Message 1
+[2025.05.30-03.31.14:816][520]LogTemp: Warning: Some Message 2
+[2025.05.30-03.31.14:816][520]LogTemp: Warning: Some Message 3
+[2025.05.30-03.31.14:816][520]LogTemp: Warning: Some Message 4
+[2025.05.30-03.31.14:816][520]LogTemp: Warning: Some Message 5
+
+
+[520]LogTemp: Warning: Some Message 1
+[520]LogTemp: Warning: Some Message 2
+[520]LogTemp: Warning: Some Message 3
+[520]LogTemp: Warning: Some Message 4
+[520]LogTemp: Warning: Some Message 5
 ```
 </HTMLSkeleton>

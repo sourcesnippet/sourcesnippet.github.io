@@ -1,0 +1,38 @@
+import { HTMLSkeleton, H1 } from "./_jsx/global.jsx"
+
+export const snippet_title = "Boilerplate UBlueprintFunctionLibrary in Unreal Engine 5 C++"
+export const snippet_category = "Unreal Engine 5 C++"
+
+<HTMLSkeleton RegisterToSiteGuide={{ category : snippet_category, title : snippet_title }}>
+
+<H1>{snippet_title}</H1>
+
+```cpp
+// MyBlueprintFunctionLibrary.h file
+
+#pragma once
+
+#include "CoreMinimal.h"
+#include "Kismet/BlueprintFunctionLibrary.h"
+#include "MyBlueprintFunctionLibrary.generated.h"
+
+/**
+ * 
+ */
+UCLASS()
+class TESTING_API UMyBlueprintFunctionLibrary : public UBlueprintFunctionLibrary
+{
+	GENERATED_BODY()
+	
+};
+
+```
+
+
+```cpp
+// MyBlueprintFunctionLibrary.cpp file
+
+#include "MyBlueprintFunctionLibrary.h"
+
+```
+</HTMLSkeleton>

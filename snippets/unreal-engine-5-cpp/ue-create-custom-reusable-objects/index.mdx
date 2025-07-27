@@ -1,6 +1,6 @@
 import { HTMLSkeleton, H1, UOBJECT_BLUEPRINT_VARIABLE_DETAILS_PANEL_URL } from "./_jsx/global.jsx"
 
-export const snippet_title = "Edit Custom Object in Editor in Unreal Engine 5 C++"
+export const snippet_title = "Create custom reusable Objects in Unreal Engine 5 C++"
 export const snippet_category = "Unreal Engine 5 C++"
 
 <HTMLSkeleton RegisterToSiteGuide={{ category : snippet_category, title : snippet_title }}>
@@ -9,7 +9,7 @@ export const snippet_category = "Unreal Engine 5 C++"
 
 ```cpp
 // MyObject.h
-UCLASS(DefaultToInstanced, EditInlineNew, Blueprintable) // Add DefaultToInstanced & EditInlineNew
+UCLASS(DefaultToInstanced, EditInlineNew, Blueprintable) // Do NOT forget to add `DefaultToInstanced` & `EditInlineNew`
 class TESTING_API UMyObject : public UObject {
 
     GENERATED_BODY()

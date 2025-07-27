@@ -30,6 +30,14 @@ MyMap[2] = TEXT("New Item 2");
 MyMap.Add(4, TEXT("Item 4"));
 
 
+// Appending
+TMap<int, FString> NewMap = {
+    {5, TEXT("Item 5")},
+    {6, TEXT("Item 6")},
+};
+MyMap.Append(NewMap);
+
+
 // Removing
 MyMap.Remove(2);
 
@@ -94,6 +102,11 @@ MyArray.Add(TEXT("Item 4"));                // Adds at the end
 MyArray.Insert(TEXT("Item in middle"), 2);  // Adds at given index
 
 
+// Appending
+TArray<FString> NewArray = {TEXT("Item 5"), TEXT("Item 6")};
+MyArray.Append(NewArray);
+
+
 // Removing
 MyArray.Remove(TEXT("Item 1"));        // Finds and removes all matching items
 MyArray.RemoveSingle(TEXT("Item 2"));  // Finds and removes single matching item
@@ -141,6 +154,11 @@ TSet<FString> MySet = {
 
 // Adding
 MySet.Add(TEXT("Item 5"));
+
+
+// Appending
+TSet<FString> NewSet = { TEXT("Item 6"),  TEXT("Item 7") };
+MySet.Append(NewSet);
 
 
 // Removing

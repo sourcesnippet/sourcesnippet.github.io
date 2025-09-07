@@ -1,85 +1,423 @@
-import { HTMLSkeleton, H1 } from "./_jsx/global.jsx"
+import { HTMLSkeleton, H1, H2, LocalGuide } from "./_jsx/global.jsx"
 
 export const snippet_title = "UDELEGATE in Unreal Engine 5 C++"
 export const snippet_category = "Unreal Engine 5 C++"
 
-
 <HTMLSkeleton RegisterToSiteGuide={{ category : snippet_category, title : snippet_title }}>
+
 
 <H1>{snippet_title}</H1>
 
 
+<LocalGuide>Index</LocalGuide>
+
+
+<H2 id="what-are-delegates" TopBRCount={1}>What are Delegates?</H2>
+
+A delegate is a special type of struct to which function(s) can be binded and invoked later
+
+
+
+{/* ==================== Singlecast Delegate ====================*/}
+<H2 id="singlecast-delegate" TopBRCount={1}>Singlecast Delegate</H2>
+
 ```cpp
-/* ExampleActor.h */
+#pragma once
 
-#include "Delegates/Delegate.h"
+#include "CoreMinimal.h"
+#include "GameFramework/Actor.h"
+#include "MyActor.generated.h"
 
-// Delegate signature declarations
+
+// Delegate signature
 DECLARE_DELEGATE_TwoParams(FMyDelegateA, int32 /* FirstVar */, float /* SecondVar */);
-DECLARE_MULTICAST_DELEGATE_TwoParams(FMyDelegateB, int32 /* FirstVar */, float /* SecondVar */);
-
-UDELEGATE()
-DECLARE_DYNAMIC_DELEGATE_TwoParams(FMyDelegateC, int32, FirstVar, float, SecondVar);
-
-UDELEGATE()
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FMyDelegateD, int32, FirstVar, float, SecondVar);
 
 
+struct RawStruct {
+    void StructFunction(int32 Var1, float Var2) {}
+};
 
-// Delegate declarations
-FMyDelegateA DelegateVarA; // Single + NON Dynamic, No UPROPERTY()
-FMyDelegateB DelegateVarB; // Mulicast + NON Dynamic, No UPROPERTY()
-
-UPROPERTY()
-FMyDelegateC DelegateVarC; // Single + Dynamic
-
-UPROPERTY(BlueprintAssignable, BlueprintCallable)
-FMyDelegateD DelegateVarD; // Multicast + Dynamic
+class RawClass {
+   public:
+    void MyClassFunction(int32 Var1, float Var2) {}
+};
 
 
+UCLASS()
+class TESTING_API AMyActor : public AActor {
+    GENERATED_BODY()
 
-// Function declerations
-void MyFunction(int32 Var1, float Var2);
+   public:
+    FMyDelegateA DelegateVarA;  // Delegate declaration, No UPROPERTY() required
 
-UFUNCTION()
-void AnotherFunction(int32 Var1, float Var2);  // UFUNCTION required for Dynamic Delegates
+    UFUNCTION()
+    void MyUFunction(int32 Var1, float Var2) {}  // Function decleration
 
+    void MyFunction(int32 Var1, float Var2) {}  // Function decleration, No UFUNCTION required
 
+    static void MyStaticFunction(int32 Var1, float Var2) {}  // Static Function decleration, No UFUNCTION required
 
-/* ExampleActor.cpp */
-void AExampleActor::BeginPlay() {
-    Super::BeginPlay();
-
-
-    // Delegate A, Single + NON Dynamic
-    DelegateVarA.BindUObject(this, &AExampleActor::MyFunction);
-    DelegateVarA.Execute(23, 8.7);
-    bool IsBoundA = DelegateVarA.ExecuteIfBound(23, 8.7);
-    DelegateVarA.Unbind();
+    void BeginPlay() {
+        Super::BeginPlay();
 
 
-    // Delegate B, Multicast + NON Dynamic
-    FDelegateHandle HandleB = DelegateVarB.AddUObject(this, &AExampleActor::MyFunction);
-    DelegateVarB.Broadcast(42, 3.14f);
-    DelegateVarB.Remove(HandleB);  
-    DelegateVarB.RemoveAll(this);
-    DelegateVarB.Clear()
-
-    
-    // Delegate C, Single + Dynamic
-    DelegateVarC.BindDynamic(this, &AExampleActor::AnotherFunction); // Make sure AnotherFunction has UFUNCTION()
-    DelegateVarC.Execute(23, 8.7);
-    bool IsBoundC = DelegateVarC.ExecuteIfBound(23, 8.7);
-    DelegateVarC.Unbind();
+        // Binding
+        DelegateVarA.BindUObject(this, &AMyActor::MyFunction);  // Binds delegate to the given UObject (first argument) and it's function
+        DelegateVarA.BindUFunction(this, TEXT("MyUFunction"));  // Binds delegate to the given function of UObject by name
+        DelegateVarA.BindRaw(&MyStruct, &RawStruct::StructFunction);  // Used to bind to non reflection exposed structs
+        DelegateVarA.BindRaw(MyClass, &RawClass::MyClassFunction);    // Used to bind to non reflection exposed classes
+        DelegateVarA.BindStatic(&AMyActor::MyStaticFunction);
+        DelegateVarA.BindLambda([](int32 Var1, float Var2) {});
+        DelegateVarA.BindWeakLambda(this, [](int32 Var1, float Var2) {});  // Unbinds itself when given UObject (first argument) goes out of scope i.e. it's lifetime ends
+        DelegateVarA.BindSP(MySharedClass.ToSharedRef(), &RawClass::MyClassFunction);
+        DelegateVarA.BindThreadSafeSP(MySafeSharedClass.ToSharedRef(), &RawClass::MyClassFunction);
 
 
-    // Delegate D, Multicast + Dynamic
-    DelegateVarD.AddDynamic(this, &AExampleActor::AnotherFunction);  // Make sure AnotherFunction has UFUNCTION()
-    DelegateVarD.Broadcast(23, 8.7);
-    DelegateVarD.RemoveDynamic(this, &AExampleActor::AnotherFunction);
-    DelegateVarD.RemoveAll(this);
-    DelegateVarD.Clear();
-}
+        // Checking
+        bool bIsBound = DelegateVarA.IsBound();
+
+
+        // Invoking
+        DelegateVarA.Execute(23, 8.7);
+        bool IsBoundA = DelegateVarA.ExecuteIfBound(23, 8.7);
+
+
+        // Unbinding
+        DelegateVarA.Unbind();
+    }
+
+
+   private:
+    RawStruct MyStruct;
+    RawClass* MyClass = new RawClass();
+    TSharedPtr<RawClass> MySharedClass = TSharedPtr<RawClass>(new RawClass());
+    TSharedPtr<RawClass, ESPMode::ThreadSafe> MySafeSharedClass = TSharedPtr<RawClass, ESPMode::ThreadSafe>(new RawClass());
+};
 ```
+
+
+
+{/* ==================== Singlecast RetVal Delegate ====================*/}
+<H2 id="singlecast-return-delegate" TopBRCount={1}>Singlecast RetVal Delegate</H2>
+
+```cpp
+#pragma once
+
+#include "CoreMinimal.h"
+#include "GameFramework/Actor.h"
+#include "MyActor.generated.h"
+
+
+// Delegate signature declaration
+DECLARE_DELEGATE_RetVal_TwoParams(int32, FMyDelegateB, int32 /* FirstVar */, float /* SecondVar */);
+
+
+struct RawStruct {
+    int StructFunction(int32 Var1, float Var2) { return 1; }
+};
+
+class RawClass {
+   public:
+    int ClassFunction(int32 Var1, float Var2) { return 2; }
+};
+
+
+UCLASS()
+class TESTING_API AMyActor : public AActor {
+    GENERATED_BODY()
+
+   public:
+    FMyDelegateB DelegateVarB;  // Delegate declaration, No UPROPERTY() required
+
+    UFUNCTION()
+    int MyUFunction(int32 Var1, float Var2) { return 3; }  // Function decleration
+
+    int MyFunction(int32 Var1, float Var2) { return 4; }  // Function decleration, No UFUNCTION required
+
+    static int MyStaticFunction(int32 Var1, float Var2) { return 5; }  // Static Function decleration, No UFUNCTION required
+
+    void BeginPlay() {
+        Super::BeginPlay();
+
+        // Binding
+        DelegateVarB.BindUObject(this, &AMyActor::MyFunction);  // Binds delegate to the given UObject (first argument) and it's function
+        DelegateVarB.BindUFunction(this, TEXT("MyUFunction"));  // Binds delegate to the given function of UObject by name
+        DelegateVarB.BindRaw(&MyStruct, &RawStruct::StructFunction);  // Used to bind to non reflection exposed structs
+        DelegateVarB.BindRaw(MyClass, &RawClass::ClassFunction);      // Used to bind to non reflection exposed classes
+        DelegateVarB.BindStatic(&AMyActor::MyStaticFunction);
+        DelegateVarB.BindLambda([](int32 Var1, float Var2) { return 6; });
+        DelegateVarB.BindWeakLambda(this, [](int32 Var1, float Var2) { return 7; }); // Unbinds itself when given UObject (first argument) goes out of scope i.e. it's lifetime ends
+        DelegateVarB.BindSP(MySharedClass.ToSharedRef(), &RawClass::ClassFunction);
+        DelegateVarB.BindThreadSafeSP(MySafeSharedClass.ToSharedRef(), &RawClass::ClassFunction);
+
+
+        // Checking
+        bool bIsBound = DelegateVarB.IsBound();
+
+
+        // Invoking
+        int32 ReturnValue = DelegateVarB.Execute(23, 8.7);  // ExecuteIfBound() does not work
+
+
+        // Unbinding
+        DelegateVarB.Unbind();
+    }
+
+
+   private:
+    RawStruct MyStruct;
+    RawClass* MyClass = new RawClass();
+    TSharedPtr<RawClass> MySharedClass = TSharedPtr<RawClass>(new RawClass());
+    TSharedPtr<RawClass, ESPMode::ThreadSafe> MySafeSharedClass = TSharedPtr<RawClass, ESPMode::ThreadSafe>(new RawClass());
+};
+```
+
+
+
+{/* ==================== Multicast Delegate ====================*/}
+<H2 id="multicast-delegate" TopBRCount={1}>Multicast Delegate</H2>
+
+```cpp
+#pragma once
+
+#include "CoreMinimal.h"
+#include "GameFramework/Actor.h"
+#include "MyActor.generated.h"
+
+// Delegate signature declaration
+DECLARE_MULTICAST_DELEGATE_TwoParams(FMyDelegateC, int32 /* FirstVar */, float /* SecondVar */);
+
+
+struct RawStruct {
+    void StructFunction(int32 Var1, float Var2) {}
+};
+
+class RawClass {
+   public:
+    void ClassFunction(int32 Var1, float Var2) {}
+};
+
+
+UCLASS()
+class TESTING_API AMyActor : public AActor {
+    GENERATED_BODY()
+
+   public:
+    FMyDelegateC DelegateVarC;  // Delegate declaration, No UPROPERTY() required
+
+    UFUNCTION()
+    void MyUFunction(int32 Var1, float Var2) {}  // Function decleration
+
+    void MyFunction(int32 Var1, float Var2) {}  // Function decleration, No UFUNCTION required
+
+    static void MyStaticFunction(int32 Var1, float Var2) {}  // Static Function decleration, No UFUNCTION required
+
+    void BeginPlay() {
+        Super::BeginPlay();
+
+        // Binding
+        DelegateHandle = DelegateVarC.AddUObject(this, &AMyActor::MyFunction);        // Adds delegate to the given UObject (first argument) and it's function
+        DelegateHandle = DelegateVarC.AddUFunction(this, TEXT("MyUFunction"));        // Adds delegate to the given function of UObject by name
+        DelegateHandle = DelegateVarC.AddRaw(&MyStruct, &RawStruct::StructFunction);  // Used to bind to non reflection exposed structs
+        DelegateHandle = DelegateVarC.AddRaw(MyClass, &RawClass::ClassFunction);      // Used to bind to non reflection exposed classes
+        DelegateHandle = DelegateVarC.AddStatic(&AMyActor::MyStaticFunction);
+        DelegateHandle = DelegateVarC.AddLambda([](int32 Var1, float Var2) {});
+        DelegateHandle = DelegateVarC.AddWeakLambda(this, [](int32 Var1, float Var2) {});  // Unbinds itself when given UObject (first argument) goes out of scope i.e. it's lifetime ends
+        DelegateHandle = DelegateVarC.AddSP(MySharedClass.ToSharedRef(), &RawClass::ClassFunction);
+        DelegateHandle = DelegateVarC.AddThreadSafeSP(MySafeSharedClassA.ToSharedRef(), &RawClass::ClassFunction);
+
+
+        // Checking
+        bool bIsBound = DelegateVarC.IsBound();
+        bool bIsBoundToObject = DelegateVarC.IsBoundToObject(this);
+
+
+        // Invoking
+        DelegateVarC.Broadcast(23, 8.7);
+
+
+        // Unbinding
+        DelegateVarC.Remove(DelegateHandle);
+        DelegateVarC.RemoveAll(this);  // Removes all functions bound by given object
+        DelegateVarC.Clear();
+    }
+
+
+   protected:
+    FDelegateHandle DelegateHandle;
+
+
+   private:
+    RawStruct MyStruct;
+    RawClass* MyClass = new RawClass();
+    TSharedPtr<RawClass> MySharedClass = TSharedPtr<RawClass>(new RawClass());
+    TSharedPtr<RawClass, ESPMode::ThreadSafe> MySafeSharedClassA = TSharedPtr<RawClass, ESPMode::ThreadSafe>(new RawClass());
+};
+```
+
+
+
+{/* ==================== Dynamic Singlecast Delegate ====================*/}
+<H2 id="dynamic-singlecast-delegate" TopBRCount={1}>Dynamic Singlecast Delegate</H2>
+
+```cpp
+#pragma once
+
+#include "CoreMinimal.h"
+#include "GameFramework/Actor.h"
+#include "MyActor.generated.h"
+
+
+// Delegate signature
+UDELEGATE()
+DECLARE_DYNAMIC_DELEGATE_TwoParams(FMyDelegateD, int32, FirstVar, float, SecondVar);
+
+
+UCLASS()
+class TESTING_API AMyActor : public AActor {
+    GENERATED_BODY()
+
+   public:
+    UPROPERTY(BlueprintReadWrite)
+    FMyDelegateD DelegateVarD;  // Delegate declaration
+
+    UFUNCTION()
+    void MyUFunction(int32 Var1, float Var2) { UE_LOG(LogTemp, Warning, TEXT("MyUFunction")); }
+
+    void BeginPlay() {
+        Super::BeginPlay();
+
+
+        // Binding
+        DelegateVarD.BindDynamic(this, &AMyActor::MyUFunction);  // Make sure binding function is a UFUNCTION()
+
+
+        // Checking
+        bool bIsBound = DelegateVarD.IsBound();
+
+
+        // Invoking
+        DelegateVarD.Execute(23, 8.7);
+        bool IsBoundA = DelegateVarD.ExecuteIfBound(23, 8.7);
+
+
+        // Unbinding
+        DelegateVarD.Unbind();
+    }
+};
+```
+
+
+
+{/* ==================== Dynamic Singlecast RetVal Delegate ====================*/}
+<H2 id="dynamic-singlecast-return-delegate" TopBRCount={1}>Dynamic Singlecast RetVal Delegate</H2>
+
+```cpp
+#pragma once
+
+#include "CoreMinimal.h"
+#include "GameFramework/Actor.h"
+#include "MyActor.generated.h"
+
+
+// Delegate signature
+UDELEGATE()
+DECLARE_DYNAMIC_DELEGATE_RetVal_TwoParams(int32, FMyDelegateE, int32, FirstVar, float, SecondVar);
+
+
+UCLASS()
+class TESTING_API AMyActor : public AActor {
+    GENERATED_BODY()
+
+   public:
+    UPROPERTY(BlueprintReadWrite)
+    FMyDelegateE DelegateVarE;  // Delegate declaration
+
+    UFUNCTION()
+    int32 MyUFunction(int32 Var1, float Var2) { return 1; }
+
+    void BeginPlay() {
+        Super::BeginPlay();
+
+
+        // Binding
+        DelegateVarE.BindDynamic(this, &AMyActor::MyUFunction);  // Make sure binding function is a UFUNCTION()
+
+
+        // Checking
+        bool bIsBound = DelegateVarE.IsBound();
+
+
+        // Invoking
+        int32 ReturnValue = DelegateVarE.Execute(23, 8.7);
+
+
+        // Unbinding
+        DelegateVarE.Unbind();
+    }
+};
+```
+
+
+
+{/* ==================== Dynamic Multicast Delegate ====================*/}
+<H2 id="dynamic-multicast-delegate" TopBRCount={1}>Dynamic Multicast Delegate</H2>
+```cpp
+#pragma once
+
+#include "CoreMinimal.h"
+#include "GameFramework/Actor.h"
+#include "MyActor.generated.h"
+
+
+// Delegate signature
+UDELEGATE()
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FMyDelegateF, int32, FirstVar, float, SecondVar);
+
+
+UCLASS()
+class TESTING_API AMyActor : public AActor {
+    GENERATED_BODY()
+
+   public:
+    UPROPERTY(BlueprintAssignable, BlueprintCallable)
+    FMyDelegateF DelegateVarF;  // Delegate declaration
+
+    UFUNCTION()
+    void MyUFunction(int32 Var1, float Var2) {}
+
+    void BeginPlay() {
+        Super::BeginPlay();
+
+
+        // Binding
+        DelegateVarF.AddDynamic(this, &AMyActor::MyUFunction);  // Make sure binding function is a UFUNCTION()
+        DelegateVarF.AddUniqueDynamic(this, &AMyActor::MyUFunction);  // Makes sure same function isn't added twice
+
+
+        // Checking
+        bool bIsBound = DelegateVarF.IsBound();  // Checks if any function is bound
+        bool bIsAlreadyBound = DelegateVarF.IsAlreadyBound(this, &AMyActor::MyUFunction);  // Checks if specific function is bound
+
+
+        // Invoking
+        DelegateVarF.Broadcast(23, 8.7);
+
+
+        // Unbinding
+        DelegateVarF.RemoveDynamic(this, &AMyActor::MyUFunction);
+        DelegateVarF.RemoveAll(this); // Unbinds all function of given object
+        DelegateVarF.Clear();  // Unbinds all
+    }
+};
+```
+
+References:
+1. [Pobato Tutorials - C++ Delegates for Unreal Engine in 5 Minutes!](https://www.youtube.com/watch?v=FDc2jUiwFoc)
+1. [Pobato Tutorials - C++ Delegates for Blueprints in 2 Minutes!](https://www.youtube.com/watch?v=PQ7NvNbcHtY)
+1. [Pobato Tutorials - Delegate Return Values in C++ for Unreal Engine in 2 Minutes!](https://www.youtube.com/watch?v=-E6-ERqd_GM)
+1. [kirby561 - How to Declare and Use Delegates in Unreal Engine 5](https://www.youtube.com/watch?v=jD3tWHjIPcw)
+1. [unreal garden - Intro to Delegates in C++](https://unreal-garden.com/tutorials/delegates-intro/)
+1. [unreal garden - Advanced Delegates in C++](https://unreal-garden.com/tutorials/delegates-advanced/)
 
 </HTMLSkeleton>

@@ -1,4 +1,4 @@
-import { HTMLSkeleton, H1 } from "./_jsx/global.jsx"
+import { HTMLSkeleton, H1, UE_EDIT_OBJECT_IN_EDITOR_URL } from "./_jsx/global.jsx"
 
 export const snippet_title = "Boilerplate UBlueprintFunctionLibrary in Unreal Engine 5 C++"
 export const snippet_category = "Unreal Engine 5 C++"
@@ -28,11 +28,42 @@ class TESTING_API UMyBlueprintFunctionLibrary : public UBlueprintFunctionLibrary
 
 ```
 
-
 ```cpp
 // MyBlueprintFunctionLibrary.cpp file
 
 #include "MyBlueprintFunctionLibrary.h"
 
 ```
+
+<br/>
+
+Useful Example:
+```cpp
+#pragma once
+
+#include "CoreMinimal.h"
+#include "Kismet/BlueprintFunctionLibrary.h"
+#include "MyBFL.generated.h"
+
+
+UCLASS()
+class TESTING_API UMyBFL : public UBlueprintFunctionLibrary {
+    GENERATED_BODY()
+
+   public:
+    UFUNCTION(BlueprintCallable, BlueprintPure)
+    static int Add(int A, int B){
+        return A + B;
+    }
+
+    UFUNCTION(BlueprintCallable)
+    static void AddTo(UPARAM(ref) int &A, int B){
+        A += B;
+    }
+};
+```
+
+References:  
+- [Pobato Tutorials - Blueprint Function Library in C++ for Unreal Engine in 2 Minutes!](https://www.youtube.com/watch?v=Nr7r-j68Czo)
+
 </HTMLSkeleton>

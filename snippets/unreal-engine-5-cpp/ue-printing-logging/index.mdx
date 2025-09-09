@@ -96,5 +96,12 @@ UClass* MyClass = UObject::StaticClass();
 GEngine->AddOnScreenDebugMessage(-1, 10.0f, FColor::Red, FString::Printf(TEXT("UClass: %s"), MyClass ? *MyClass->GetName() : TEXT("NULL")));
 UE_LOG(LogTemp, Warning, TEXT("UClass: %s"), MyClass ? *MyClass->GetName() : TEXT("NULL"));
 
+
+
+// AActor
+AActor* MyActor;
+GEngine->AddOnScreenDebugMessage(-1, 10.0f, FColor::Red, FString::Printf(TEXT("AActor: %s"), MyActor ? *MyActor->GetActorLabel() : TEXT("NULL")));
+UE_LOG(LogTemp, Warning, TEXT("AActor: %s"), MyActor ? *MyActor->GetActorLabel() : TEXT("NULL"));
+
 ```
 </HTMLSkeleton>

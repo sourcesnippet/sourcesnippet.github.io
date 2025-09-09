@@ -45,7 +45,7 @@ class MYPROJECT_API IExampleInterface
     public:
        
        UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
-       void MyExample();
+       void MyExample();  // or void MyExample() = 0; To mark as pure virtual function i.e. Forcing every child class to implement it otherwise a compilation error is thrown
 
        UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
        void MyArgExample(bool MyArg);  // With Arguments (Default arguments are not supported)
@@ -117,5 +117,12 @@ UExampleInterface::MyExample_Implementation(){
 ```
 
 **Warning:** This is more of a hack / proof of concept, Not recommended 
+
+<br/>
+
+### References:
+
+1. [Epic Documentation - Unreal Interfaces](https://dev.epicgames.com/documentation/en-us/unreal-engine/interfaces-in-unreal-engine)
+1. [Pobato Tutorials - Interfaces in C++ for Unreal Engine in 4 Minutes!](https://www.youtube.com/watch?v=MJwyZKR-rKo)
 
 </HTMLSkeleton>

@@ -1,0 +1,15 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="Renaming using core redirects in Unreal Engine 5"><title>Renaming using core redirects in Unreal Engine 5 - SourceSnippet</title><link rel="stylesheet" href="/static/codestyle.css"><style>body{background-color:Canvas;color:CanvasText;color-scheme:dark;font-size:18px;margin:0 auto;max-width:650px;line-height:1.6;padding:40px 1rem}h1,h2,h3{line-height:1.3}</style></head><body><h1>Renaming using core redirects in Unreal Engine 5</h1><div style="opacity:.75">Written on:  <!-- -->27 July 2025</div><hr><br><p>To be added in the file <code>/Config/DefaultEngine.ini</code></p><pre><code class="hljs language-ini"><span class="hljs-section">[CoreRedirects]</span>
++<span class="hljs-attr">ClassRedirects</span>=(OldName=<span class="hljs-string">&quot;OldPawn&quot;</span>,NewName=<span class="hljs-string">&quot;NewPawn&quot;</span>)
+
++<span class="hljs-attr">StructRedirects</span>=(OldName=<span class="hljs-string">&quot;OldStruct&quot;</span>,NewName=<span class="hljs-string">&quot;NewStruct&quot;</span>)
+
++<span class="hljs-attr">EnumRedirects</span>=(OldName=<span class="hljs-string">&quot;EOldEnum&quot;</span>,NewName=<span class="hljs-string">&quot;ENewEnum&quot;</span>,ValueChanges=((<span class="hljs-string">&quot;ValueA&quot;</span>,<span class="hljs-string">&quot;ValueB&quot;</span>),(<span class="hljs-string">&quot;Value1&quot;</span>,<span class="hljs-string">&quot;Value2&quot;</span>)))
+
+
++<span class="hljs-attr">PropertyRedirects</span>=(OldName=<span class="hljs-string">&quot;OldActor.OldIntProperty&quot;</span>,NewName=<span class="hljs-string">&quot;NewActor.NewIntProperty&quot;</span>)
++<span class="hljs-attr">PropertyRedirects</span>=(OldName=<span class="hljs-string">&quot;OldActor.OldFloatProperty&quot;</span>,NewName=<span class="hljs-string">&quot;OldActor.NewFloatProperty&quot;</span>)
+
+
++<span class="hljs-attr">FunctionRedirects</span>=(OldName=<span class="hljs-string">&quot;OldActor.OldFunction&quot;</span>,NewName=<span class="hljs-string">&quot;NewActor.NewFunction&quot;</span>)
++<span class="hljs-attr">FunctionRedirects</span>=(OldName=<span class="hljs-string">&quot;OldActor.OldFunction&quot;</span>,NewName=<span class="hljs-string">&quot;OldActor.NewFunction&quot;</span>)
+</code></pre></body></html>

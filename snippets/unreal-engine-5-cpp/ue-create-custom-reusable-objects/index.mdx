@@ -9,6 +9,13 @@ export const snippet_category = "Unreal Engine 5 C++"
 
 ```cpp
 // MyObject.h
+#pragma once
+
+#include "CoreMinimal.h"
+#include "UObject/NoExportTypes.h"
+#include "MyObject.generated.h"
+
+
 UCLASS(DefaultToInstanced, EditInlineNew, Blueprintable) // Do NOT forget to add `DefaultToInstanced` & `EditInlineNew`
 class TESTING_API UMyObject : public UObject {
 

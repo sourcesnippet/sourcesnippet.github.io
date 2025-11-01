@@ -99,8 +99,8 @@ bool DoesImplement = ExampleCharacterObject->Implements<UExampleInterface>(); //
 AActor* ExampleCharacterObject;
 
 if(ExampleCharacterObject->Implements<UExampleInterface>()){
-  IExampleInterface::Execute_MyExample(ExampleCharacterObject); // Execute_*
-  IExampleInterface::Execute_MyArgExample(ExampleCharacterObject, true /* , add, other, arguments*/); // Execute_*
+  IExampleInterface::Execute_MyExample(ExampleCharacterObject); // Execute_*   Note: Will crash if object is null or doesn't implement interface
+  IExampleInterface::Execute_MyArgExample(ExampleCharacterObject, true /* , add, other, arguments */); // Execute_*
 }
 ```
 

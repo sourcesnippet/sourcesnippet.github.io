@@ -45,10 +45,13 @@ class MYPROJECT_API IExampleInterface
     public:
        
        UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
-       void MyExample();  // or void MyExample() = 0; To mark as pure virtual function i.e. Forcing every child class to implement it otherwise a compilation error is thrown
+       void MyExample(); // Without Arguments
 
        UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
        void MyArgExample(bool MyArg);  // With Arguments (Default arguments are not supported)
+
+       // virtual void MyExample_Implementation() = 0;               // To mark as pure virtual function i.e. Forcing every child class to implement it otherwise a compilation error is thrown
+       // virtual void MyArgExample_Implementation(bool MyArg) = 0;  //
 };
 ```
 ```cpp

@@ -1,0 +1,34 @@
+import { HTMLSkeleton, H1 } from "./_jsx/global.jsx"
+
+export const snippet_title = "Boilerplate UAnimInstance in Unreal Engine 5 C++"
+export const snippet_category = "Unreal Engine 5 C++"
+
+<HTMLSkeleton RegisterToSiteGuide={{ category : snippet_category, title : snippet_title }}>
+
+<H1>{snippet_title}</H1>
+
+```cpp
+// MyAnimInstance.h file
+
+#pragma once
+
+#include "CoreMinimal.h"
+#include "Animation/AnimInstance.h"
+#include "MyAnimInstance.generated.h"
+
+
+UCLASS()
+class TESTING_API UMyAnimInstance : public UAnimInstance
+{
+	GENERATED_BODY()
+	
+};
+```
+
+```cpp
+// MyAnimInstance.cpp file
+
+#include "MyAnimInstance.h"
+
+```
+</HTMLSkeleton>

@@ -194,6 +194,7 @@ export function GlobalStyle({ AdditionalStyles = "" }) { // Returns a style tag 
     return (<style>{`
     
         body {
+            font-family: system-ui, sans-serif;
             background-color: Canvas;
             color: CanvasText;
             color-scheme: dark;

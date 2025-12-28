@@ -198,7 +198,6 @@ export function GlobalStyle({ AdditionalStyles = "" }) { // Returns a style tag 
             background-color: Canvas;
             color: CanvasText;
             color-scheme: dark;
-            font-size:18px;
             margin:0 auto;
             max-width:650px;
             line-height:1.6;

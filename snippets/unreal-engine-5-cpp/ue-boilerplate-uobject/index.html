@@ -1,0 +1,19 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="Boilerplate UObject in Unreal Engine 5 C++"><title>Boilerplate UObject in Unreal Engine 5 C++ - SourceSnippet</title><link rel="stylesheet" href="/static/codestyle.css"><style>body{font-family:system-ui,sans-serif;background-color:Canvas;color:CanvasText;color-scheme:dark;margin:0 auto;max-width:650px;line-height:1.6;padding:40px 1rem}h1,h2,h3{line-height:1.3}</style></head><body><h1>Boilerplate UObject in Unreal Engine 5 C++</h1><hr><br><p><strong>Note:</strong> For how to <em>PROPERLY</em> create a custom object check <a href="/snippets/unreal-engine-5-cpp/ue-create-custom-reusable-objects/">here</a></p><pre><code class="hljs language-cpp"><span class="hljs-comment">// MyObject.h file</span>
+
+<span class="hljs-meta">#<span class="hljs-keyword">pragma</span> once</span>
+
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&quot;CoreMinimal.h&quot;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&quot;UObject/NoExportTypes.h&quot;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&quot;MyObject.generated.h&quot;</span></span>
+
+
+<span class="hljs-built_in">UCLASS</span>()
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">TESTING_API</span> UMyObject : <span class="hljs-keyword">public</span> UObject
+{
+	<span class="hljs-built_in">GENERATED_BODY</span>()
+	
+};
+</code></pre><pre><code class="hljs language-cpp"><span class="hljs-comment">// MyObject.cpp file</span>
+
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&quot;MyObject.h&quot;</span></span>
+</code></pre></body></html>

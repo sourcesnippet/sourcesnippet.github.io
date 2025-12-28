@@ -1,0 +1,72 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="UENUM in Unreal Engine 5 C++"><title>UENUM in Unreal Engine 5 C++ - SourceSnippet</title><link rel="stylesheet" href="/static/codestyle.css"><style>body{font-family:system-ui,sans-serif;background-color:Canvas;color:CanvasText;color-scheme:dark;margin:0 auto;max-width:650px;line-height:1.6;padding:40px 1rem}h1,h2,h3{line-height:1.3}</style></head><body><h1>UENUM in Unreal Engine 5 C++</h1><hr><br><h2>Syntax</h2><pre><code class="hljs language-cpp"><span class="hljs-built_in">UENUM</span>(BlueprintType)
+<span class="hljs-keyword">enum class</span> <span class="hljs-title class_">ECustomEnum</span> : uint8 {
+    <span class="hljs-function">ValueA <span class="hljs-title">UMETA</span><span class="hljs-params">(DisplayName=<span class="hljs-string">&quot;My Value 1&quot;</span>)</span>,
+    ValueB,
+    ValueC
+}</span>;
+</code></pre><br><h2>Bitflag Syntax</h2><pre><code class="hljs language-cpp"><span class="hljs-built_in">UENUM</span>(BlueprintType, meta = (Bitflags, UseEnumValuesAsMaskValuesInEditor = <span class="hljs-string">&quot;true&quot;</span>))
+<span class="hljs-keyword">enum class</span> <span class="hljs-title class_">ECustomBitFlagEnum</span>: uint8
+{
+    BitValueNone = <span class="hljs-number">0</span>,
+    BitValueA = <span class="hljs-number">1</span> &lt;&lt; <span class="hljs-number">0</span>,
+    BitValueB = <span class="hljs-number">1</span> &lt;&lt; <span class="hljs-number">1</span>,
+    BitValueC  = <span class="hljs-number">1</span> &lt;&lt; <span class="hljs-number">2</span>
+};
+<span class="hljs-built_in">ENUM_CLASS_FLAGS</span>(ECustomBitFlagEnum);
+
+
+<span class="hljs-comment">// Creating</span>
+ECustomBitFlagEnum MyBitFlag = ECustomBitFlagEnum::FlagA | ECustomBitFlagEnum::FlagC;
+
+<span class="hljs-comment">// Turning On Flag</span>
+MyBitFlag |= ECustomBitFlagEnum::FlagB;
+
+<span class="hljs-comment">// Turning Off Flag</span>
+MyBitFlag &amp;= ~ECustomBitFlagEnum::FlagA;
+
+<span class="hljs-comment">// Checking for Flag</span>
+<span class="hljs-type">bool</span> bIsFlagActive = (MyBitFlag &amp; ECustomBitFlagEnum::FlagC) == ECustomBitFlagEnum::FlagC;
+</code></pre><br><h2>Iterating</h2><p>There are 3 ways to make an enum iterable</p><pre><code class="hljs language-cpp"><span class="hljs-comment">// By Count</span>
+<span class="hljs-built_in">UENUM</span>(BlueprintType)
+<span class="hljs-keyword">enum class</span> <span class="hljs-title class_">ECustomEnum</span> : uint8
+{
+    ValueA,
+    ValueB,
+    ValueC,
+    ValueD,
+    <span class="hljs-function">Count <span class="hljs-title">UMETA</span><span class="hljs-params">(Hidden)</span>
+}</span>;
+<span class="hljs-built_in">ENUM_RANGE_BY_COUNT</span>(ECustomEnum, ECustomEnum::Count);
+
+
+
+<span class="hljs-comment">// By First and last</span>
+<span class="hljs-built_in">UENUM</span>(BlueprintType)
+<span class="hljs-keyword">enum class</span> <span class="hljs-title class_">ECustomEnum</span> : uint8
+{
+    ValueA,
+    ValueB,
+    ValueC,
+    ValueD
+};
+<span class="hljs-built_in">ENUM_RANGE_BY_FIRST_AND_LAST</span>(ECustomEnum, ECustomEnum::ValueA, ECustomEnum::ValueD);
+
+
+
+<span class="hljs-comment">// By Values</span>
+<span class="hljs-built_in">UENUM</span>(BlueprintType)
+<span class="hljs-keyword">enum class</span> <span class="hljs-title class_">ECustomEnum</span> : uint8
+{
+    ValueA = <span class="hljs-number">90</span>,
+    ValueB = <span class="hljs-number">55</span>,
+    ValueC = <span class="hljs-number">32</span>,
+    ValueD = <span class="hljs-number">78</span>
+};
+
+<span class="hljs-built_in">ENUM_RANGE_BY_VALUES</span>(ECustomEnum, ECustomEnum::ValueA, ECustomEnum::ValueB, ECustomEnum::ValueC, ECustomEnum::ValueD)
+</code></pre><br><p>To iterate</p><pre><code class="hljs language-cpp"><span class="hljs-comment">// Iterate</span>
+<span class="hljs-keyword">for</span> (ECustomEnum Value : <span class="hljs-built_in">TEnumRange</span>&lt;ECustomEnum&gt;()) {
+    GEngine-&gt;<span class="hljs-built_in">AddOnScreenDebugMessage</span>(<span class="hljs-number">-1</span>, <span class="hljs-number">10.0f</span>, FColor::Red, FString::<span class="hljs-built_in">Printf</span>(<span class="hljs-built_in">TEXT</span>(<span class="hljs-string">&quot;Enum: %s&quot;</span>), *UEnum::<span class="hljs-built_in">GetValueAsString</span>(Value)));
+    <span class="hljs-built_in">UE_LOG</span>(LogTemp, Warning, <span class="hljs-built_in">TEXT</span>(<span class="hljs-string">&quot;Enum: %s&quot;</span>), *UEnum::<span class="hljs-built_in">GetValueAsString</span>(Value));
+}
+</code></pre></body></html>

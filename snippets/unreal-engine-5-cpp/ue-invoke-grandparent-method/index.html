@@ -1,0 +1,41 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="Invoke grandparent method using Super::Super:: in Unreal Engine 5 C++"><title>Invoke grandparent method using Super::Super:: in Unreal Engine 5 C++ - SourceSnippet</title><link rel="stylesheet" href="/static/codestyle.css"><style>body{font-family:system-ui,sans-serif;background-color:Canvas;color:CanvasText;color-scheme:dark;margin:0 auto;max-width:650px;line-height:1.6;padding:40px 1rem}h1,h2,h3{line-height:1.3}</style></head><body><h1>Invoke grandparent method using Super::Super:: in Unreal Engine 5 C++</h1><div style="opacity:.75">Written on:  <!-- -->30 May 2025</div><hr><br><h2>Syntax</h2><pre><code class="hljs language-cpp"><span class="hljs-function"><span class="hljs-keyword">virtual</span> <span class="hljs-type">void</span> <span class="hljs-title">GrandparentMethod</span><span class="hljs-params">()</span> <span class="hljs-keyword">override</span></span>{
+    Super::Super::<span class="hljs-built_in">GrandparentMethod</span>();
+
+    <span class="hljs-comment">// ...</span>
+}
+</code></pre><br><h2>Example</h2><pre><code class="hljs language-cpp"><span class="hljs-built_in">UCLASS</span>()
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">TESTING_API</span> UGrandparent : <span class="hljs-keyword">public</span> UObject
+{
+    <span class="hljs-built_in">GENERATED_BODY</span>()
+    
+   <span class="hljs-keyword">public</span>:
+    <span class="hljs-built_in">UFUNCTION</span>()
+    <span class="hljs-function"><span class="hljs-keyword">virtual</span> <span class="hljs-type">void</span> <span class="hljs-title">MyMethod</span><span class="hljs-params">()</span></span>{}
+};
+
+
+
+<span class="hljs-built_in">UCLASS</span>()
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">TESTING_API</span> UParent : <span class="hljs-keyword">public</span> UGrandparent
+{
+    <span class="hljs-built_in">GENERATED_BODY</span>()
+    
+   <span class="hljs-keyword">public</span>:
+    <span class="hljs-function"><span class="hljs-keyword">virtual</span> <span class="hljs-type">void</span> <span class="hljs-title">MyMethod</span><span class="hljs-params">()</span> <span class="hljs-keyword">override</span> </span>{
+        Super::<span class="hljs-built_in">MyMethod</span>();
+    }
+};
+
+
+
+<span class="hljs-built_in">UCLASS</span>()
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">TESTING_API</span> UChild : <span class="hljs-keyword">public</span> UParent
+{
+    <span class="hljs-built_in">GENERATED_BODY</span>()
+    
+   <span class="hljs-keyword">public</span>:
+    <span class="hljs-function"><span class="hljs-keyword">virtual</span> <span class="hljs-type">void</span> <span class="hljs-title">MyMethod</span><span class="hljs-params">()</span> <span class="hljs-keyword">override</span> </span>{
+        Super::Super::<span class="hljs-built_in">MyMethod</span>();
+    }
+};
+</code></pre></body></html>

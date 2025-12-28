@@ -1,0 +1,25 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="Get All Active Montages from UAnimInstance in Unreal Engine 5 C++"><title>Get All Active Montages from UAnimInstance in Unreal Engine 5 C++ - SourceSnippet</title><link rel="stylesheet" href="/static/codestyle.css"><style>body{font-family:system-ui,sans-serif;background-color:Canvas;color:CanvasText;color-scheme:dark;margin:0 auto;max-width:650px;line-height:1.6;padding:40px 1rem}h1,h2,h3{line-height:1.3}</style></head><body><h1>Get All Active Montages from UAnimInstance in Unreal Engine 5 C++</h1><hr><br><pre><code class="hljs language-cpp"><span class="hljs-built_in">UCLASS</span>()
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">TESTING_API</span> UMyBFL : <span class="hljs-keyword">public</span> UBlueprintFunctionLibrary {
+    <span class="hljs-built_in">GENERATED_BODY</span>()
+
+   <span class="hljs-keyword">public</span>:
+    <span class="hljs-built_in">UFUNCTION</span>(BlueprintCallable)
+    <span class="hljs-function"><span class="hljs-type">static</span> TArray&lt;UAnimMontage*&gt; <span class="hljs-title">GetActiveMontages</span><span class="hljs-params">(UAnimInstance* AnimInstance)</span> </span>{
+        TArray&lt;UAnimMontage*&gt; ActiveMontages;
+
+        <span class="hljs-comment">// Return if Anim Instance is invalid</span>
+        <span class="hljs-keyword">if</span> (!<span class="hljs-built_in">IsValid</span>(AnimInstance)) {
+            <span class="hljs-keyword">return</span> ActiveMontages;
+        }
+
+        <span class="hljs-comment">// Iterate and get all active montages</span>
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">auto</span>&amp; MontageInstance : AnimInstance-&gt;MontageInstances) {
+            <span class="hljs-keyword">if</span> (MontageInstance &amp;&amp; MontageInstance-&gt;Montage &amp;&amp; MontageInstance-&gt;<span class="hljs-built_in">IsActive</span>()) {
+                ActiveMontages.<span class="hljs-built_in">Add</span>(MontageInstance-&gt;Montage);
+            }
+        }
+
+        <span class="hljs-keyword">return</span> ActiveMontages;
+    }
+};
+</code></pre></body></html>

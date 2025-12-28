@@ -1,0 +1,27 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="Regex for Log output prefix in Unreal Engine 5"><title>Regex for Log output prefix in Unreal Engine 5 - SourceSnippet</title><link rel="stylesheet" href="/static/codestyle.css"><style>body{font-family:system-ui,sans-serif;background-color:Canvas;color:CanvasText;color-scheme:dark;margin:0 auto;max-width:650px;line-height:1.6;padding:40px 1rem}h1,h2,h3{line-height:1.3}</style></head><body><h1>Regex for Log output prefix in Unreal Engine 5</h1><div style="opacity:.75">Written on:  <!-- -->30 May 2025</div><hr><br><h2>To Remove All Prefix</h2><pre><code class="hljs language-regex">\[[^\]]*\]\[[^\]]*\]LogTemp: Warning: 
+</code></pre><h4>Example</h4><pre><code class="hljs language-plaintext">[2025.05.30-03.31.14:816][520]LogTemp: Warning: Some Message 1
+[2025.05.30-03.31.14:816][520]LogTemp: Warning: Some Message 2
+[2025.05.30-03.31.14:816][520]LogTemp: Warning: Some Message 3
+[2025.05.30-03.31.14:816][520]LogTemp: Warning: Some Message 4
+[2025.05.30-03.31.14:816][520]LogTemp: Warning: Some Message 5
+
+
+Some Message 1
+Some Message 2
+Some Message 3
+Some Message 4
+Some Message 5
+</code></pre><br><h2>To Remove date and time</h2><pre><code class="hljs language-regex">^\[[^\]]+\]
+</code></pre><h4>Example</h4><pre><code class="hljs language-plaintext">[2025.05.30-03.31.14:816][520]LogTemp: Warning: Some Message 1
+[2025.05.30-03.31.14:816][520]LogTemp: Warning: Some Message 2
+[2025.05.30-03.31.14:816][520]LogTemp: Warning: Some Message 3
+[2025.05.30-03.31.14:816][520]LogTemp: Warning: Some Message 4
+[2025.05.30-03.31.14:816][520]LogTemp: Warning: Some Message 5
+
+
+[520]LogTemp: Warning: Some Message 1
+[520]LogTemp: Warning: Some Message 2
+[520]LogTemp: Warning: Some Message 3
+[520]LogTemp: Warning: Some Message 4
+[520]LogTemp: Warning: Some Message 5
+</code></pre></body></html>

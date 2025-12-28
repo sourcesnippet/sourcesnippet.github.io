@@ -1,0 +1,6 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="Check if running in editor in Unreal Engine 5 C++"><title>Check if running in editor in Unreal Engine 5 C++ - SourceSnippet</title><link rel="stylesheet" href="/static/codestyle.css"><style>body{font-family:system-ui,sans-serif;background-color:Canvas;color:CanvasText;color-scheme:dark;margin:0 auto;max-width:650px;line-height:1.6;padding:40px 1rem}h1,h2,h3{line-height:1.3}</style></head><body><h1>Check if running in editor in Unreal Engine 5 C++</h1><hr><br><p>This will work on all <code>UObject</code> derived classes</p><pre><code class="hljs language-cpp"><span class="hljs-keyword">if</span> (UWorld* World = <span class="hljs-built_in">GetWorld</span>()) {
+    <span class="hljs-keyword">if</span> (World-&gt;WorldType == EWorldType::Editor || World-&gt;WorldType == EWorldType::EditorPreview) {
+        <span class="hljs-keyword">return</span>;
+    }
+}
+</code></pre></body></html>

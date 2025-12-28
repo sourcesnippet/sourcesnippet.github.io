@@ -1,0 +1,80 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="Printing &amp; Logging in Unreal Engine 5 C++"><title>Printing &amp; Logging in Unreal Engine 5 C++ - SourceSnippet</title><link rel="stylesheet" href="/static/codestyle.css"><style>body{font-family:system-ui,sans-serif;background-color:Canvas;color:CanvasText;color-scheme:dark;margin:0 auto;max-width:650px;line-height:1.6;padding:40px 1rem}h1,h2,h3{line-height:1.3}</style></head><body><h1>Printing &amp; Logging in Unreal Engine 5 C++</h1><hr><br><h2>Syntax</h2><pre><code class="hljs language-cpp"><span class="hljs-comment">// Writing On Screen</span>
+<span class="hljs-keyword">if</span>(GEngine)
+    GEngine-&gt;<span class="hljs-built_in">AddOnScreenDebugMessage</span>(<span class="hljs-number">-1</span>, <span class="hljs-number">10.0f</span>, FColor::Red, FString::<span class="hljs-built_in">Printf</span>(<span class="hljs-built_in">TEXT</span>(<span class="hljs-string">&quot;Message&quot;</span>)));
+
+
+<span class="hljs-comment">// Writting in Output Log </span>
+<span class="hljs-built_in">UE_LOG</span>(LogTemp, Warning, <span class="hljs-built_in">TEXT</span>(<span class="hljs-string">&quot;Message&quot;</span>));
+</code></pre><br><h2>Default datatypes</h2><pre><code class="hljs language-cpp"><span class="hljs-comment">// int</span>
+<span class="hljs-type">int</span> MyInt = <span class="hljs-number">3</span>;
+GEngine-&gt;<span class="hljs-built_in">AddOnScreenDebugMessage</span>(<span class="hljs-number">-1</span>, <span class="hljs-number">10.0f</span>, FColor::Red, FString::<span class="hljs-built_in">Printf</span>(<span class="hljs-built_in">TEXT</span>(<span class="hljs-string">&quot;int: %d&quot;</span>), MyInt));
+<span class="hljs-built_in">UE_LOG</span>(LogTemp, Warning, <span class="hljs-built_in">TEXT</span>(<span class="hljs-string">&quot;int: %d&quot;</span>), MyInt);
+
+
+
+<span class="hljs-comment">// float</span>
+<span class="hljs-type">float</span> MyFloat = <span class="hljs-number">10.5f</span>;
+GEngine-&gt;<span class="hljs-built_in">AddOnScreenDebugMessage</span>(<span class="hljs-number">-1</span>, <span class="hljs-number">10.0f</span>, FColor::Red, FString::<span class="hljs-built_in">Printf</span>(<span class="hljs-built_in">TEXT</span>(<span class="hljs-string">&quot;float: %f&quot;</span>), MyFloat));
+<span class="hljs-built_in">UE_LOG</span>(LogTemp, Warning, <span class="hljs-built_in">TEXT</span>(<span class="hljs-string">&quot;float: %f&quot;</span>), MyFloat);
+
+
+
+<span class="hljs-comment">// boolean</span>
+<span class="hljs-type">bool</span> bMyBool = <span class="hljs-literal">true</span>;
+GEngine-&gt;<span class="hljs-built_in">AddOnScreenDebugMessage</span>(<span class="hljs-number">-1</span>, <span class="hljs-number">10.0f</span>, FColor::Red, FString::<span class="hljs-built_in">Printf</span>(<span class="hljs-built_in">TEXT</span>(<span class="hljs-string">&quot;bool: %s&quot;</span>), bMyBool ? <span class="hljs-built_in">TEXT</span>(<span class="hljs-string">&quot;true&quot;</span>) : <span class="hljs-built_in">TEXT</span>(<span class="hljs-string">&quot;false&quot;</span>)));
+<span class="hljs-built_in">UE_LOG</span>(LogTemp, Warning, <span class="hljs-built_in">TEXT</span>(<span class="hljs-string">&quot;bool: %s&quot;</span>), bMyBool ? <span class="hljs-built_in">TEXT</span>(<span class="hljs-string">&quot;true&quot;</span>) : <span class="hljs-built_in">TEXT</span>(<span class="hljs-string">&quot;false&quot;</span>));
+</code></pre><br><h2>Unreal datatypes</h2><pre><code class="hljs language-cpp"><span class="hljs-comment">// Enum</span>
+ECustomEnum EMyEnum = ECustomEnum::ValueA;
+GEngine-&gt;<span class="hljs-built_in">AddOnScreenDebugMessage</span>(<span class="hljs-number">-1</span>, <span class="hljs-number">10.0f</span>, FColor::Red, FString::<span class="hljs-built_in">Printf</span>(<span class="hljs-built_in">TEXT</span>(<span class="hljs-string">&quot;Enum: %s&quot;</span>), *UEnum::<span class="hljs-built_in">GetValueAsString</span>(EMyEnum)));
+<span class="hljs-built_in">UE_LOG</span>(LogTemp, Warning, <span class="hljs-built_in">TEXT</span>(<span class="hljs-string">&quot;Enum: %s&quot;</span>), *UEnum::<span class="hljs-built_in">GetValueAsString</span>(EMyEnum));
+
+
+
+<span class="hljs-comment">// FString</span>
+FString MyString = <span class="hljs-built_in">TEXT</span>(<span class="hljs-string">&quot;Hello World&quot;</span>);
+GEngine-&gt;<span class="hljs-built_in">AddOnScreenDebugMessage</span>(<span class="hljs-number">-1</span>, <span class="hljs-number">10.0f</span>, FColor::Red, FString::<span class="hljs-built_in">Printf</span>(<span class="hljs-built_in">TEXT</span>(<span class="hljs-string">&quot;FString: %s&quot;</span>), *MyString));
+<span class="hljs-built_in">UE_LOG</span>(LogTemp, Warning, <span class="hljs-built_in">TEXT</span>(<span class="hljs-string">&quot;FString: %s&quot;</span>), *MyString);
+
+
+
+<span class="hljs-comment">// FName</span>
+FName MyName = <span class="hljs-built_in">TEXT</span>(<span class="hljs-string">&quot;Hello World&quot;</span>);
+GEngine-&gt;<span class="hljs-built_in">AddOnScreenDebugMessage</span>(<span class="hljs-number">-1</span>, <span class="hljs-number">10.0f</span>, FColor::Red, FString::<span class="hljs-built_in">Printf</span>(<span class="hljs-built_in">TEXT</span>(<span class="hljs-string">&quot;FName: %s&quot;</span>), *MyName.<span class="hljs-built_in">ToString</span>()));
+<span class="hljs-built_in">UE_LOG</span>(LogTemp, Warning, <span class="hljs-built_in">TEXT</span>(<span class="hljs-string">&quot;FName: %s&quot;</span>), *MyName.<span class="hljs-built_in">ToString</span>());
+
+
+
+<span class="hljs-comment">// FVector</span>
+FVector MyVector = <span class="hljs-built_in">FVector</span>(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>);
+GEngine-&gt;<span class="hljs-built_in">AddOnScreenDebugMessage</span>(<span class="hljs-number">-1</span>, <span class="hljs-number">10.0f</span>, FColor::Red, FString::<span class="hljs-built_in">Printf</span>(<span class="hljs-built_in">TEXT</span>(<span class="hljs-string">&quot;FVector: %s&quot;</span>), *MyVector.<span class="hljs-built_in">ToString</span>()));
+<span class="hljs-built_in">UE_LOG</span>(LogTemp, Warning, <span class="hljs-built_in">TEXT</span>(<span class="hljs-string">&quot;FVector: %s&quot;</span>), *MyVector.<span class="hljs-built_in">ToString</span>());
+
+
+
+<span class="hljs-comment">// FRotator</span>
+FRotator MyRotator = <span class="hljs-built_in">FRotator</span>(<span class="hljs-number">90.0f</span>, <span class="hljs-number">45.0f</span>, <span class="hljs-number">0.0f</span>);
+GEngine-&gt;<span class="hljs-built_in">AddOnScreenDebugMessage</span>(<span class="hljs-number">-1</span>, <span class="hljs-number">10.0f</span>, FColor::Red, FString::<span class="hljs-built_in">Printf</span>(<span class="hljs-built_in">TEXT</span>(<span class="hljs-string">&quot;FRotator: %s&quot;</span>), *MyRotator.<span class="hljs-built_in">ToString</span>()));
+<span class="hljs-built_in">UE_LOG</span>(LogTemp, Warning, <span class="hljs-built_in">TEXT</span>(<span class="hljs-string">&quot;FRotator: %s&quot;</span>), *MyRotator.<span class="hljs-built_in">ToString</span>());
+
+
+
+<span class="hljs-comment">// UObject</span>
+UObject* MyObject = <span class="hljs-built_in">NewObject</span>&lt;UObject&gt;(<span class="hljs-keyword">this</span>, <span class="hljs-built_in">TEXT</span>(<span class="hljs-string">&quot;MyObject&quot;</span>));
+GEngine-&gt;<span class="hljs-built_in">AddOnScreenDebugMessage</span>(<span class="hljs-number">-1</span>, <span class="hljs-number">10.0f</span>, FColor::Red, FString::<span class="hljs-built_in">Printf</span>(<span class="hljs-built_in">TEXT</span>(<span class="hljs-string">&quot;UObject: %s&quot;</span>), MyObject ? *MyObject-&gt;<span class="hljs-built_in">GetName</span>() : <span class="hljs-built_in">TEXT</span>(<span class="hljs-string">&quot;NULL&quot;</span>)));
+<span class="hljs-built_in">UE_LOG</span>(LogTemp, Warning, <span class="hljs-built_in">TEXT</span>(<span class="hljs-string">&quot;UObject: %s&quot;</span>), MyObject ? *MyObject-&gt;<span class="hljs-built_in">GetName</span>() : <span class="hljs-built_in">TEXT</span>(<span class="hljs-string">&quot;NULL&quot;</span>));
+
+
+
+<span class="hljs-comment">// UClass</span>
+UClass* MyClass = UObject::<span class="hljs-built_in">StaticClass</span>();
+GEngine-&gt;<span class="hljs-built_in">AddOnScreenDebugMessage</span>(<span class="hljs-number">-1</span>, <span class="hljs-number">10.0f</span>, FColor::Red, FString::<span class="hljs-built_in">Printf</span>(<span class="hljs-built_in">TEXT</span>(<span class="hljs-string">&quot;UClass: %s&quot;</span>), MyClass ? *MyClass-&gt;<span class="hljs-built_in">GetName</span>() : <span class="hljs-built_in">TEXT</span>(<span class="hljs-string">&quot;NULL&quot;</span>)));
+<span class="hljs-built_in">UE_LOG</span>(LogTemp, Warning, <span class="hljs-built_in">TEXT</span>(<span class="hljs-string">&quot;UClass: %s&quot;</span>), MyClass ? *MyClass-&gt;<span class="hljs-built_in">GetName</span>() : <span class="hljs-built_in">TEXT</span>(<span class="hljs-string">&quot;NULL&quot;</span>));
+
+
+
+<span class="hljs-comment">// AActor</span>
+AActor* MyActor;
+GEngine-&gt;<span class="hljs-built_in">AddOnScreenDebugMessage</span>(<span class="hljs-number">-1</span>, <span class="hljs-number">10.0f</span>, FColor::Red, FString::<span class="hljs-built_in">Printf</span>(<span class="hljs-built_in">TEXT</span>(<span class="hljs-string">&quot;AActor: %s&quot;</span>), MyActor ? *MyActor-&gt;<span class="hljs-built_in">GetActorLabel</span>() : <span class="hljs-built_in">TEXT</span>(<span class="hljs-string">&quot;NULL&quot;</span>)));
+<span class="hljs-built_in">UE_LOG</span>(LogTemp, Warning, <span class="hljs-built_in">TEXT</span>(<span class="hljs-string">&quot;AActor: %s&quot;</span>), MyActor ? *MyActor-&gt;<span class="hljs-built_in">GetActorLabel</span>() : <span class="hljs-built_in">TEXT</span>(<span class="hljs-string">&quot;NULL&quot;</span>));
+
+</code></pre></body></html>

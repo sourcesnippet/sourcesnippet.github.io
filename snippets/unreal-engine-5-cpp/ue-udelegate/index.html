@@ -1,0 +1,357 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="UDELEGATE in Unreal Engine 5 C++"><title>UDELEGATE in Unreal Engine 5 C++ - SourceSnippet</title><link rel="stylesheet" href="/static/codestyle.css"><style>body{font-family:system-ui,sans-serif;background-color:Canvas;color:CanvasText;color-scheme:dark;margin:0 auto;max-width:650px;line-height:1.6;padding:40px 1rem}h1,h2,h3{line-height:1.3}</style></head><body><h1>UDELEGATE in Unreal Engine 5 C++</h1><hr><br><h2>Index</h2><ol><li><a href="#what-are-delegates">What are Delegates?</a></li><li><a href="#singlecast-delegate">Singlecast Delegate</a></li><li><a href="#singlecast-return-delegate">Singlecast RetVal Delegate</a></li><li><a href="#multicast-delegate">Multicast Delegate</a></li><li><a href="#dynamic-singlecast-delegate">Dynamic Singlecast Delegate</a></li><li><a href="#dynamic-singlecast-return-delegate">Dynamic Singlecast RetVal Delegate</a></li><li><a href="#dynamic-multicast-delegate">Dynamic Multicast Delegate</a></li></ol><br><h2 id="what-are-delegates">What are Delegates?</h2><p>A delegate is a special type of struct to which function(s) can be binded and invoked later</p><br><h2 id="singlecast-delegate">Singlecast Delegate</h2><pre><code class="hljs language-cpp"><span class="hljs-meta">#<span class="hljs-keyword">pragma</span> once</span>
+
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&quot;CoreMinimal.h&quot;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&quot;GameFramework/Actor.h&quot;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&quot;MyActor.generated.h&quot;</span></span>
+
+
+<span class="hljs-comment">// Delegate signature</span>
+<span class="hljs-built_in">DECLARE_DELEGATE_TwoParams</span>(FMyDelegateA, int32 <span class="hljs-comment">/* FirstVar */</span>, <span class="hljs-type">float</span> <span class="hljs-comment">/* SecondVar */</span>);
+
+
+<span class="hljs-keyword">struct</span> <span class="hljs-title class_">RawStruct</span> {
+    <span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">StructFunction</span><span class="hljs-params">(int32 Var1, <span class="hljs-type">float</span> Var2)</span> </span>{}
+};
+
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">RawClass</span> {
+   <span class="hljs-keyword">public</span>:
+    <span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">MyClassFunction</span><span class="hljs-params">(int32 Var1, <span class="hljs-type">float</span> Var2)</span> </span>{}
+};
+
+
+<span class="hljs-built_in">UCLASS</span>()
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">TESTING_API</span> AMyActor : <span class="hljs-keyword">public</span> AActor {
+    <span class="hljs-built_in">GENERATED_BODY</span>()
+
+   <span class="hljs-keyword">public</span>:
+    FMyDelegateA DelegateVarA;  <span class="hljs-comment">// Delegate declaration, No UPROPERTY() required</span>
+
+    <span class="hljs-built_in">UFUNCTION</span>()
+    <span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">MyUFunction</span><span class="hljs-params">(int32 Var1, <span class="hljs-type">float</span> Var2)</span> </span>{}  <span class="hljs-comment">// Function decleration</span>
+
+    <span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">MyFunction</span><span class="hljs-params">(int32 Var1, <span class="hljs-type">float</span> Var2)</span> </span>{}  <span class="hljs-comment">// Function decleration, No UFUNCTION required</span>
+
+    <span class="hljs-function"><span class="hljs-type">static</span> <span class="hljs-type">void</span> <span class="hljs-title">MyStaticFunction</span><span class="hljs-params">(int32 Var1, <span class="hljs-type">float</span> Var2)</span> </span>{}  <span class="hljs-comment">// Static Function decleration, No UFUNCTION required</span>
+
+    <span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">BeginPlay</span><span class="hljs-params">()</span> </span>{
+        Super::<span class="hljs-built_in">BeginPlay</span>();
+
+
+        <span class="hljs-comment">// Binding</span>
+        DelegateVarA.<span class="hljs-built_in">BindUObject</span>(<span class="hljs-keyword">this</span>, &amp;AMyActor::MyFunction);  <span class="hljs-comment">// Binds delegate to the given UObject (first argument) and it&#x27;s function</span>
+        DelegateVarA.<span class="hljs-built_in">BindUFunction</span>(<span class="hljs-keyword">this</span>, <span class="hljs-built_in">TEXT</span>(<span class="hljs-string">&quot;MyUFunction&quot;</span>));  <span class="hljs-comment">// Binds delegate to the given function of UObject by name</span>
+        DelegateVarA.<span class="hljs-built_in">BindRaw</span>(&amp;MyStruct, &amp;RawStruct::StructFunction);  <span class="hljs-comment">// Used to bind to non reflection exposed structs</span>
+        DelegateVarA.<span class="hljs-built_in">BindRaw</span>(MyClass, &amp;RawClass::MyClassFunction);    <span class="hljs-comment">// Used to bind to non reflection exposed classes</span>
+        DelegateVarA.<span class="hljs-built_in">BindStatic</span>(&amp;AMyActor::MyStaticFunction);
+        DelegateVarA.<span class="hljs-built_in">BindLambda</span>([](int32 Var1, <span class="hljs-type">float</span> Var2) {});
+        DelegateVarA.<span class="hljs-built_in">BindWeakLambda</span>(<span class="hljs-keyword">this</span>, [](int32 Var1, <span class="hljs-type">float</span> Var2) {});  <span class="hljs-comment">// Unbinds itself when given UObject (first argument) goes out of scope i.e. it&#x27;s lifetime ends</span>
+        DelegateVarA.<span class="hljs-built_in">BindSP</span>(MySharedClass.<span class="hljs-built_in">ToSharedRef</span>(), &amp;RawClass::MyClassFunction);
+        DelegateVarA.<span class="hljs-built_in">BindThreadSafeSP</span>(MySafeSharedClass.<span class="hljs-built_in">ToSharedRef</span>(), &amp;RawClass::MyClassFunction);
+
+
+        <span class="hljs-comment">// Checking</span>
+        <span class="hljs-type">bool</span> bIsBound = DelegateVarA.<span class="hljs-built_in">IsBound</span>();
+
+
+        <span class="hljs-comment">// Invoking</span>
+        DelegateVarA.<span class="hljs-built_in">Execute</span>(<span class="hljs-number">23</span>, <span class="hljs-number">8.7</span>);
+        <span class="hljs-type">bool</span> IsBoundA = DelegateVarA.<span class="hljs-built_in">ExecuteIfBound</span>(<span class="hljs-number">23</span>, <span class="hljs-number">8.7</span>);
+
+
+        <span class="hljs-comment">// Unbinding</span>
+        DelegateVarA.<span class="hljs-built_in">Unbind</span>();
+    }
+
+
+   <span class="hljs-keyword">private</span>:
+    RawStruct MyStruct;
+    RawClass* MyClass = <span class="hljs-keyword">new</span> <span class="hljs-built_in">RawClass</span>();
+    TSharedPtr&lt;RawClass&gt; MySharedClass = <span class="hljs-built_in">TSharedPtr</span>&lt;RawClass&gt;(<span class="hljs-keyword">new</span> <span class="hljs-built_in">RawClass</span>());
+    TSharedPtr&lt;RawClass, ESPMode::ThreadSafe&gt; MySafeSharedClass = <span class="hljs-built_in">TSharedPtr</span>&lt;RawClass, ESPMode::ThreadSafe&gt;(<span class="hljs-keyword">new</span> <span class="hljs-built_in">RawClass</span>());
+};
+</code></pre><br><h2 id="singlecast-return-delegate">Singlecast RetVal Delegate</h2><pre><code class="hljs language-cpp"><span class="hljs-meta">#<span class="hljs-keyword">pragma</span> once</span>
+
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&quot;CoreMinimal.h&quot;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&quot;GameFramework/Actor.h&quot;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&quot;MyActor.generated.h&quot;</span></span>
+
+
+<span class="hljs-comment">// Delegate signature declaration</span>
+<span class="hljs-built_in">DECLARE_DELEGATE_RetVal_TwoParams</span>(int32, FMyDelegateB, int32 <span class="hljs-comment">/* FirstVar */</span>, <span class="hljs-type">float</span> <span class="hljs-comment">/* SecondVar */</span>);
+
+
+<span class="hljs-keyword">struct</span> <span class="hljs-title class_">RawStruct</span> {
+    <span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">StructFunction</span><span class="hljs-params">(int32 Var1, <span class="hljs-type">float</span> Var2)</span> </span>{ <span class="hljs-keyword">return</span> <span class="hljs-number">1</span>; }
+};
+
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">RawClass</span> {
+   <span class="hljs-keyword">public</span>:
+    <span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">ClassFunction</span><span class="hljs-params">(int32 Var1, <span class="hljs-type">float</span> Var2)</span> </span>{ <span class="hljs-keyword">return</span> <span class="hljs-number">2</span>; }
+};
+
+
+<span class="hljs-built_in">UCLASS</span>()
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">TESTING_API</span> AMyActor : <span class="hljs-keyword">public</span> AActor {
+    <span class="hljs-built_in">GENERATED_BODY</span>()
+
+   <span class="hljs-keyword">public</span>:
+    FMyDelegateB DelegateVarB;  <span class="hljs-comment">// Delegate declaration, No UPROPERTY() required</span>
+
+    <span class="hljs-built_in">UFUNCTION</span>()
+    <span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">MyUFunction</span><span class="hljs-params">(int32 Var1, <span class="hljs-type">float</span> Var2)</span> </span>{ <span class="hljs-keyword">return</span> <span class="hljs-number">3</span>; }  <span class="hljs-comment">// Function decleration</span>
+
+    <span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">MyFunction</span><span class="hljs-params">(int32 Var1, <span class="hljs-type">float</span> Var2)</span> </span>{ <span class="hljs-keyword">return</span> <span class="hljs-number">4</span>; }  <span class="hljs-comment">// Function decleration, No UFUNCTION required</span>
+
+    <span class="hljs-function"><span class="hljs-type">static</span> <span class="hljs-type">int</span> <span class="hljs-title">MyStaticFunction</span><span class="hljs-params">(int32 Var1, <span class="hljs-type">float</span> Var2)</span> </span>{ <span class="hljs-keyword">return</span> <span class="hljs-number">5</span>; }  <span class="hljs-comment">// Static Function decleration, No UFUNCTION required</span>
+
+    <span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">BeginPlay</span><span class="hljs-params">()</span> </span>{
+        Super::<span class="hljs-built_in">BeginPlay</span>();
+
+        <span class="hljs-comment">// Binding</span>
+        DelegateVarB.<span class="hljs-built_in">BindUObject</span>(<span class="hljs-keyword">this</span>, &amp;AMyActor::MyFunction);  <span class="hljs-comment">// Binds delegate to the given UObject (first argument) and it&#x27;s function</span>
+        DelegateVarB.<span class="hljs-built_in">BindUFunction</span>(<span class="hljs-keyword">this</span>, <span class="hljs-built_in">TEXT</span>(<span class="hljs-string">&quot;MyUFunction&quot;</span>));  <span class="hljs-comment">// Binds delegate to the given function of UObject by name</span>
+        DelegateVarB.<span class="hljs-built_in">BindRaw</span>(&amp;MyStruct, &amp;RawStruct::StructFunction);  <span class="hljs-comment">// Used to bind to non reflection exposed structs</span>
+        DelegateVarB.<span class="hljs-built_in">BindRaw</span>(MyClass, &amp;RawClass::ClassFunction);      <span class="hljs-comment">// Used to bind to non reflection exposed classes</span>
+        DelegateVarB.<span class="hljs-built_in">BindStatic</span>(&amp;AMyActor::MyStaticFunction);
+        DelegateVarB.<span class="hljs-built_in">BindLambda</span>([](int32 Var1, <span class="hljs-type">float</span> Var2) { <span class="hljs-keyword">return</span> <span class="hljs-number">6</span>; });
+        DelegateVarB.<span class="hljs-built_in">BindWeakLambda</span>(<span class="hljs-keyword">this</span>, [](int32 Var1, <span class="hljs-type">float</span> Var2) { <span class="hljs-keyword">return</span> <span class="hljs-number">7</span>; }); <span class="hljs-comment">// Unbinds itself when given UObject (first argument) goes out of scope i.e. it&#x27;s lifetime ends</span>
+        DelegateVarB.<span class="hljs-built_in">BindSP</span>(MySharedClass.<span class="hljs-built_in">ToSharedRef</span>(), &amp;RawClass::ClassFunction);
+        DelegateVarB.<span class="hljs-built_in">BindThreadSafeSP</span>(MySafeSharedClass.<span class="hljs-built_in">ToSharedRef</span>(), &amp;RawClass::ClassFunction);
+
+
+        <span class="hljs-comment">// Checking</span>
+        <span class="hljs-type">bool</span> bIsBound = DelegateVarB.<span class="hljs-built_in">IsBound</span>();
+
+
+        <span class="hljs-comment">// Invoking</span>
+        int32 ReturnValue = DelegateVarB.<span class="hljs-built_in">Execute</span>(<span class="hljs-number">23</span>, <span class="hljs-number">8.7</span>);  <span class="hljs-comment">// ExecuteIfBound() does not work</span>
+
+
+        <span class="hljs-comment">// Unbinding</span>
+        DelegateVarB.<span class="hljs-built_in">Unbind</span>();
+    }
+
+
+   <span class="hljs-keyword">private</span>:
+    RawStruct MyStruct;
+    RawClass* MyClass = <span class="hljs-keyword">new</span> <span class="hljs-built_in">RawClass</span>();
+    TSharedPtr&lt;RawClass&gt; MySharedClass = <span class="hljs-built_in">TSharedPtr</span>&lt;RawClass&gt;(<span class="hljs-keyword">new</span> <span class="hljs-built_in">RawClass</span>());
+    TSharedPtr&lt;RawClass, ESPMode::ThreadSafe&gt; MySafeSharedClass = <span class="hljs-built_in">TSharedPtr</span>&lt;RawClass, ESPMode::ThreadSafe&gt;(<span class="hljs-keyword">new</span> <span class="hljs-built_in">RawClass</span>());
+};
+</code></pre><br><h2 id="multicast-delegate">Multicast Delegate</h2><pre><code class="hljs language-cpp"><span class="hljs-meta">#<span class="hljs-keyword">pragma</span> once</span>
+
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&quot;CoreMinimal.h&quot;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&quot;GameFramework/Actor.h&quot;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&quot;MyActor.generated.h&quot;</span></span>
+
+<span class="hljs-comment">// Delegate signature declaration</span>
+<span class="hljs-built_in">DECLARE_MULTICAST_DELEGATE_TwoParams</span>(FMyDelegateC, int32 <span class="hljs-comment">/* FirstVar */</span>, <span class="hljs-type">float</span> <span class="hljs-comment">/* SecondVar */</span>);
+
+
+<span class="hljs-keyword">struct</span> <span class="hljs-title class_">RawStruct</span> {
+    <span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">StructFunction</span><span class="hljs-params">(int32 Var1, <span class="hljs-type">float</span> Var2)</span> </span>{}
+};
+
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">RawClass</span> {
+   <span class="hljs-keyword">public</span>:
+    <span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">ClassFunction</span><span class="hljs-params">(int32 Var1, <span class="hljs-type">float</span> Var2)</span> </span>{}
+};
+
+
+<span class="hljs-built_in">UCLASS</span>()
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">TESTING_API</span> AMyActor : <span class="hljs-keyword">public</span> AActor {
+    <span class="hljs-built_in">GENERATED_BODY</span>()
+
+   <span class="hljs-keyword">public</span>:
+    FMyDelegateC DelegateVarC;  <span class="hljs-comment">// Delegate declaration, No UPROPERTY() required</span>
+
+    <span class="hljs-built_in">UFUNCTION</span>()
+    <span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">MyUFunction</span><span class="hljs-params">(int32 Var1, <span class="hljs-type">float</span> Var2)</span> </span>{}  <span class="hljs-comment">// Function decleration</span>
+
+    <span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">MyFunction</span><span class="hljs-params">(int32 Var1, <span class="hljs-type">float</span> Var2)</span> </span>{}  <span class="hljs-comment">// Function decleration, No UFUNCTION required</span>
+
+    <span class="hljs-function"><span class="hljs-type">static</span> <span class="hljs-type">void</span> <span class="hljs-title">MyStaticFunction</span><span class="hljs-params">(int32 Var1, <span class="hljs-type">float</span> Var2)</span> </span>{}  <span class="hljs-comment">// Static Function decleration, No UFUNCTION required</span>
+
+    <span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">BeginPlay</span><span class="hljs-params">()</span> </span>{
+        Super::<span class="hljs-built_in">BeginPlay</span>();
+
+        <span class="hljs-comment">// Binding</span>
+        DelegateHandle = DelegateVarC.<span class="hljs-built_in">AddUObject</span>(<span class="hljs-keyword">this</span>, &amp;AMyActor::MyFunction);        <span class="hljs-comment">// Adds delegate to the given UObject (first argument) and it&#x27;s function</span>
+        DelegateHandle = DelegateVarC.<span class="hljs-built_in">AddUFunction</span>(<span class="hljs-keyword">this</span>, <span class="hljs-built_in">TEXT</span>(<span class="hljs-string">&quot;MyUFunction&quot;</span>));        <span class="hljs-comment">// Adds delegate to the given function of UObject by name</span>
+        DelegateHandle = DelegateVarC.<span class="hljs-built_in">AddRaw</span>(&amp;MyStruct, &amp;RawStruct::StructFunction);  <span class="hljs-comment">// Used to bind to non reflection exposed structs</span>
+        DelegateHandle = DelegateVarC.<span class="hljs-built_in">AddRaw</span>(MyClass, &amp;RawClass::ClassFunction);      <span class="hljs-comment">// Used to bind to non reflection exposed classes</span>
+        DelegateHandle = DelegateVarC.<span class="hljs-built_in">AddStatic</span>(&amp;AMyActor::MyStaticFunction);
+        DelegateHandle = DelegateVarC.<span class="hljs-built_in">AddLambda</span>([](int32 Var1, <span class="hljs-type">float</span> Var2) {});
+        DelegateHandle = DelegateVarC.<span class="hljs-built_in">AddWeakLambda</span>(<span class="hljs-keyword">this</span>, [](int32 Var1, <span class="hljs-type">float</span> Var2) {});  <span class="hljs-comment">// Unbinds itself when given UObject (first argument) goes out of scope i.e. it&#x27;s lifetime ends</span>
+        DelegateHandle = DelegateVarC.<span class="hljs-built_in">AddSP</span>(MySharedClass.<span class="hljs-built_in">ToSharedRef</span>(), &amp;RawClass::ClassFunction);
+        DelegateHandle = DelegateVarC.<span class="hljs-built_in">AddThreadSafeSP</span>(MySafeSharedClassA.<span class="hljs-built_in">ToSharedRef</span>(), &amp;RawClass::ClassFunction);
+
+
+        <span class="hljs-comment">// Checking</span>
+        <span class="hljs-type">bool</span> bIsBound = DelegateVarC.<span class="hljs-built_in">IsBound</span>();
+        <span class="hljs-type">bool</span> bIsBoundToObject = DelegateVarC.<span class="hljs-built_in">IsBoundToObject</span>(<span class="hljs-keyword">this</span>);
+
+
+        <span class="hljs-comment">// Invoking</span>
+        DelegateVarC.<span class="hljs-built_in">Broadcast</span>(<span class="hljs-number">23</span>, <span class="hljs-number">8.7</span>);
+
+
+        <span class="hljs-comment">// Unbinding</span>
+        DelegateVarC.<span class="hljs-built_in">Remove</span>(DelegateHandle);
+        DelegateVarC.<span class="hljs-built_in">RemoveAll</span>(<span class="hljs-keyword">this</span>);  <span class="hljs-comment">// Removes all functions bound by given object</span>
+        DelegateVarC.<span class="hljs-built_in">Clear</span>();
+    }
+
+
+   <span class="hljs-keyword">protected</span>:
+    FDelegateHandle DelegateHandle;
+
+
+   <span class="hljs-keyword">private</span>:
+    RawStruct MyStruct;
+    RawClass* MyClass = <span class="hljs-keyword">new</span> <span class="hljs-built_in">RawClass</span>();
+    TSharedPtr&lt;RawClass&gt; MySharedClass = <span class="hljs-built_in">TSharedPtr</span>&lt;RawClass&gt;(<span class="hljs-keyword">new</span> <span class="hljs-built_in">RawClass</span>());
+    TSharedPtr&lt;RawClass, ESPMode::ThreadSafe&gt; MySafeSharedClassA = <span class="hljs-built_in">TSharedPtr</span>&lt;RawClass, ESPMode::ThreadSafe&gt;(<span class="hljs-keyword">new</span> <span class="hljs-built_in">RawClass</span>());
+};
+</code></pre><br><h2 id="dynamic-singlecast-delegate">Dynamic Singlecast Delegate</h2><pre><code class="hljs language-cpp"><span class="hljs-meta">#<span class="hljs-keyword">pragma</span> once</span>
+
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&quot;CoreMinimal.h&quot;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&quot;GameFramework/Actor.h&quot;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&quot;MyActor.generated.h&quot;</span></span>
+
+
+<span class="hljs-comment">// Delegate signature</span>
+<span class="hljs-built_in">UDELEGATE</span>()
+<span class="hljs-built_in">DECLARE_DYNAMIC_DELEGATE_TwoParams</span>(FMyDelegateD, int32, FirstVar, <span class="hljs-type">float</span>, SecondVar);
+
+
+<span class="hljs-built_in">UCLASS</span>()
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">TESTING_API</span> AMyActor : <span class="hljs-keyword">public</span> AActor {
+    <span class="hljs-built_in">GENERATED_BODY</span>()
+
+   <span class="hljs-keyword">public</span>:
+    <span class="hljs-built_in">UPROPERTY</span>(BlueprintReadWrite)
+    FMyDelegateD DelegateVarD;  <span class="hljs-comment">// Delegate declaration</span>
+
+    <span class="hljs-built_in">UFUNCTION</span>()
+    <span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">MyUFunction</span><span class="hljs-params">(int32 Var1, <span class="hljs-type">float</span> Var2)</span> </span>{ <span class="hljs-built_in">UE_LOG</span>(LogTemp, Warning, <span class="hljs-built_in">TEXT</span>(<span class="hljs-string">&quot;MyUFunction&quot;</span>)); }
+
+    <span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">BeginPlay</span><span class="hljs-params">()</span> </span>{
+        Super::<span class="hljs-built_in">BeginPlay</span>();
+
+
+        <span class="hljs-comment">// Binding</span>
+        DelegateVarD.<span class="hljs-built_in">BindDynamic</span>(<span class="hljs-keyword">this</span>, &amp;AMyActor::MyUFunction);  <span class="hljs-comment">// Make sure binding function is a UFUNCTION()</span>
+
+
+        <span class="hljs-comment">// Checking</span>
+        <span class="hljs-type">bool</span> bIsBound = DelegateVarD.<span class="hljs-built_in">IsBound</span>();
+
+
+        <span class="hljs-comment">// Invoking</span>
+        DelegateVarD.<span class="hljs-built_in">Execute</span>(<span class="hljs-number">23</span>, <span class="hljs-number">8.7</span>);
+        <span class="hljs-type">bool</span> IsBoundA = DelegateVarD.<span class="hljs-built_in">ExecuteIfBound</span>(<span class="hljs-number">23</span>, <span class="hljs-number">8.7</span>);
+
+
+        <span class="hljs-comment">// Unbinding</span>
+        DelegateVarD.<span class="hljs-built_in">Unbind</span>();
+    }
+};
+</code></pre><br><h2 id="dynamic-singlecast-return-delegate">Dynamic Singlecast RetVal Delegate</h2><pre><code class="hljs language-cpp"><span class="hljs-meta">#<span class="hljs-keyword">pragma</span> once</span>
+
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&quot;CoreMinimal.h&quot;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&quot;GameFramework/Actor.h&quot;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&quot;MyActor.generated.h&quot;</span></span>
+
+
+<span class="hljs-comment">// Delegate signature</span>
+<span class="hljs-built_in">UDELEGATE</span>()
+<span class="hljs-built_in">DECLARE_DYNAMIC_DELEGATE_RetVal_TwoParams</span>(int32, FMyDelegateE, int32, FirstVar, <span class="hljs-type">float</span>, SecondVar);
+
+
+<span class="hljs-built_in">UCLASS</span>()
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">TESTING_API</span> AMyActor : <span class="hljs-keyword">public</span> AActor {
+    <span class="hljs-built_in">GENERATED_BODY</span>()
+
+   <span class="hljs-keyword">public</span>:
+    <span class="hljs-built_in">UPROPERTY</span>(BlueprintReadWrite)
+    FMyDelegateE DelegateVarE;  <span class="hljs-comment">// Delegate declaration</span>
+
+    <span class="hljs-built_in">UFUNCTION</span>()
+    <span class="hljs-function">int32 <span class="hljs-title">MyUFunction</span><span class="hljs-params">(int32 Var1, <span class="hljs-type">float</span> Var2)</span> </span>{ <span class="hljs-keyword">return</span> <span class="hljs-number">1</span>; }
+
+    <span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">BeginPlay</span><span class="hljs-params">()</span> </span>{
+        Super::<span class="hljs-built_in">BeginPlay</span>();
+
+
+        <span class="hljs-comment">// Binding</span>
+        DelegateVarE.<span class="hljs-built_in">BindDynamic</span>(<span class="hljs-keyword">this</span>, &amp;AMyActor::MyUFunction);  <span class="hljs-comment">// Make sure binding function is a UFUNCTION()</span>
+
+
+        <span class="hljs-comment">// Checking</span>
+        <span class="hljs-type">bool</span> bIsBound = DelegateVarE.<span class="hljs-built_in">IsBound</span>();
+
+
+        <span class="hljs-comment">// Invoking</span>
+        int32 ReturnValue = DelegateVarE.<span class="hljs-built_in">Execute</span>(<span class="hljs-number">23</span>, <span class="hljs-number">8.7</span>);
+
+
+        <span class="hljs-comment">// Unbinding</span>
+        DelegateVarE.<span class="hljs-built_in">Unbind</span>();
+    }
+};
+</code></pre><br><h2 id="dynamic-multicast-delegate">Dynamic Multicast Delegate</h2><pre><code class="hljs language-cpp"><span class="hljs-meta">#<span class="hljs-keyword">pragma</span> once</span>
+
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&quot;CoreMinimal.h&quot;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&quot;GameFramework/Actor.h&quot;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&quot;MyActor.generated.h&quot;</span></span>
+
+
+<span class="hljs-comment">// Delegate signature</span>
+<span class="hljs-built_in">UDELEGATE</span>()
+<span class="hljs-built_in">DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams</span>(FMyDelegateF, int32, FirstVar, <span class="hljs-type">float</span>, SecondVar);
+
+
+<span class="hljs-built_in">UCLASS</span>()
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">TESTING_API</span> AMyActor : <span class="hljs-keyword">public</span> AActor {
+    <span class="hljs-built_in">GENERATED_BODY</span>()
+
+   <span class="hljs-keyword">public</span>:
+    <span class="hljs-built_in">UPROPERTY</span>(BlueprintAssignable, BlueprintCallable)
+    FMyDelegateF DelegateVarF;  <span class="hljs-comment">// Delegate declaration</span>
+
+    <span class="hljs-built_in">UFUNCTION</span>()
+    <span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">MyUFunction</span><span class="hljs-params">(int32 Var1, <span class="hljs-type">float</span> Var2)</span> </span>{}
+
+    <span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">BeginPlay</span><span class="hljs-params">()</span> </span>{
+        Super::<span class="hljs-built_in">BeginPlay</span>();
+
+
+        <span class="hljs-comment">// Binding</span>
+        DelegateVarF.<span class="hljs-built_in">AddDynamic</span>(<span class="hljs-keyword">this</span>, &amp;AMyActor::MyUFunction);  <span class="hljs-comment">// Make sure binding function is a UFUNCTION()</span>
+        DelegateVarF.<span class="hljs-built_in">AddUniqueDynamic</span>(<span class="hljs-keyword">this</span>, &amp;AMyActor::MyUFunction);  <span class="hljs-comment">// Makes sure same function isn&#x27;t added twice</span>
+
+
+        <span class="hljs-comment">// Checking</span>
+        <span class="hljs-type">bool</span> bIsBound = DelegateVarF.<span class="hljs-built_in">IsBound</span>();  <span class="hljs-comment">// Checks if any function is bound</span>
+        <span class="hljs-type">bool</span> bIsAlreadyBound = DelegateVarF.<span class="hljs-built_in">IsAlreadyBound</span>(<span class="hljs-keyword">this</span>, &amp;AMyActor::MyUFunction);  <span class="hljs-comment">// Checks if specific function is bound</span>
+
+
+        <span class="hljs-comment">// Invoking</span>
+        DelegateVarF.<span class="hljs-built_in">Broadcast</span>(<span class="hljs-number">23</span>, <span class="hljs-number">8.7</span>);
+
+
+        <span class="hljs-comment">// Unbinding</span>
+        DelegateVarF.<span class="hljs-built_in">RemoveDynamic</span>(<span class="hljs-keyword">this</span>, &amp;AMyActor::MyUFunction);
+        DelegateVarF.<span class="hljs-built_in">RemoveAll</span>(<span class="hljs-keyword">this</span>); <span class="hljs-comment">// Unbinds all function of given object</span>
+        DelegateVarF.<span class="hljs-built_in">Clear</span>();  <span class="hljs-comment">// Unbinds all</span>
+    }
+};
+</code></pre><p>References:</p><ol>
+<li><a href="https://www.youtube.com/watch?v=FDc2jUiwFoc">Pobato Tutorials - C++ Delegates for Unreal Engine in 5 Minutes!</a></li>
+<li><a href="https://www.youtube.com/watch?v=PQ7NvNbcHtY">Pobato Tutorials - C++ Delegates for Blueprints in 2 Minutes!</a></li>
+<li><a href="https://www.youtube.com/watch?v=-E6-ERqd_GM">Pobato Tutorials - Delegate Return Values in C++ for Unreal Engine in 2 Minutes!</a></li>
+<li><a href="https://www.youtube.com/watch?v=jD3tWHjIPcw">kirby561 - How to Declare and Use Delegates in Unreal Engine 5</a></li>
+<li><a href="https://unreal-garden.com/tutorials/delegates-intro/">unreal garden - Intro to Delegates in C++</a></li>
+<li><a href="https://unreal-garden.com/tutorials/delegates-advanced/">unreal garden - Advanced Delegates in C++</a></li>
+</ol></body></html>

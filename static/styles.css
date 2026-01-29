@@ -1,0 +1,145 @@
+/* Core */
+:root {
+    --bg: #0f1115;
+    --surface: #151820;
+    --text: #e6e6e6;
+    --muted: #a0a4ab;
+    --border: rgb(68, 71, 81);
+    --accent: #7dd3fc;
+    --body-width: 680px;
+    --project-gaps: 10px;
+    --exp-item-margin: 1rem;
+}
+
+body {
+    font-family: system-ui, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.7;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+a {
+    color: var(--text);
+}
+
+a:hover {
+    color: var(--accent);
+}
+
+section {
+    margin-bottom: 3.5rem;
+}
+
+h2 {
+    font-size: 1.45rem;
+    color: var(--accent);
+    font-weight: 500;
+}
+
+input[type=text] {
+    box-sizing: border-box;
+    box-shadow: none;
+    outline: none;
+    border-radius: .3rem;
+    border: 2px solid var(--border);
+    background-color: transparent;
+    color: var(--text);
+    padding: 0 0.5rem;
+    font-size: 1rem;
+}
+
+
+
+/* Header */
+header {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    grid-template-rows: auto auto;
+    column-gap: 16px;
+    margin: 0 auto 1.5rem auto;
+    width: fit-content;
+}
+
+#header-pfp {
+    grid-row: 1 / span 2;
+    width: 3rem;
+}
+
+#header-name {
+    margin: 0;
+    font-size: 1.7rem;
+    color: var(--text);
+    align-self: end;
+}
+
+#header-motto {
+    font-size: 0.9rem;
+    color: var(--accent);
+}
+
+
+
+/* Navigation */
+#search {
+    display: block;
+    margin: 0 auto 1rem auto;
+    height: 2rem;
+    width: 100%;
+    max-width: 480px;
+}
+
+nav {
+    display: flex;
+    justify-content: center;
+    gap: 3rem;
+    margin: 0 auto 2.75rem auto;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid var(--border);
+}
+
+nav a {
+    color: var(--text);
+    text-decoration: none;
+    font-weight: 500;
+}
+
+
+
+/* Footer */
+footer {
+    margin-top: 4.5rem;
+    padding: 1rem 0 1rem 0;
+    border-top: 2px solid var(--border);
+    color: var(--muted);
+    text-align: center;
+}
+
+footer a {
+    color: var(--muted);
+}
+
+#contacts {
+    display: flex;
+    justify-content: center;
+    column-gap: 2rem;
+}
+
+#contacts a {
+    font-size: 2rem;
+}
+
+#invite-msg {
+    font-size: 0.8rem;
+    opacity: 0;
+}
+
+#contacts:hover+#invite-msg {
+    opacity: 1;
+}
+
+#bottom-note {
+    margin-top: 1rem;
+    font-size: 0.8rem;
+}

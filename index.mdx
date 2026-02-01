@@ -1,30 +1,34 @@
-import { SITE_NAME, HTMLSkeleton } from "./global.jsx"
+import { SITE_NAME, HTMLSkeleton, Header, SearchBar, NavBar, SnippetCard, PaginationBar, Footer } from "./global.jsx"
 
 
-{/* Properties */}
-export const DESCRIPTION = "Simple reuseable code snippets for your convenience";
-export const MOTTO = "Come. Copy. Go. As simple as that!"
+<HTMLSkeleton title={SITE_NAME} description={"Simple reuseable code snippets for your convenience"} extendHead={<link rel="stylesheet" href="static/styles.css" />}>
 
+    <Header />
+    <SearchBar />
+    <NavBar />
+    <hr style={"margin-bottom: 2rem"}/>
 
-<HTMLSkeleton title={SITE_NAME} description={DESCRIPTION} ExtendHead={<link rel="stylesheet" href="static/styles.css" />}>
+    <section className="snippets-wrapper">
+        <SnippetCard imgSrc="https://picsum.photos/seed/1/236/188" text="Fixing Error mounting /dev/sdb1 at /media/username/device-name: wrong fs type, bad option, bad superblock on /dev/sdb1, missing codepage or helper program, or other error" tags={["tag 1","tag 2", "tag 3", "tag 4"]}/>
+        <SnippetCard imgSrc="https://picsum.photos/seed/2/236/188" text='"Hello World" in every programming language' tags={["tag 1", "tag 2", "tag 3", "tag 4", "tag 5", "tag 5", "tag 5", "tag 5"]}/>
+        <SnippetCard imgSrc="https://picsum.photos/seed/3/236/188" text="Lorem Ipsum" tags={["godot", "shader", "godot-shader-language"]} />
+        <SnippetCard imgSrc="https://picsum.photos/seed/4/236/188" text="Lorem Ipsum" tags={["godot"]} />
+        <SnippetCard imgSrc="https://picsum.photos/seed/5/236/188" text="Lorem Ipsum" tags={["godot"]} />
+        <SnippetCard imgSrc="https://picsum.photos/seed/6/236/188" text="Lorem Ipsum" tags={["godot"]} />
+        <SnippetCard imgSrc="https://picsum.photos/seed/7/236/188" text="Lorem Ipsum" tags={["godot"]} />
+        <SnippetCard imgSrc="https://picsum.photos/seed/8/236/188" text="Lorem Ipsum"/>
+        <SnippetCard imgSrc="https://picsum.photos/seed/9/236/188" text="Lorem Ipsum"/>
+        <SnippetCard imgSrc="https://picsum.photos/seed/10/236/188" text="Lorem Ipsum"/>
+        <SnippetCard imgSrc="https://picsum.photos/seed/11/236/188" text="Lorem Ipsum"/>
+        <SnippetCard imgSrc="https://picsum.photos/seed/12/236/188" text="Lorem Ipsum"/>
+        <SnippetCard imgSrc="https://picsum.photos/seed/10/236/188" text="Lorem Ipsum"/>
+        <SnippetCard imgSrc="https://picsum.photos/seed/11/236/188" text="Lorem Ipsum"/>
+        <SnippetCard imgSrc="https://picsum.photos/seed/12/236/188" text="Lorem Ipsum"/>
+        <SnippetCard imgSrc="https://picsum.photos/seed/12/236/188" text="Lorem Ipsum"/>
+    </section>
 
-{/* Header */}
-<header>
-<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" />
-<img id="header-pfp" src="static/Logo.png" />
-<h1 id="header-name">{SITE_NAME}</h1>
-<div id="header-motto">{MOTTO}</div>
-</header>
-
-
-{/* Navigation */}
-<input id="search" type="text" placeholder="Search..."/>
-<nav>
-<a href="/">Snippets</a>
-<a href="#projects">Blogs</a>
-<a href="#experience">Submit</a>
-<a href="#contacts">About</a>
-</nav>
-
+    <PaginationBar />
+    <hr />
+    <Footer />
 
 </HTMLSkeleton>

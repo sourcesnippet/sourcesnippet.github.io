@@ -1,12 +1,13 @@
 /* Core */
 :root {
     --bg: #0f1115;
-    --surface: #151820;
+    --surface: #2b2f3b;
     --text: #e6e6e6;
-    --muted: #a0a4ab;
-    --border: rgb(68, 71, 81);
+    --muted: rgb(122, 124, 129);
+    --border: rgb(85, 88, 100);
     --accent: #7dd3fc;
-    --body-width: 680px;
+    --accent-muted: #60a4c4;
+    --body-width: 1400px;
     --project-gaps: 10px;
     --exp-item-margin: 1rem;
 }
@@ -15,9 +16,10 @@ body {
     font-family: system-ui, sans-serif;
     background: var(--bg);
     color: var(--text);
-    line-height: 1.7;
     margin: 0 auto;
-    padding: 2rem;
+    /* line-height: 1.7; */
+    padding: 1.5rem 2rem;
+    max-width: var(--body-width);
 }
 
 a {
@@ -28,26 +30,21 @@ a:hover {
     color: var(--accent);
 }
 
-section {
-    margin-bottom: 3.5rem;
-}
-
-h2 {
-    font-size: 1.45rem;
-    color: var(--accent);
-    font-weight: 500;
-}
-
 input[type=text] {
     box-sizing: border-box;
     box-shadow: none;
     outline: none;
-    border-radius: .3rem;
     border: 2px solid var(--border);
     background-color: transparent;
     color: var(--text);
     padding: 0 0.5rem;
     font-size: 1rem;
+}
+
+hr {
+    border: 0;
+    border-top: 1px solid var(--border);
+    margin: 0;
 }
 
 
@@ -62,19 +59,22 @@ header {
     width: fit-content;
 }
 
-#header-pfp {
+#site-logo {
     grid-row: 1 / span 2;
-    width: 3rem;
+    width: 2.75rem;
 }
 
-#header-name {
+#site-title {
     margin: 0;
-    font-size: 1.7rem;
+    margin-bottom: 0.5rem;
+    font-size: 1.75rem;
     color: var(--text);
     align-self: end;
+    text-decoration: none;
+    font-weight: bold;
 }
 
-#header-motto {
+#site-motto {
     font-size: 0.9rem;
     color: var(--accent);
 }
@@ -82,64 +82,304 @@ header {
 
 
 /* Navigation */
-#search {
-    display: block;
-    margin: 0 auto 1rem auto;
-    height: 2rem;
-    width: 100%;
-    max-width: 480px;
-}
-
-nav {
+#navbar {
     display: flex;
     justify-content: center;
-    gap: 3rem;
-    margin: 0 auto 2.75rem auto;
+    gap: 2.3rem;
+    /* margin: 0 auto 2rem auto; */
     padding-bottom: 1rem;
-    border-bottom: 2px solid var(--border);
 }
 
-nav a {
-    color: var(--text);
+#navbar a {
     text-decoration: none;
     font-weight: 500;
 }
 
 
 
+/* Search bar */
+.search-wrapper {
+    display: flex;
+    align-items: center;
+    margin: 0 auto 1rem auto;
+    width: 100%;
+    max-width: 425px;
+    height: 2rem;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+#search {
+    flex: 1;
+    height: 100%;
+    border: none;
+    padding: 0 0.5rem;
+    outline: none;
+}
+
+.search-btn {
+    height: 100%;
+    border: none;
+    border-left: 1px solid var(--border);
+    background-color: transparent;
+    padding: 0 0.75rem;
+    cursor: pointer;
+}
+
+.search-btn:active {
+    background: var(--accent)
+}
+
+
+
+/* Snippets */
+.snippets-wrapper {
+    --row-count: 4;
+    --item-width: calc(var(--body-width) / var(--row-count) - var(--gap));
+    --gap: 1.5rem;
+
+    display: grid;
+    gap: var(--gap);
+    margin: 0 auto;
+    margin-bottom: 4rem;
+    grid-template-columns: repeat(auto-fit, minmax(var(--item-width), 1fr));
+    max-width: calc((var(--item-width) * var(--row-count)) + (var(--gap) * (var(--row-count) - 1)));
+    justify-items: center;
+    width: 100%;
+}
+
+.snippet-card {
+    display: block;
+    width: 100%;
+    height: 100%;
+    /* max-width: 350px; If used gap will be inconsistent */
+    /* aspect-ratio: 1 / 1; */
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    overflow: hidden;
+    /* background-color: var(--border); */
+}
+
+.snippet-img-wrapper {
+    display: block;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    background-color: var(--surface);
+}
+
+.snippet-img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    margin: 0 auto;
+}
+
+.snippet-title {
+    --margin: 0.75rem;
+    display: flex;
+    height: 5rem;
+    width: calc(100% - var(--margin) * 2);
+    margin: 0.2rem var(--margin) 0.75rem var(--margin);
+    margin-bottom: 0.5rem;
+    text-decoration: none;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    cursor: pointer;
+    line-height: 1.4;
+}
+
+.snippet-title div {
+    height: fit-content;
+    width: 100%;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+
+
+/* Tags */
+.tag-container {
+    display: flex;
+    margin: 0 0.75rem;
+    height: 2rem;
+    gap: 0.5rem;
+    white-space: nowrap;
+    -webkit-text-fill-color: black;
+    overflow-x: scroll;
+    color: transparent;
+}
+
+.tag-container::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+.tag-container::-webkit-scrollbar-thumb {
+    border: 8px solid;
+    border-radius: 1rem;
+}
+
+.tag-container::-webkit-scrollbar-thumb:hover {
+    color: darkgray;
+}
+
+.tag-container:active,
+.tag-container:hover,
+.tag-container:focus {
+    color: lightgray;
+}
+
+.tag {
+    display: inline-block;
+    background-color: var(--muted);
+    box-sizing: border-box;
+    border-radius: 3px;
+    padding: 3px 5px;
+    text-decoration: none;
+    height: fit-content;
+    margin-bottom: 3px;
+    font-size: 0.75rem;
+    width: fit-content;
+    font-weight: 500;
+}
+
+.tag:hover {
+    background-color: var(--accent);
+    cursor: pointer;
+}
+
+
+
+/* Pagination */
+#pagination {
+    display: flex;
+    width: fit-content;
+    flex-wrap: wrap;
+    gap: 4px;
+    margin: 0 auto;
+    margin-bottom: 5rem;
+}
+
+.pagination-item,
+.pagination-dots,
+.pagination-prev,
+.pagination-next {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 2rem;
+    height: 2rem;
+    padding: 0.25rem;
+    font-size: 0.9rem;
+    font-weight: 500;
+    text-decoration: none;
+    color: var(--text);
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    box-sizing: border-box;
+    position: relative;
+}
+
+.pagination-next:hover,
+.pagination-prev:hover,
+.pagination-item:hover {
+    background-color: var(--border);
+    color: var(--text);
+}
+
+.pagination-active {
+    background-color: var(--accent);
+    border-color: var(--accent);
+    color: var(--bg);
+    cursor: default;
+    pointer-events: none;
+}
+
+.pagination-dots {
+    border: none;
+}
+
+.pagination-prev::before,
+.pagination-next::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 8px;
+    height: 8px;
+    border-style: solid;
+    border-color: var(--text);
+}
+
+.pagination-prev::before {
+    border-width: 2px 0 0 2px;
+    transform: translate(-30%, -50%) rotate(-45deg);
+}
+
+.pagination-next::before {
+    border-width: 2px 2px 0 0;
+    transform: translate(-70%, -50%) rotate(45deg);
+}
+
+
+
 /* Footer */
 footer {
-    margin-top: 4.5rem;
-    padding: 1rem 0 1rem 0;
-    border-top: 2px solid var(--border);
+    padding-top: 2rem;
+}
+
+#footer-logo {
+    display: block;
+    width: 2rem;
+    margin: 0 auto 2rem auto;
+    opacity: 0.5;
+}
+
+#footer-links {
+    display: flex;
+    gap: 0.5rem;
+    margin: 0 auto;
+    margin-bottom: 3rem;
+    width: fit-content;
+}
+
+#footer-links a {
+    text-decoration: none;
     color: var(--muted);
+    font-weight: 500;
+}
+
+#footer-links a:hover {
+    color: var(--accent-muted);
+}
+
+#footer-links hr {
+    display: block;
+    margin: 0 1rem;
+    opacity: 0.75;
+    border: 1px solid var(--muted);
+}
+
+#footer-warning {
+    width: fit-content;
+    color: var(--muted);
+    font-size: 0.85rem;
+    margin: 0 auto;
     text-align: center;
 }
 
-footer a {
+#footer-warning a {
     color: var(--muted);
+    font-weight: 500;
 }
 
-#contacts {
-    display: flex;
-    justify-content: center;
-    column-gap: 2rem;
-}
-
-#contacts a {
-    font-size: 2rem;
-}
-
-#invite-msg {
-    font-size: 0.8rem;
-    opacity: 0;
-}
-
-#contacts:hover+#invite-msg {
-    opacity: 1;
-}
-
-#bottom-note {
-    margin-top: 1rem;
-    font-size: 0.8rem;
+#footer-warning a:hover {
+    color: var(--accent-muted);
 }

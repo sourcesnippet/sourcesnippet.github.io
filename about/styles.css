@@ -1,0 +1,22 @@
+body {
+    max-width: 550px;
+}
+
+#navbar {
+    margin-top: 1rem !important;
+}
+
+#tag-list {
+    margin: 1.5rem 0;
+}
+
+#tag-list ol {
+    padding-left: 2rem;
+}
+
+#tag-list .tag {
+    color: var(--bg) !important;
+    font-size: 1rem !important;
+    font-weight: normal;
+    margin-bottom: 0.5rem;
+}

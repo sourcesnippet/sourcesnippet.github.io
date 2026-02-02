@@ -1,1 +1,37 @@
-# Hello World
+import { SITE_NAME, HTMLSkeleton, Header, Footer } from "@/global.jsx"
+
+export const STYLES = (<>
+    <link rel="stylesheet" href="static/styles.css" />
+    <link rel="stylesheet" href="about/styles.css" />
+</>)
+
+<HTMLSkeleton title={SITE_NAME} description={"Simple reuseable code snippets for your convenience"} extendHead={STYLES}>
+
+<Header />
+
+<hr/>
+
+# About
+
+We've all found ourselves scouring decades old forums to salvage code or having our **[Stack Overflow](https://stackoverflow.com/)** question [closed] or finding what we were looking for only to see it ended up being deleted.
+This site was made to solve all those problems & save your valuable time by giving you reuseable bite size snippets of code, Along with the following promises:  
+
+<br/>
+
+1. No Ads or Selling you courses
+1. No Subscriptions or Paywall
+1. No Cookies or Data tracking
+1. No forced AI
+1. No Feature Bloat or UI Clutter
+
+<br/>
+<br/>
+
+Just because you're programming doesn't mean everything needs to be complicated.  
+So simply copy the damn code & leave.
+
+<hr id="footer-seperator"/>
+
+<Footer />
+
+</HTMLSkeleton>

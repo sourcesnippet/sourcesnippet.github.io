@@ -1,22 +1,40 @@
 body {
-    max-width: 550px;
+    padding: 1.5rem 1rem !important;
 }
 
-#navbar {
-    margin-top: 1rem !important;
+h1 {
+    margin: 3rem 0 2rem 0;
+    text-align: center;
 }
 
-#tag-list {
-    margin: 1.5rem 0;
+p {
+    margin: auto;
+    text-align: center;
+    max-width: 900px;
+    color: var(--muted);
+    line-height: 1.5;
 }
 
-#tag-list ol {
-    padding-left: 2rem;
+ol {
+    margin: auto;
+    width: fit-content;
+    color: var(--muted);
+    line-height: 1.4;
 }
 
-#tag-list .tag {
-    color: var(--bg) !important;
-    font-size: 1rem !important;
-    font-weight: normal;
-    margin-bottom: 0.5rem;
+a {
+    color: var(--muted);
+    text-decoration: none;
+}
+
+#footer-seperator {
+    margin-top: 5rem;
+}
+
+#footer-links {
+    margin-bottom: 0 !important;
+}
+
+#footer-warning {
+    display: none;
 }

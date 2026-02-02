@@ -86,7 +86,7 @@ export function Footer() {
             <hr />
             <a href={`${REPO_LINK}/issues`} target="_blank">Report Bug</a>
             <hr />
-            <a href="#">Contact</a>
+            <a href="/contact">Contact</a>
         </div>
         <div id="footer-warning">Scraping data for AI training or any other purpose is strictly prohibited. <a href="#">Learn More</a></div>
     </footer>)

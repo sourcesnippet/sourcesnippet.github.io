@@ -86,8 +86,7 @@ header {
     display: flex;
     justify-content: center;
     gap: 2.3rem;
-    /* margin: 0 auto 2rem auto; */
-    padding-bottom: 1rem;
+    padding: 1rem 0;
 }
 
 #navbar a {

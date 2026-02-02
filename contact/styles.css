@@ -1,0 +1,28 @@
+body {
+    padding: 1.5rem 1rem !important;
+}
+
+h1 {
+    margin: 3rem 0 3rem 0;
+    text-align: center;
+}
+
+a {
+    color: var(--muted);
+    text-decoration: none;
+}
+
+#contacts {
+    margin-bottom: 2rem;
+    display: flex;
+    justify-content: center;
+    font-size: 2.25rem;
+    gap: 2.25rem;
+    font-weight: normal !important;
+}
+
+#author {
+    font-size: 0.9rem;
+    text-align: center;
+    color: var(--muted);
+}

@@ -1,5 +1,6 @@
 body {
     padding: 1.5rem 1rem !important;
+    max-width: 1000px;
 }
 
 h1 {
@@ -28,13 +29,26 @@ a {
 }
 
 #footer-seperator {
-    margin-top: 5rem;
+    margin-top: 2.5rem;
 }
 
 #footer-links {
     margin-bottom: 0 !important;
 }
 
-#footer-warning {
-    display: none;
+
+#built-with {
+    color: var(--muted);
+    text-align: center;
+    font-size: 0.85rem;
+    margin-top: 3rem;
+}
+
+#built-with a {
+    text-decoration: underline;
+    font-weight: bold;
+}
+
+#built-with a:hover {
+    color: var(--accent-muted);
 }

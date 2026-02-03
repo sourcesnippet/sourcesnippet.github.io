@@ -5,30 +5,32 @@ import { SITE_NAME, HTMLSkeleton, Header, SearchBar, NavBar, SnippetCard, Pagina
 
     <Header />
     <SearchBar />
+    
+    <hr style={"margin-top: 2rem"}/>
     <NavBar />
     <hr style={"margin-bottom: 2rem"}/>
 
     <section className="snippets-wrapper">
-        <SnippetCard imgSrc="https://picsum.photos/seed/1/236/188" text="Fixing Error mounting /dev/sdb1 at /media/username/device-name: wrong fs type, bad option, bad superblock on /dev/sdb1, missing codepage or helper program, or other error" tags={["tag 1","tag 2", "tag 3", "tag 4"]}/>
-        <SnippetCard imgSrc="https://picsum.photos/seed/2/236/188" text='"Hello World" in every programming language' tags={["tag 1", "tag 2", "tag 3", "tag 4", "tag 5", "tag 5", "tag 5", "tag 5"]}/>
-        <SnippetCard imgSrc="https://picsum.photos/seed/3/236/188" text="Lorem Ipsum" tags={["godot", "shader", "godot-shader-language"]} />
-        <SnippetCard imgSrc="https://picsum.photos/seed/4/236/188" text="Lorem Ipsum" tags={["godot"]} />
-        <SnippetCard imgSrc="https://picsum.photos/seed/5/236/188" text="Lorem Ipsum" tags={["godot"]} />
-        <SnippetCard imgSrc="https://picsum.photos/seed/6/236/188" text="Lorem Ipsum" tags={["godot"]} />
-        <SnippetCard imgSrc="https://picsum.photos/seed/7/236/188" text="Lorem Ipsum" tags={["godot"]} />
-        <SnippetCard imgSrc="https://picsum.photos/seed/8/236/188" text="Lorem Ipsum"/>
-        <SnippetCard imgSrc="https://picsum.photos/seed/9/236/188" text="Lorem Ipsum"/>
-        <SnippetCard imgSrc="https://picsum.photos/seed/10/236/188" text="Lorem Ipsum"/>
-        <SnippetCard imgSrc="https://picsum.photos/seed/11/236/188" text="Lorem Ipsum"/>
-        <SnippetCard imgSrc="https://picsum.photos/seed/12/236/188" text="Lorem Ipsum"/>
-        <SnippetCard imgSrc="https://picsum.photos/seed/10/236/188" text="Lorem Ipsum"/>
-        <SnippetCard imgSrc="https://picsum.photos/seed/11/236/188" text="Lorem Ipsum"/>
-        <SnippetCard imgSrc="https://picsum.photos/seed/12/236/188" text="Lorem Ipsum"/>
-        <SnippetCard imgSrc="https://picsum.photos/seed/12/236/188" text="Lorem Ipsum"/>
+        <SnippetCard imgSrc="https://picsum.photos/seed/1/236/188" text="Fixing Error mounting /dev/sdb1 at /media/username/device-name: wrong fs type, bad option, bad superblock on /dev/sdb1, missing codepage or helper program, or other error" tags={["tag 1","tag 2", "tag 3", "tag 4"]} link="#"/>
+        <SnippetCard imgSrc="https://picsum.photos/seed/2/236/188" text='"Hello World" in every programming language' tags={["tag 1", "tag 2", "tag 3", "tag 4", "tag 5", "tag 5", "tag 5", "tag 5"]} link="#"/>
+        <SnippetCard imgSrc="https://picsum.photos/seed/3/236/188" text="Lorem Ipsum" tags={["godot", "shader", "godot-shader-language"]} link="#"/>
+        <SnippetCard imgSrc="https://picsum.photos/seed/4/236/188" text="Lorem Ipsum" tags={["godot"]} link="#"/>
+        <SnippetCard imgSrc="https://picsum.photos/seed/5/236/188" text="Lorem Ipsum" tags={["godot"]} link="#"/>
+        <SnippetCard imgSrc="https://picsum.photos/seed/6/236/188" text="Lorem Ipsum" tags={["godot"]} link="#"/>
+        <SnippetCard imgSrc="https://picsum.photos/seed/7/236/188" text="Lorem Ipsum" tags={["godot"]} link="#"/>
+        <SnippetCard imgSrc="https://picsum.photos/seed/8/236/188" text="Lorem Ipsum" link="#"/>
+        <SnippetCard imgSrc="https://picsum.photos/seed/9/236/188" text="Lorem Ipsum" link="#"/>
+        <SnippetCard imgSrc="https://picsum.photos/seed/10/236/188" text="Lorem Ipsum" link="#"/>
+        <SnippetCard imgSrc="https://picsum.photos/seed/11/236/188" text="Lorem Ipsum" link="#"/>
+        <SnippetCard imgSrc="https://picsum.photos/seed/12/236/188" text="Lorem Ipsum" link="#"/>
+        <SnippetCard imgSrc="https://picsum.photos/seed/10/236/188" text="Lorem Ipsum" link="#"/>
+        <SnippetCard imgSrc="https://picsum.photos/seed/11/236/188" text="Lorem Ipsum" link="#"/>
+        <SnippetCard imgSrc="https://picsum.photos/seed/12/236/188" text="Lorem Ipsum" link="#"/>
+        <SnippetCard imgSrc="https://picsum.photos/seed/12/236/188" text="Lorem Ipsum" link="#"/>
     </section>
 
     <PaginationBar />
     <hr />
-    <Footer />
+    <Footer showWarning={true} />
 
 </HTMLSkeleton>

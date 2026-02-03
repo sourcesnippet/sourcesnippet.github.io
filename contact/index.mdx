@@ -6,22 +6,28 @@ export const STYLES = (<>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
 </>)
 
-<HTMLSkeleton title={SITE_NAME} extendHead={STYLES}>
+<HTMLSkeleton title={`Contact | ${SITE_NAME}`} extendHead={STYLES}>
 
 <Header />
 
 <hr/>
 
-# Contact
+<section id="contacts-wrapper">
+    # Contact
 
-<div id="contacts">
-    <a class="fa-solid fa-earth-americas" target="_blank" href="https://manasmakde.github.io/"></a>
-    <a class="fab fa-linkedin" target="_blank" href="https://www.linkedin.com/in/manas-makde/"></a>
-    <a class="fab fa-instagram" target="_blank" href="https://www.instagram.com/manas_makde/"></a>
-    <a class="fab fa-github" target="_blank" href="https://github.com/ManasMakde"></a>
-    <a class="fa-solid fa-envelope" target="_blank" href="mailto:manasmakde@gmail.com"></a>
-</div>
+    <div id="contacts">
+        <a class="fa-solid fa-earth-americas" target="_blank" href="https://manasmakde.github.io/"></a>
+        <a class="fab fa-linkedin" target="_blank" href="https://www.linkedin.com/in/manas-makde/"></a>
+        <a class="fab fa-instagram" target="_blank" href="https://www.instagram.com/manas_makde/"></a>
+        <a class="fab fa-github" target="_blank" href="https://github.com/ManasMakde"></a>
+        <a class="fa-solid fa-envelope" target="_blank" href="mailto:manasmakde@gmail.com"></a>
+    </div>
 
-<div id="author">This site was created by Manas R. Makde</div>
+    <div id="author">This site was created by Manas R. Makde</div>
+</section>
+
+<hr/>
+
+<Footer/>
 
 </HTMLSkeleton>

@@ -1,15 +1,28 @@
+html {
+    height: 100%;
+}
+
 body {
+    height: 100%;
+    box-sizing: border-box;
     padding: 1.5rem 1rem !important;
+    display: flex;
+    flex-direction: column;
 }
 
 h1 {
-    margin: 3rem 0 3rem 0;
+    margin: 0 0 4rem 0;
     text-align: center;
 }
 
 a {
     color: var(--muted);
     text-decoration: none;
+}
+
+#contacts-wrapper {
+    flex: 1;
+    align-content: center;
 }
 
 #contacts {

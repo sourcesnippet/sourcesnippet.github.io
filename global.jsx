@@ -4,6 +4,7 @@ export const SITE_NAME = "SourceSnippet";
 export const SITE_MOTTO = "Come. Copy. Go. As simple as that!";
 export const REPO_LINK = "https://github.com/sourcesnippet/sourcesnippet.github.io";
 export const SEARCHBAR_TOOLTIP = ""
+export const SITE_CREATION_TOOL = "https://www.npmjs.com/package/host-mdx"
 
 
 /* Methods */
@@ -25,11 +26,11 @@ export function HTMLSkeleton({ title = "", description = "", children, extendHea
 }
 
 export function Header() {
-    return (<header>
+    return (<a id="site-header" href="/">
         <img id="site-logo" src="static/Logo.png" />
-        <a id="site-title" href="/">{SITE_NAME}</a>
+        <div id="site-title">{SITE_NAME}</div>
         <div id="site-motto">{SITE_MOTTO}</div>
-    </header>)
+    </a>)
 }
 
 export function SearchBar() {
@@ -41,7 +42,7 @@ export function SearchBar() {
 
 export function NavBar() {
     return (<nav id="navbar">
-        <a href={`${REPO_LINK}/pulls`} target="_blank">Submit</a>
+        <a href="/all">All</a>
         <a href="/tags">Tags</a>
         <a href="/about">About</a>
         <a href="/terms">Terms</a>
@@ -50,12 +51,12 @@ export function NavBar() {
 
 export function SnippetCard({ imgSrc, text, link, tags = [] }) {
     return (<div className="snippet-card">
-        <a href={link} className="snippet-img-wrapper"><img className="snippet-img" src={imgSrc} /></a>
+        <a href={link} className="snippet-img-wrapper" tabindex="-1"><img className="snippet-img" src={imgSrc} /></a>
         <a href={link} className="snippet-title" target="_blank" title={text}>
             <div>{text}</div>
         </a>
         <div className="tag-container">{
-            tags.map((tag, index) => (<a className="tag" key={index}>
+            tags.map((tag, index) => (<a className="tag" key={index} href="#">
                 {tag}
             </a>))
         }</div>
@@ -78,16 +79,16 @@ export function PaginationBar({ }) {
     </nav>)
 }
 
-export function Footer() {
+export function Footer({ showWarning = false }) {
     return (<footer>
         <img id="footer-logo" src="/static/Logo.png" />
-        <div id="footer-links">
+        <div id="footer-links" style={showWarning ? "margin-bottom: 3rem" : ""}>
             <a href={REPO_LINK} target="_blank">Repository</a>
             <hr />
             <a href={`${REPO_LINK}/issues`} target="_blank">Report Bug</a>
             <hr />
             <a href="/contact">Contact</a>
         </div>
-        <div id="footer-warning">Scraping data for AI training or any other purpose is strictly prohibited. <a href="#">Learn More</a></div>
+        {showWarning && <div id="footer-warning">Scraping data for AI training or any other purpose is strictly prohibited. <a href="#">Learn More</a></div>}
     </footer>)
 }

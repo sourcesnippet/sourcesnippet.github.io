@@ -1,11 +1,11 @@
-import { SITE_NAME, HTMLSkeleton, Header, Footer } from "@/global.jsx"
+import { SITE_NAME, SITE_CREATION_TOOL, HTMLSkeleton, Header, Footer } from "@/global.jsx"
 
 export const STYLES = (<>
     <link rel="stylesheet" href="static/styles.css" />
     <link rel="stylesheet" href="about/styles.css" />
 </>)
 
-<HTMLSkeleton title={SITE_NAME} description={"Simple reuseable code snippets for your convenience"} extendHead={STYLES}>
+<HTMLSkeleton title={`About | ${SITE_NAME}`} extendHead={STYLES}>
 
 <Header />
 
@@ -33,5 +33,8 @@ So simply copy the damn code & leave.
 <hr id="footer-seperator"/>
 
 <Footer />
+
+
+<div id="built-with">This site was created using <a href={SITE_CREATION_TOOL}>host-mdx</a></div>
 
 </HTMLSkeleton>

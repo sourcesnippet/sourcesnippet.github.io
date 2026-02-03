@@ -1,0 +1,32 @@
+body {
+    max-width: 1000px;
+    padding: 1.5rem 1rem !important;
+}
+
+h1 {
+    margin: 3rem 0 4rem 0;
+    text-align: center;
+    line-height: 1 !important;
+}
+
+h2 {
+    margin: 3rem 0 1rem 0;
+    line-height: 1 !important;
+}
+
+a {
+    color: var(--muted);
+    text-decoration: none;
+}
+
+#terms-of-service{
+    line-height: 1.7;
+}
+
+li {
+    margin-bottom: 0.5rem;
+}
+
+#tldr {
+    margin-top: 5rem;
+}

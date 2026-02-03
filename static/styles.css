@@ -50,13 +50,14 @@ hr {
 
 
 /* Header */
-header {
+#site-header {
     display: grid;
     grid-template-columns: auto 1fr;
     grid-template-rows: auto auto;
     column-gap: 16px;
     margin: 0 auto 1.5rem auto;
     width: fit-content;
+    text-decoration: none;
 }
 
 #site-logo {
@@ -85,13 +86,19 @@ header {
 #navbar {
     display: flex;
     justify-content: center;
-    gap: 2.3rem;
-    padding: 1rem 0;
+    gap: 0.5rem;
+    /* padding: 1rem 0; */
 }
 
 #navbar a {
     text-decoration: none;
     font-weight: 500;
+    height: 3rem;
+    display: flex;
+    align-items: center;
+    /* min-width: 3rem; */
+    justify-content: center;
+    padding:  0 1rem;
 }
 
 
@@ -345,7 +352,6 @@ footer {
     display: flex;
     gap: 0.5rem;
     margin: 0 auto;
-    margin-bottom: 3rem;
     width: fit-content;
 }
 

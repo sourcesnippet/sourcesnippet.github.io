@@ -1,119 +1,102 @@
 import { SITE_NAME, HTMLSkeleton, Header, SearchBar, NavBar, SnippetCard, PaginationBar, Footer } from "@/global.jsx"
 
 export const STYLES = (<>
-    <link rel="stylesheet" href="static/styles.css" />
-    <link rel="stylesheet" href="tags/styles.css" />
+    <link rel="stylesheet" href="/static/global-styles.css" />
+    <link rel="stylesheet" href="/tags/styles.css" />
 </>)
 
-<HTMLSkeleton title={`Tags | ${SITE_NAME}`} description={"Simple reuseable code snippets for your convenience"} extendHead={STYLES}>
+<HTMLSkeleton title={`Tags | ${SITE_NAME}`} extendHead={STYLES}>
 
     <Header />
 
     <hr/>
     <NavBar />
-    <hr/>
+    <hr style="margin-bottom: 3rem"/>
 
-    <section id="tag-list">
-    1. <a class="tag" href="/ABAP">ABAP</a>
-    1. <a class="tag" href="/ActionScript">ActionScript</a>
-    1. <a class="tag" href="/Ada">Ada</a>
-    1. <a class="tag" href="/Agda">Agda</a>
-    1. <a class="tag" href="/ALGOL">ALGOL</a>
-    1. <a class="tag" href="/Alice">Alice</a>
-    1. <a class="tag" href="/Apex">Apex</a>
-    1. <a class="tag" href="/APL">APL</a>
-    1. <a class="tag" href="/AppleScript">AppleScript</a>
-    1. <a class="tag" href="/Assembly">Assembly</a>
-    1. <a class="tag" href="/AutoHotkey">AutoHotkey</a>
-    1. <a class="tag" href="/AutoIt">AutoIt</a>
-    1. <a class="tag" href="/Awk">Awk</a>
-    1. <a class="tag" href="/Ballerina">Ballerina</a>
-    1. <a class="tag" href="/Bash">Bash</a>
-    1. <a class="tag" href="/BASIC">BASIC</a>
-    1. <a class="tag" href="/BCPL">BCPL</a>
-    1. <a class="tag" href="/BeanShell">BeanShell</a>
-    1. <a class="tag" href="/Beta">Beta</a>
-    1. <a class="tag" href="/BlitzMax">BlitzMax</a>
-    1. <a class="tag" href="/Boo">Boo</a>
-    1. <a class="tag" href="/Brainfuck">Brainfuck</a>
-    1. <a class="tag" href="/C">C</a>
-    1. <a class="tag" href="/C#">C#</a>
-    1. <a class="tag" href="/C++">C++</a>
-    1. <a class="tag" href="/Ceylon">Ceylon</a>
-    1. <a class="tag" href="/Chapel">Chapel</a>
-    1. <a class="tag" href="/ChucK">ChucK</a>
-    1. <a class="tag" href="/Cilk">Cilk</a>
-    1. <a class="tag" href="/Claire">Claire</a>
-    1. <a class="tag" href="/Clean">Clean</a>
-    1. <a class="tag" href="/Clojure">Clojure</a>
-    1. <a class="tag" href="/COBOL">COBOL</a>
-    1. <a class="tag" href="/CoffeeScript">CoffeeScript</a>
-    1. <a class="tag" href="/ColdFusion">ColdFusion</a>
-    1. <a class="tag" href="/Common Lisp">Common Lisp</a>
-    1. <a class="tag" href="/Crystal">Crystal</a>
-    1. <a class="tag" href="/Csh">Csh</a>
-    1. <a class="tag" href="/Curl">Curl</a>
-    1. <a class="tag" href="/Curry">Curry</a>
-    1. <a class="tag" href="/Cython">Cython</a>
-    1. <a class="tag" href="/D">D</a>
-    1. <a class="tag" href="/Dart">Dart</a>
-    1. <a class="tag" href="/Dylan">Dylan</a>
-    1. <a class="tag" href="/Eiffel">Eiffel</a>
-    1. <a class="tag" href="/Elixir">Elixir</a>
-    1. <a class="tag" href="/Elm">Elm</a>
-    1. <a class="tag" href="/Emacs Lisp">Emacs Lisp</a>
-    1. <a class="tag" href="/Erlang">Erlang</a>
-    1. <a class="tag" href="/F#">F#</a>
-    1. <a class="tag" href="/Factor">Factor</a>
-    1. <a class="tag" href="/Falcon">Falcon</a>
-    1. <a class="tag" href="/Fantom">Fantom</a>
-    1. <a class="tag" href="/Forth">Forth</a>
-    1. <a class="tag" href="/Fortran">Fortran</a>
-    1. <a class="tag" href="/Gambas">Gambas</a>
-    1. <a class="tag" href="/GML">GML</a>
-    1. <a class="tag" href="/Go">Go</a>
-    1. <a class="tag" href="/Gosu">Gosu</a>
-    1. <a class="tag" href="/Groovy">Groovy</a>
-    1. <a class="tag" href="/Hack">Hack</a>
-    1. <a class="tag" href="/Haskell">Haskell</a>
-    1. <a class="tag" href="/Haxe">Haxe</a>
-    1. <a class="tag" href="/Heron">Heron</a>
-    1. <a class="tag" href="/Hy">Hy</a>
-    1. <a class="tag" href="/IDL">IDL</a>
-    1. <a class="tag" href="/Idris">Idris</a>
-    1. <a class="tag" href="/Inform">Inform</a>
-    1. <a class="tag" href="/Io">Io</a>
-    1. <a class="tag" href="/Ioke">Ioke</a>
-    1. <a class="tag" href="/J">J</a>
-    1. <a class="tag" href="/J#">J#</a>
-    1. <a class="tag" href="/Java">Java</a>
-    1. <a class="tag" href="/JavaScript">JavaScript</a>
-    1. <a class="tag" href="/JScript">JScript</a>
-    1. <a class="tag" href="/Julia">Julia</a>
-    1. <a class="tag" href="/Kotlin">Kotlin</a>
-    1. <a class="tag" href="/LabVIEW">LabVIEW</a>
-    1. <a class="tag" href="/Lasso">Lasso</a>
-    1. <a class="tag" href="/Limbo">Limbo</a>
-    1. <a class="tag" href="/Lisp">Lisp</a>
-    1. <a class="tag" href="/LiveScript">LiveScript</a>
-    1. <a class="tag" href="/Logo">Logo</a>
-    1. <a class="tag" href="/Lua">Lua</a>
-    1. <a class="tag" href="/M">M</a>
-    1. <a class="tag" href="/Maple">Maple</a>
-    1. <a class="tag" href="/MATLAB">MATLAB</a>
-    1. <a class="tag" href="/Max">Max</a>
-    1. <a class="tag" href="/Mercury">Mercury</a>
-    1. <a class="tag" href="/ML">ML</a>
-    1. <a class="tag" href="/Modula-3">Modula-3</a>
-    1. <a class="tag" href="/Monkey">Monkey</a>
-    1. <a class="tag" href="/MoonScript">MoonScript</a>
-    1. <a class="tag" href="/Nemerle">Nemerle</a>
-    1. <a class="tag" href="/Nim">Nim</a>
-    1. <a class="tag" href="/Nix">Nix</a>
-    1. <a class="tag" href="/Oberon">Oberon</a>
-    1. <a class="tag" href="/Objective-C">Objective-C</a>
-    1. <a class="tag" href="/OCaml">OCaml</a>
-    1. <a class="tag" href="/Occam">Occam</a>
+    <section className="tag-list">
+        <a className="tag" href="/ABAP">ABAP</a>
+        <a className="tag" href="/ActionScript">ActionScript</a>
+        <a className="tag" href="/Ada">Ada</a>
+        <a className="tag" href="/Agda">Agda</a>
+        <a className="tag" href="/ALGOL">ALGOL</a>
+        <a className="tag" href="/Alice">Alice</a>
+        <a className="tag" href="/Apex">Apex</a>
+        <a className="tag" href="/APL">APL</a>
+        <a className="tag" href="/AppleScript">AppleScript</a>
+        <a className="tag" href="/Assembly">Assembly</a>
+        <a className="tag" href="/AutoHotkey">AutoHotkey</a>
+        <a className="tag" href="/AutoIt">AutoIt</a>
+        <a className="tag" href="/Awk">Awk</a>
+    </section>
+
+
+    <section className="tag-list">
+        <a className="tag" href="/Ballerina">Ballerina</a>
+        <a className="tag" href="/Bash">Bash</a>
+        <a className="tag" href="/BASIC">BASIC</a>
+        <a className="tag" href="/BCPL">BCPL</a>
+        <a className="tag" href="/BeanShell">BeanShell</a>
+        <a className="tag" href="/Beta">Beta</a>
+        <a className="tag" href="/BlitzMax">BlitzMax</a>
+        <a className="tag" href="/Boo">Boo</a>
+        <a className="tag" href="/Brainfuck">Brainfuck</a>
+    </section>
+
+
+    <section className="tag-list">
+        <a className="tag" href="/C">C</a>
+        <a className="tag" href="/C#">C#</a>
+        <a className="tag" href="/C++">C++</a>
+        <a className="tag" href="/Ceylon">Ceylon</a>
+        <a className="tag" href="/Chapel">Chapel</a>
+        <a className="tag" href="/ChucK">ChucK</a>
+        <a className="tag" href="/Cilk">Cilk</a>
+        <a className="tag" href="/Claire">Claire</a>
+        <a className="tag" href="/Clean">Clean</a>
+        <a className="tag" href="/Clojure">Clojure</a>
+        <a className="tag" href="/COBOL">COBOL</a>
+        <a className="tag" href="/CoffeeScript">CoffeeScript</a>
+        <a className="tag" href="/ColdFusion">ColdFusion</a>
+        <a className="tag" href="/Common Lisp">Common Lisp</a>
+        <a className="tag" href="/Crystal">Crystal</a>
+        <a className="tag" href="/Csh">Csh</a>
+        <a className="tag" href="/Curl">Curl</a>
+        <a className="tag" href="/Curry">Curry</a>
+        <a className="tag" href="/Cython">Cython</a>
+    </section>
+
+
+    <section className="tag-list">
+        <a className="tag" href="/D">D</a>
+        <a className="tag" href="/Dart">Dart</a>
+        <a className="tag" href="/Dylan">Dylan</a>
+    </section>
+
+
+    <section className="tag-list">
+        <a className="tag" href="/Eiffel">Eiffel</a>
+        <a className="tag" href="/Elixir">Elixir</a>
+        <a className="tag" href="/Elm">Elm</a>
+        <a className="tag" href="/Emacs Lisp">Emacs Lisp</a>
+        <a className="tag" href="/Erlang">Erlang</a>
+    </section>
+
+
+    <section className="tag-list">
+        <a className="tag" href="/F#">F#</a>
+        <a className="tag" href="/Factor">Factor</a>
+        <a className="tag" href="/Falcon">Falcon</a>
+        <a className="tag" href="/Fantom">Fantom</a>
+        <a className="tag" href="/Forth">Forth</a>
+        <a className="tag" href="/Fortran">Fortran</a>
+    </section>
+
+    <section className="tag-list">
+        <a className="tag" href="/Gambas">Gambas</a>
+        <a className="tag" href="/GML">GML</a>
+        <a className="tag" href="/Go">Go</a>
+        <a className="tag" href="/Gosu">Gosu</a>
+        <a className="tag" href="/Groovy">Groovy</a>
     </section>
 
     <hr />

@@ -1,13 +1,16 @@
-import { SITE_NAME, HTMLSkeleton, Header, NavBar, PaginationBar, Footer } from "@/global.jsx"
+import path from "path";
+import { SITE_NAME, HTMLSkeleton, Header, NavBar, PaginationBar, SearchBar, Footer } from "@/global.jsx";
 
 export const STYLES = (<>
-    <link rel="stylesheet" href="static/styles.css" />
-    <link rel="stylesheet" href="all/styles.css" />
+    <link rel="stylesheet" href="/static/global-styles.css" />
+    <link rel="stylesheet" href={`${path.relative(process.cwd(), cwd)}/styles.css`} />
 </>)
 
-<HTMLSkeleton title={`All | ${SITE_NAME}`} extendHead={STYLES}>
+<HTMLSkeleton title={`All Snippets | ${SITE_NAME}`} extendHead={STYLES}>
 
     <Header />
+    <SearchBar />
+
 
     <hr/>
     <NavBar />

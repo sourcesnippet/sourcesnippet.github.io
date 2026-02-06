@@ -3,17 +3,23 @@ body {
 }
 
 
-#tag-list {
-    margin: 1.5rem 0;
+.tag-list {
+    margin-bottom: 2.5rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.3rem;
+    row-gap: 0.2rem;
+    align-items: end;
 }
 
-#tag-list ol {
-    padding-left: 2rem;
+
+.tag-list .tag:first-of-type::first-letter {
+    font-size: 1.5rem;
+    font-weight: bold;
 }
 
-#tag-list .tag {
-    color: var(--bg) !important;
-    font-size: 1rem !important;
+
+.tag-list .tag {
+    font-size: 1rem;
     font-weight: normal;
-    margin-bottom: 0.5rem;
 }

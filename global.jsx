@@ -11,6 +11,11 @@ export const SITE_CREATION_TOOL = "https://www.npmjs.com/package/host-mdx"
 export const SITE_LOGO_PATH = "/static/Logo.png"
 
 
+/* Internal Properties */
+const languageClassPrefix = "hljs language-"
+const displayNameProp = "display-name"
+
+
 /* Components */
 export function HTMLSkeleton({ title = "", description = "", children, extendHead = <></> }) {    // The "Boilerplate" html, Useful for cross device compatibility
     return (<>
@@ -72,11 +77,12 @@ export function SnippetCard({ imgSrc, text, link, tags = [] }) {
 export function Snippet({ metaData = {}, children }) {
 
     // Default styles Component
-    const stylePath = `/${path.relative(process.cwd(), cwd)}/styles.css`;
-    const absStylePath = path.join(process.cwd(), stylePath);
+    const stylePath = "styles.css";
+    const absStylePath = path.join(hostmdxCwd, stylePath);
     const stylePathExists = fs.existsSync(absStylePath);
     const defaultStyles = (<>
         <link rel="stylesheet" href="/static/global-styles.css" />
+        <link rel="stylesheet" href="/static/code-styles.css" />
         {stylePathExists && <link rel="stylesheet" href={stylePath} />}
     </>);
 
@@ -87,7 +93,7 @@ export function Snippet({ metaData = {}, children }) {
     });
 
 
-    return (<HTMLSkeleton title={`${metaData?.title} | ${SITE_NAME}`} extendHead={[metaData?.extendHead, defaultStyles]}>
+    return (<HTMLSkeleton title={`${metaData?.title} | ${SITE_NAME}`} extendHead={[metaData?.extendHead, defaultStyles, <script src="/static/global-script.js"></script>]}>
 
         <Header />
         <SearchBar />
@@ -96,12 +102,12 @@ export function Snippet({ metaData = {}, children }) {
         <hr style="margin-bottom: 2rem" />
 
         <div id="snippet-header">
-            {metaData?.thumbnail && metaData?.thumbnail !== "" && <img id="snippet-thumbnail" src={metaData?.thumbnail} onerror="this.src='/static/Placeholder.png'" alt="thumbnail" />}
+            {metaData?.thumbnail && metaData?.thumbnail !== "" && <img id="snippet-thumbnail" src={metaData?.thumbnail} /* onerror="this.src='/static/Placeholder.png'" */ alt="thumbnail" />}
             <div id="snippet-card-title-wrapper">
                 <h1 id="snippet-card-title">{metaData?.title ?? "Untitled"}</h1>
-                <a id="snippet-author" className={metaData?.authorWebsite && "snippet-no-author"} href={metaData?.authorWebsite}>By {metaData?.author ?? "Unkown"}</a>
-                {metaData?.createdOnDate !== null && <div id="snippet-creation-date">Posted On: {formatDate(metaData?.createdOnDate)}</div>}
-                {metaData?.editedOnDate !== null && <div id="snippet-update-date">Updated On: {formatDate(metaData?.editedOnDate)}</div>}
+                {metaData?.author && <a id="snippet-author" className={!metaData?.authorWebsite && "snippet-no-author"} href={metaData?.authorWebsite ? metaData?.authorWebsite : undefined}>By {metaData.author}</a>}
+                {metaData?.createdOnDate && <div id="snippet-creation-date">Posted On: {formatDate(metaData?.createdOnDate)}</div>}
+                {metaData?.editedOnDate && <div id="snippet-update-date">Updated On: {formatDate(metaData?.editedOnDate)}</div>}
             </div>
         </div>
 
@@ -115,6 +121,109 @@ export function Snippet({ metaData = {}, children }) {
         <Footer showWarning={true} />
 
     </HTMLSkeleton>)
+}
+
+export function CodeTabs({ activeIndex = 0, dropdown = false, children }) {
+
+    // Make sure children are in array format
+    if (!Array.isArray(children)) {
+        children = [children]
+    }
+
+
+    // Reset active index if it exceeds language count
+    if (children.length <= activeIndex) {
+        activeIndex = 0;
+    }
+
+
+    // Get Languages & set default active code block
+    let languages = []
+    for (let i = 0; i < children.length; i++) {
+        // Skip if not <pre>
+        let child = children[i];
+        if (child?.type !== "pre") {
+            continue;
+        }
+
+
+        // Skip if no subchildren
+        let subchildren = child?.props?.children;
+        if (!subchildren) {
+            return;
+        }
+
+
+        // Make sure subchildren are array
+        if (!Array.isArray(subchildren)) {
+            subchildren = [subchildren]
+        }
+
+
+        // Skip if not <code>
+        let firstSubchild = subchildren?.[0]
+        if (firstSubchild?.type !== "code") {
+            continue;
+        }
+
+
+        // Set as active if it matches index
+        if (i === activeIndex) {
+            children[i] = Preact.cloneElement(child, {
+                className: `${child.props.className || ""} codetabs-active`.trim()
+            });
+        }
+
+
+        // Skip if no className or displayName props
+        if (!(firstSubchild?.props?.className instanceof String) && (firstSubchild?.props?.[displayNameProp] instanceof String)) {
+            continue;
+        }
+
+
+        // Get language from displayName
+        if (firstSubchild?.props?.[displayNameProp]) {
+            languages.push(firstSubchild?.props?.[displayNameProp]);
+            continue;
+        }
+
+
+        // Fallback by getting language from className
+        let language = firstSubchild?.props?.className?.replace(languageClassPrefix, "");
+        if (language) {
+            languages.push(language);
+        }
+    }
+
+
+    // Assign topbar either button or dropdown
+    let topbarContent = (<></>)
+    if (dropdown) {
+        topbarContent = (<select name="codetabs-select" onchange="changeTab(this, this.value)">
+            {languages.map((lang, index) => (
+                <option key={index} value={index} selected={index === activeIndex}>
+                    {lang}
+                </option>
+            ))}
+        </select>)
+    }
+    else {
+        topbarContent = (<>{
+            languages.map((lang, index) => (
+                <button key={lang} className={index === activeIndex ? "codetabs-selected" : undefined} onclick={`changeTabByButton(this, ${index})`}>
+                    {lang}
+                </button>
+            ))
+        }</>)
+    }
+
+
+    return (<div class="codetabs">
+        <div class="codetabs-topbar">{topbarContent}</div>
+        <div class="codetabs-content">
+            {children}
+        </div>
+    </div>)
 }
 
 export function PaginationBar({ }) {
@@ -136,7 +245,7 @@ export function PaginationBar({ }) {
 export function Footer({ showWarning = false }) {
     return (<footer>
         <a id="footer-logo-wrapper" href="/"><img id="footer-logo" src={SITE_LOGO_PATH} /></a>
-        <div id="footer-links" style={showWarning ? "margin-bottom: 3rem" : ""}>
+        <div id="footer-links" style={showWarning ? "margin-bottom: 2rem" : ""}>
             <a href={REPO_LINK} target="_blank">Repository</a>
             <hr />
             <a href={`${REPO_LINK}/issues`} target="_blank">Report Bug</a>

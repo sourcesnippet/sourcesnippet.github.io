@@ -1,14 +1,31 @@
-import { Snippet } from "@/global.jsx";
-
+import { Snippet, CodeTabs } from "@/global.jsx";
 
 export const metaData = {
-    title: '"Hello World" in every programming language',
-    thumbnail: "/snippets/hello-world/HelloWorld.webp",
-    createdOnDate: new Date(2023, 10, 24),
-    editedOnDate: new Date(2023, 11, 30),
-    tags: ["c", "c++", "c#", "javascript"],
+  title: '"Hello World" in every programming language',
+  thumbnail: "HelloWorld.webp",
+  author: "Manas R. Makde",
+  authorWebsite: "https://manasmakde.github.io/",
+  createdOnDate: new Date(2023, 10, 24),
+  editedOnDate: new Date(2023, 11, 30),
+  tags: ["c", "c++", "c#", "javascript"]
 }
 
 
-<Snippet metaData={metaData}>
+<Snippet metaData={metaData} >
+
+
+<CodeTabs activeIndex={1}>
+```c++
+#include <iostream>
+
+using namespace std;
+ 
+int main(){    
+    cout << "Hello, World!";
+    return 0;
+}
+```
+</CodeTabs>
+
+
 </Snippet>

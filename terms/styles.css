@@ -11,12 +11,16 @@ h1 {
 
 h2 {
     margin: 3rem 0 1rem 0;
-    line-height: 1 !important;
+    line-height: 1.2 !important;
 }
 
 a {
     color: var(--muted);
     text-decoration: none;
+}
+
+ul {
+    padding-left: 1.75rem;
 }
 
 #terms-of-service{
@@ -25,8 +29,4 @@ a {
 
 li {
     margin-bottom: 0.5rem;
-}
-
-#tldr {
-    margin-top: 5rem;
 }

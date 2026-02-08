@@ -1,0 +1,7 @@
+{
+  "type": "module",
+  "dependencies": {
+    "rehype-mdx-code-props": "^3.0.1",
+    "remark-heading-id": "^1.0.1"
+  }
+}

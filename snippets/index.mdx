@@ -3,7 +3,7 @@ import { SITE_NAME, HTMLSkeleton, Header, NavBar, PaginationBar, SearchBar, Foot
 
 export const STYLES = (<>
     <link rel="stylesheet" href="/static/global-styles.css" />
-    <link rel="stylesheet" href={`${path.relative(process.cwd(), cwd)}/styles.css`} />
+    <link rel="stylesheet" href={`/${path.relative(hostmdxInputPath, hostmdxCwd)}/styles.css`} />
 </>)
 
 <HTMLSkeleton title={`All Snippets | ${SITE_NAME}`} extendHead={STYLES}>

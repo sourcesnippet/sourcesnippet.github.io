@@ -78,12 +78,13 @@ export function Snippet({ metaData = {}, children }) {
 
     // Default styles Component
     const stylePath = "styles.css";
-    const absStylePath = path.join(hostmdxCwd, stylePath);
-    const stylePathExists = fs.existsSync(absStylePath);
-    const defaultStyles = (<>
+    const stylePathExists = fs.existsSync(path.join(hostmdxCwd, stylePath));
+    const defaultHead = (<>
+        <link rel="preload" href="/static/copy-done-icon.png" as="image" />
         <link rel="stylesheet" href="/static/global-styles.css" />
         <link rel="stylesheet" href="/static/code-styles.css" />
         {stylePathExists && <link rel="stylesheet" href={stylePath} />}
+        <script src="/static/global-script.js"></script>
     </>);
 
 
@@ -93,7 +94,7 @@ export function Snippet({ metaData = {}, children }) {
     });
 
 
-    return (<HTMLSkeleton title={`${metaData?.title} | ${SITE_NAME}`} extendHead={[metaData?.extendHead, defaultStyles, <script src="/static/global-script.js"></script>]}>
+    return (<HTMLSkeleton title={`${metaData?.title} | ${SITE_NAME}`} extendHead={[defaultHead, metaData?.extendHead]}>
 
         <Header />
         <SearchBar />
@@ -123,7 +124,7 @@ export function Snippet({ metaData = {}, children }) {
     </HTMLSkeleton>)
 }
 
-export function CodeTabs({ activeIndex = 0, dropdown = false, children }) {
+export function CodeTabs({ activeIndex = 0, dropdown = false, id = undefined, style = {}, children }) {
 
     // Make sure children are in array format
     if (!Array.isArray(children)) {
@@ -218,9 +219,10 @@ export function CodeTabs({ activeIndex = 0, dropdown = false, children }) {
     }
 
 
-    return (<div class="codetabs">
-        <div class="codetabs-topbar">{topbarContent}</div>
-        <div class="codetabs-content">
+    return (<div className="codetabs" id={id} style={style}>
+        <div className="codetabs-topbar">{topbarContent}</div>
+        <button className="codetabs-copy" onclick="copyCode(this)"></button>
+        <div className="codetabs-content">
             {children}
         </div>
     </div>)

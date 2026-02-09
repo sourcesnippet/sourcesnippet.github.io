@@ -1,5 +1,6 @@
 import { Snippet, CodeTabs } from "@/global.jsx";
 
+
 export const metaData = {
   title: '"Hello World" in every programming language',
   thumbnail: "HelloWorld.webp",
@@ -11,21 +12,29 @@ export const metaData = {
 }
 
 
-<Snippet metaData={metaData} >
+<Snippet metaData={metaData}>
 
+  <CodeTabs activeIndex={0} id="FirstCodeTab">
+    ```c++
+    #include <iostream>
 
-<CodeTabs activeIndex={1}>
-```c++
-#include <iostream>
+    using namespace std;
+    
+    int main(){    
+        cout << "Hello, World!";
+        return 0;
+    }
+    ```
 
-using namespace std;
- 
-int main(){    
-    cout << "Hello, World!";
-    return 0;
-}
-```
-</CodeTabs>
+    ```html
+    <!DOCTYPE html>
 
+    <html>
+      <body>
+        Hello, World!
+      </body>
+    </html>
+    ```
+  </CodeTabs>
 
 </Snippet>

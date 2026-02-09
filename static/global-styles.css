@@ -210,11 +210,13 @@ code {
 
 /* Code Tabs */
 .codetabs {
+    position: relative;
     width: 100%;
     border: 1px solid var(--border);
     border-radius: 3px;
     overflow: hidden;
     background-color: var(--code-background);
+    margin-bottom: 1rem;
 }
 
 .codetabs-topbar {
@@ -282,13 +284,39 @@ code {
     background-color: color-mix(in srgb, var(--accent-dull), black 25%);
 }
 
+.codetabs-copy {
+    height: 2.25rem;
+    width: 2.25rem;
+    position: absolute;
+    right: 1.5rem;
+    margin-top: 0.75rem;
+    cursor: pointer;
+    padding: 5px;
+    border-radius: 5px;
+    border: 1px solid var(--border);
+    background-color: var(--accent-dull);
+    background-image: url("/static/copy-icon.png");
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-origin: content-box;
+    transition: background-image 0s 2s;
+}
+
+.codetabs-copy:active {
+    background-image: url("/static/copy-done-icon.png");
+    transition-delay: 0s;
+}
+
 .codetabs-content pre {
     display: none;
     margin: 0;
 }
 
 .codetabs-content code {
-    height: 10rem;
+    height: fit-content;
+    min-height: 2.25rem;
+    overflow-y: scroll;
+    overflow-x: auto;
 }
 
 .codetabs-active {

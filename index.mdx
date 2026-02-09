@@ -10,7 +10,7 @@ import { SITE_NAME, HTMLSkeleton, Header, SearchBar, NavBar, SnippetCard, Pagina
     <NavBar />
     <hr style={"margin-bottom: 2rem"}/>
 
-    <section className="snippets-card-container">
+    <main className="snippets-card-container">
         <SnippetCard imgSrc="https://picsum.photos/seed/1/236/188" text="Fixing Error mounting /dev/sdb1 at /media/username/device-name: wrong fs type, bad option, bad superblock on /dev/sdb1, missing codepage or helper program, or other error" tags={["tag 1","tag 2", "tag 3", "tag 4"]} link="#"/>
         <SnippetCard imgSrc="https://picsum.photos/seed/2/236/188" text='"Hello World" in every programming language' tags={["tag 1", "tag 2", "tag 3", "tag 4", "tag 5", "tag 5", "tag 5", "tag 5"]} link="/snippets/hello-world"/>
         <SnippetCard imgSrc="" text="Lorem Ipsum" tags={["godot", "shader", "godot-shader-language"]} link="#"/>
@@ -27,7 +27,7 @@ import { SITE_NAME, HTMLSkeleton, Header, SearchBar, NavBar, SnippetCard, Pagina
         <SnippetCard imgSrc="https://picsum.photos/seed/11/236/188" text="Lorem Ipsum" link="#"/>
         <SnippetCard imgSrc="https://picsum.photos/seed/12/236/188" text="Lorem Ipsum" link="#"/>
         <SnippetCard imgSrc="https://picsum.photos/seed/12/236/188" text="Lorem Ipsum" link="#"/>
-    </section>
+    </main>
 
     <PaginationBar />
     <hr />

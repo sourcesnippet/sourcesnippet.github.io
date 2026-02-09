@@ -37,7 +37,7 @@ export function HTMLSkeleton({ title = "", description = "", children, extendHea
 
 export function Header() {
     return (<a id="site-header" href="/">
-        <img id="site-logo" src={SITE_LOGO_PATH} />
+        <img id="site-logo" alt="logo" src={SITE_LOGO_PATH} />
         <div id="site-title">{SITE_NAME}</div>
         <div id="site-motto">{SITE_MOTTO}</div>
     </a>)
@@ -230,7 +230,7 @@ export function CodeTabs({ activeIndex = 0, dropdown = false, id = undefined, st
 
 export function PaginationBar({ }) {
     return (<nav id="pagination">
-        <a href="#" className="pagination-prev"></a>
+        <a href="#" className="pagination-prev" aria-label="prev"></a>
         <a href="#" className="pagination-item">1</a>
         <span className="pagination-dots">...</span>
         <a href="#" className="pagination-item" >4</a>
@@ -240,13 +240,13 @@ export function PaginationBar({ }) {
         <a href="#" className="pagination-item" >8</a>
         <span className="pagination-dots">...</span>
         <a href="#" className="pagination-item" >1000</a>
-        <a href="#" className="pagination-next"></a>
+        <a href="#" className="pagination-next" aria-label="next"></a>
     </nav>)
 }
 
 export function Footer({ showWarning = false }) {
     return (<footer>
-        <a id="footer-logo-wrapper" href="/"><img id="footer-logo" src={SITE_LOGO_PATH} /></a>
+        <a id="footer-logo-wrapper" href="/"><img id="footer-logo" alt="logo" src={SITE_LOGO_PATH} /></a>
         <div id="footer-links" style={showWarning ? "margin-bottom: 2rem" : ""}>
             <a href={REPO_LINK} target="_blank">Repository</a>
             <hr />
@@ -254,7 +254,7 @@ export function Footer({ showWarning = false }) {
             <hr />
             <a href="/contact">Contact</a>
         </div>
-        {showWarning && <div id="footer-warning">Scraping data for AI training or any other purpose is strictly prohibited. <a href="/terms#ai-data-scraping-policy">Learn More</a></div>}
+        {showWarning && <div id="footer-warning">Scraping data for AI training or any other purpose is strictly prohibited. <a href="/terms#ai-data-scraping-policy" aria-label="Learn more about scraping policy">Learn More</a></div>}
     </footer>)
 }
 

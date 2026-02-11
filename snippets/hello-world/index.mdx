@@ -6,35 +6,35 @@ export const metaData = {
   thumbnail: "HelloWorld.webp",
   author: "Manas R. Makde",
   authorWebsite: "https://manasmakde.github.io/",
-  createdOnDate: new Date(2023, 10, 24),
-  editedOnDate: new Date(2023, 11, 30),
-  tags: ["c", "c++", "c#", "javascript"]
+  createdOnDate: new Date("2023-10-24"),
+  editedOnDate: new Date("2023-11-30"),
+  tags: ["c", "c++", "c#", "javascript"],
 }
 
 
 <Snippet metaData={metaData}>
 
-  <CodeTabs activeIndex={0} id="FirstCodeTab">
-    ```c++
-    #include <iostream>
+  <CodeTabs activeIndex={0}>
+  ```c++
+  #include <iostream>
 
-    using namespace std;
-    
-    int main(){    
-        cout << "Hello, World!";
-        return 0;
-    }
-    ```
+  using namespace std;
+  
+  int main(){    
+      cout << "Hello, World!";
+      return 0;
+  }
+  ```
 
-    ```html
-    <!DOCTYPE html>
+  ```html
+  <!DOCTYPE html>
 
-    <html>
-      <body>
-        Hello, World!
-      </body>
-    </html>
-    ```
+  <html>
+    <body>
+      Hello, World!
+    </body>
+  </html>
+  ```
   </CodeTabs>
 
 </Snippet>

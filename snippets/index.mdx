@@ -1,12 +1,14 @@
 import path from "path";
 import { SITE_NAME, HTMLSkeleton, Header, NavBar, PaginationBar, SearchBar, Footer } from "@/global.jsx";
 
-export const STYLES = (<>
+export const ExtendedHead = (<>
     <link rel="stylesheet" href="/static/global-styles.css" />
     <link rel="stylesheet" href={`/${path.relative(hostmdxInputPath, hostmdxCwd)}/styles.css`} />
+    <script src="script.js"></script>
+
 </>)
 
-<HTMLSkeleton title={`All Snippets | ${SITE_NAME}`} extendHead={STYLES}>
+<HTMLSkeleton title={`All Snippets | ${SITE_NAME}`} extendHead={ExtendedHead}>
 
     <Header />
     <SearchBar />
@@ -16,8 +18,12 @@ export const STYLES = (<>
     <NavBar />
     <hr/>
 
-    <section id="raw-snippet-list">
-    1. [Declare two variables using MACROS token-pasting operator (##) in C++](#)
+    <section id="raw-snippets">
+    Loading...
+
+    <ol id="raw-snippet-list">
+    </ol>
+ {/*    1. [Declare two variables using MACROS token-pasting operator (##) in C++](#)
     1. [Hello World in C++](#)
     1. [Print Readable Date in JavaScript](#)
     1. [Fixing Error mounting /dev/sdb1 at /media/username/device-name: wrong fs type, bad option, bad superblock on /dev/sdb1, missing codepage or helper program, or other error](#)
@@ -59,7 +65,7 @@ export const STYLES = (<>
     1. [UFUNCTION in Unreal Engine 5 C++](#)
     1. [UINTERFACE in Unreal Engine 5 C++](#)
     1. [UPROPERTY in Unreal Engine 5 C++](#)
-    1. [USTRUCT in Unreal Engine 5 C++](#)
+    1. [USTRUCT in Unreal Engine 5 C++](#) */}
     </section>
 
     <PaginationBar />

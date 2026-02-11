@@ -17,9 +17,13 @@ a {
     text-decoration: none;
 }
 
-#raw-snippet-list {
+#raw-snippets {
     margin-top: 2rem;
     margin-bottom: 3rem;
+}
+
+#raw-snippet-list {
+
 }
 
 #pagination {

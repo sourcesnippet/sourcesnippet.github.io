@@ -4,8 +4,7 @@ import { SITE_NAME, HTMLSkeleton, Header, NavBar, PaginationBar, SearchBar, Foot
 export const ExtendedHead = (<>
     <link rel="stylesheet" href="/static/global-styles.css" />
     <link rel="stylesheet" href={`/${path.relative(hostmdxInputPath, hostmdxCwd)}/styles.css`} />
-    <script src="script.js"></script>
-
+    <script type="module" src="script.js"></script>
 </>)
 
 <HTMLSkeleton title={`All Snippets | ${SITE_NAME}`} extendHead={ExtendedHead}>
@@ -19,53 +18,8 @@ export const ExtendedHead = (<>
     <hr/>
 
     <section id="raw-snippets">
-    Loading...
-
-    <ol id="raw-snippet-list">
-    </ol>
- {/*    1. [Declare two variables using MACROS token-pasting operator (##) in C++](#)
-    1. [Hello World in C++](#)
-    1. [Print Readable Date in JavaScript](#)
-    1. [Fixing Error mounting /dev/sdb1 at /media/username/device-name: wrong fs type, bad option, bad superblock on /dev/sdb1, missing codepage or helper program, or other error](#)
-    1. [Build Project in Unreal Engine 5 on Ubuntu Linux](#)
-    1. [Necessary files & folders to recreate project in Unreal Engine 5](#)
-    1. [Regex for Log output prefix in Unreal Engine 5](#)
-    1. [Renaming using core redirects in Unreal Engine 5](#)
-    1. [Setup for new project in Unreal Engine 5 on Ubuntu Linux](#)
-    1. [#include paths absolute to project root in Unreal Engine 5 C++](#)
-    1. [Boilerplate AActor in Unreal Engine 5 C++](#)
-    1. [Boilerplate ACharacter in Unreal Engine 5 C++](#)
-    1. [Boilerplate APawn in Unreal Engine 5 C++](#)
-    1. [Boilerplate Empty Class in Unreal Engine 5 C++](#)
-    1. [Boilerplate UActorComponent in Unreal Engine 5 C++](#)
-    1. [Boilerplate UAnimInstance in Unreal Engine 5 C++](#)
-    1. [Boilerplate UBlueprintFunctionLibrary in Unreal Engine 5 C++](#)
-    1. [Boilerplate UObject in Unreal Engine 5 C++](#)
-    1. [Boilerplate USceneComponent in Unreal Engine 5 C++](#)
-    1. [Casting in Unreal Engine 5 C++](#)
-    1. [Check if running in editor in Unreal Engine 5 C++](#)
-    1. [Compare floats using FMath::IsNearlyEqual() & FMath::IsNearlyZero() in Unreal Engine 5 C++](#)
-    1. [Create custom reusable Objects in Unreal Engine 5 C++](#)
-    1. [CreateDefaultSubobject() & NewObject() in Unreal Engine 5 C++](#)
-    1. [Draw Debug shapes in Unreal Engine 5 C++](#)
-    1. [Exposing static variables and functions via BlueprintFunctionLibrary in Unreal Engine 5 C++](#)
-    1. [Get All Active Montages from UAnimInstance in Unreal Engine 5 C++](#)
-    1. [Invoke grandparent method using Super::Super:: in Unreal Engine 5 C++](#)
-    1. [Invoking UFunction by name via ProcessEvent in Unreal Engine 5 C++](#)
-    1. [Naming Conventions in Unreal Engine 5 C++](#)
-    1. [Oneshot lambda binding to a multicast delegate in Unreal Engine 5 C++](#)
-    1. [Printing & Logging in Unreal Engine 5 C++](#)
-    1. [Setter-Getter functions in Unreal Engine 5 C++](#)
-    1. [Timers in Unreal Engine 5 C++](#)
-    1. [TMap, TArray, TSet containers in Unreal Engine 5 C++](#)
-    1. [TSubclassOf in Unreal Engine 5 C++](#)
-    1. [UCLASS in Unreal Engine 5 C++](#)
-    1. [UDELEGATE in Unreal Engine 5 C++](#)
-    1. [UENUM in Unreal Engine 5 C++](#)
-    1. [UFUNCTION in Unreal Engine 5 C++](#)
-    1. [UINTERFACE in Unreal Engine 5 C++](#)
-    1. [UPROPERTY in Unreal Engine 5 C++](#)
-    1. [USTRUCT in Unreal Engine 5 C++](#) */}
+        <ol id="raw-snippet-list">
+        </ol>
     </section>
 
     <PaginationBar />

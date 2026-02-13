@@ -1,5 +1,5 @@
 // Properties
-export const SNIPPETS_PER_PAGE = 100;
+export const SNIPPETS_PER_PAGE = 3;
 export const SNIPPET_LIST_ID = "#raw-snippet-list"
 
 
@@ -14,51 +14,43 @@ async function FetchSnippetsData(skipCount = 0, statsFilePath = '/static/data/_s
     // Setup variables
     let snippets = [];
     let totalFiles = Math.ceil(snippetsCount / snippetsPerFile);
-    let startFile = Math.trunc(skipCount / snippetsPerFile) + 1;
-    let skiptoIndex = skipCount % snippetsPerFile;
-    for (let i = startFile; i <= totalFiles; i++) {
+    let remainderSnippets = snippetsCount % snippetsPerFile;
+    let deficitSnippets = snippetsPerFile - remainderSnippets;
+    let skipFiles = Math.trunc((skipCount + deficitSnippets) / snippetsPerFile);
+    let skipIndex = (skipCount + deficitSnippets) % snippetsPerFile;
+
+
+    // Iterate and fetch snippets
+    for (let i = totalFiles - skipFiles - 1; 0 <= i && snippets.length < SNIPPETS_PER_PAGE; i--) {
         // Fetch snippets
         const dataResponse = await fetch(`${dataFilePathPrefix}${i}.json`);
         const data = await dataResponse.json();
 
 
         // Add fetched snippets to list
-        console.log(skipCount % snippetsPerFile, data.snippets.length)
-        for (let j = skiptoIndex; j < data.snippets.length; j++) {
-
-            // Break if snippets required per page are exceeded
-            if (SNIPPETS_PER_PAGE <= snippets.length) {
-                break;
-            }
-
+        for (let j = snippetsPerFile - skipIndex - 1; 0 <= j && snippets.length < SNIPPETS_PER_PAGE; j--) {
+            console.log(data.snippets[j], j)
             snippets.push(data.snippets[j]);
         }
 
 
-        // Reset so that next file being read isn't skipped
-        skiptoIndex = 0;
-
-
-        // If snippets summoned has exceeded required then break
-        if (SNIPPETS_PER_PAGE <= snippets.length) {
-            break;
-        }
+        // Reset skip index
+        skipIndex = 0;
     }
 
-    console.log('Total snippets loaded:', snippets);
     return snippets;
 }
 
-async function RemoveChildren(element){
+async function RemoveChildren(element) {
     while (element.firstChild) {
         element.removeChild(element.lastChild);
     }
 }
 
-export function addSnippetsToList(snippets, listElement, doc){
+export function addSnippetsToList(snippets, listElement, doc) {
     // Add elements to list
     const fragment = doc.createDocumentFragment();
-    for (let i = snippets.length - 1; i >= 0; i--){
+    for (let i = 0; i < snippets.length; i++) {
 
         // Create elements
         const li = doc.createElement("li");
@@ -68,8 +60,8 @@ export function addSnippetsToList(snippets, listElement, doc){
         // Add title and link
         a.textContent = snippets[i].title;
         a.href = snippets[i].url;
-        
-        
+
+
         // Add element to parent
         li.appendChild(a);
         fragment.appendChild(li);
@@ -80,7 +72,7 @@ export function addSnippetsToList(snippets, listElement, doc){
 
 async function Main() {
     // Get all snippets
-    let snippets = await FetchSnippetsData();
+    let snippets = await FetchSnippetsData(2);
 
 
     // Clear list

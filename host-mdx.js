@@ -53,23 +53,6 @@ function createNojekyll(outputPath) {
     fs.writeFileSync(path.join(outputPath, '.nojekyll'), "");
 }
 function createSnippetsData(outputPath) {
-    // Sort snippets
-    snippetsList.sort((a, b) => {
-        // Sort by Date
-        const dateA = a.createdOnDate instanceof Date ? a.createdOnDate.getTime() : 0;
-        const dateB = b.createdOnDate instanceof Date ? b.createdOnDate.getTime() : 0;
-        if (dateA !== dateB) {
-            return dateA - dateB;
-        }
-
-
-        // Fallback sort by title
-        const titleA = (a.title || "").toLowerCase();
-        const titleB = (b.title || "").toLowerCase();
-        return titleA.localeCompare(titleB);
-    });
-
-
     // Create data folder
     let absDataDir = path.join(outputPath, SNIPPETS_DATA_DIR);
     if (!fs.existsSync(absDataDir)) {
@@ -81,7 +64,7 @@ function createSnippetsData(outputPath) {
     for (let i = 0; i < snippetsList.length; i += SNIPPETS_PER_FILE) {
         const chunk = snippetsList.slice(i, i + SNIPPETS_PER_FILE);
         const jsonContent = JSON.stringify({ snippets: chunk });
-        const fileNumber = (i / SNIPPETS_PER_FILE) + 1;
+        const fileNumber = i / SNIPPETS_PER_FILE;
         const fileName = `${SNIPPETS_DATA_PREFIX}${fileNumber}.json`;
         fs.writeFileSync(path.join(absDataDir, fileName), jsonContent);
     }
@@ -181,12 +164,29 @@ export function onSiteCreateEnd(inputPath, outputPath, wasInterrupted) {
     createNojekyll(outputPath)
 
 
+    // Sort snippets
+    snippetsList.sort((a, b) => {
+        // Sort by Date
+        const dateA = a.createdOnDate instanceof Date ? a.createdOnDate.getTime() : 0;
+        const dateB = b.createdOnDate instanceof Date ? b.createdOnDate.getTime() : 0;
+        if (dateA !== dateB) {
+            return dateA - dateB;
+        }
+
+
+        // Fallback sort by title
+        const titleA = (a.title || "").toLowerCase();
+        const titleB = (b.title || "").toLowerCase();
+        return titleA.localeCompare(titleB);
+    });
+
+
     // Create data.json & _stats.json file for all snippets
     createSnippetsData(outputPath);
 
 
     // Inject default data into /all
-    injectDefaultDataIntoPrimary(outputPath);
+    // injectDefaultDataIntoPrimary(outputPath);
 }
 
 export function toTriggerRecreate(event, path) {

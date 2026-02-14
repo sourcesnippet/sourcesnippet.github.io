@@ -76,7 +76,6 @@
 }
 
 
-
 /* Tags */
 .snippet-card-tags {
     display: flex;
@@ -107,4 +106,51 @@
 .snippet-card-tags:hover,
 .snippet-card-tags:focus {
     color: lightgray;
+}
+
+
+/* Card Loading */
+.is-loading .snippet-card-thumbnail,
+.is-loading .snippet-card-title div,
+.is-loading .tag {
+    background: var(--surface);
+    background: linear-gradient(90deg,
+            var(--surface) 25%,
+            color-mix(in srgb, var(--surface), white 4%) 50%,
+            var(--surface) 75%);
+    background-size: 200% 100%;
+    -webkit-animation: 2s shine linear infinite;
+    animation: 2s shine linear infinite;
+    color: transparent;
+    pointer-events: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.is-loading .snippet-card-title {
+    cursor: default;
+}
+
+.is-loading .snippet-card-title div {
+    width: 100%;
+    height: 2rem;
+    border-radius: 3px;
+}
+
+.is-loading .snippet-card-thumbnail img {
+    visibility: hidden;
+}
+
+
+@-webkit-keyframes shine {
+    to {
+        background-position-x: -200%;
+    }
+}
+
+@keyframes shine {
+    to {
+        background-position-x: -200%;
+    }
 }

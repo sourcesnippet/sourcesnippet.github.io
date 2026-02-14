@@ -9,6 +9,7 @@ export const REPO_LINK = "https://github.com/sourcesnippet/sourcesnippet.github.
 export const SEARCHBAR_TOOLTIP = ""
 export const SITE_CREATION_TOOL = "https://www.npmjs.com/package/host-mdx"
 export const SITE_LOGO_PATH = "/static/Logo.png"
+export const PLACEHOLDER_IMG_PATH = "/static/Placeholder.png"
 
 
 /* Internal Properties */
@@ -59,13 +60,13 @@ export function NavBar() {
     </nav>)
 }
 
-export function SnippetCard({ imgSrc, text, link, tags = [] }) {
+export function SnippetCard({ className = "", imgSrc, text, link, tags = [] }) {
 
     const TagsComponent = tags.map((tag, index) => (<a className="tag" key={index} href="#">{tag}</a>));
 
-    return (<div className="snippet-card">
+    return (<div className={`snippet-card ${className}`}>
         <a href={link} className="snippet-card-thumbnail" tabindex="-1">
-            <img src={imgSrc} onerror="this.src='/static/Placeholder.png'" alt="thumbnail" />
+            <img src={imgSrc ?? PLACEHOLDER_IMG_PATH} onerror={`this.src='${PLACEHOLDER_IMG_PATH}'`} alt="thumbnail" />
         </a>
         <a href={link} className="snippet-card-title" title={text}>
             <div>{text}</div>

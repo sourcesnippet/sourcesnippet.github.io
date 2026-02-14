@@ -228,19 +228,19 @@ export function CodeTabs({ activeIndex = 0, dropdown = false, id = undefined, st
     </div>)
 }
 
-export function PaginationBar({ }) {
-    return (<nav id="pagination">
-        <a href="#" className="pagination-prev" aria-label="prev"></a>
-        <a href="#" className="pagination-item">1</a>
+export function PaginationBar({ id = "pagination", style }) {
+    return (<nav id={id} style={style}>
+        <button className="pagination-prev" aria-label="prev"></button>
+        <button className="pagination-item">-</button>
         <span className="pagination-dots">...</span>
-        <a href="#" className="pagination-item" >4</a>
-        <a href="#" className="pagination-item" >5</a>
-        <a href="#" className="pagination-item pagination-active" >6</a>
-        <a href="#" className="pagination-item" >7</a>
-        <a href="#" className="pagination-item" >8</a>
+        <button className="pagination-item" >-</button>
+        <button className="pagination-item" >-</button>
+        <button className="pagination-item pagination-active" >-</button>
+        <button className="pagination-item" >-</button>
+        <button className="pagination-item" >-</button>
         <span className="pagination-dots">...</span>
-        <a href="#" className="pagination-item" >1000</a>
-        <a href="#" className="pagination-next" aria-label="next"></a>
+        <button className="pagination-item" >-</button>
+        <button className="pagination-next" aria-label="next"></button>
     </nav>)
 }
 

@@ -1,17 +1,16 @@
 // Properties
-export const SNIPPETS_PER_PAGE = 3;
+let paginationModule;
+const PAGINATION_MODULE_PATH = "/static/pagination.js"
+export const SNIPPETS_PER_PAGE = 500;
 export const SNIPPET_LIST_ID = "#raw-snippet-list"
+export const STATS_FILE_PATH = "/static/data/_stats.json"
 
 
 // Methods
-async function FetchSnippetsData(skipCount = 0, statsFilePath = '/static/data/_stats.json', dataFilePathPrefix = "/static/data/data-") {
-    // Retrieve the stats file
-    const statsResponse = await fetch(statsFilePath);
-    const stats = await statsResponse.json();
-    const { snippetsCount, snippetsPerFile } = stats;
-
+async function FetchSnippetsData(stats, skipCount = 0, dataFilePathPrefix = "/static/data/data-") {
 
     // Setup variables
+    const { snippetsCount, snippetsPerFile } = stats;
     let snippets = [];
     let totalFiles = Math.ceil(snippetsCount / snippetsPerFile);
     let remainderSnippets = snippetsCount % snippetsPerFile;
@@ -71,8 +70,19 @@ export function addSnippetsToList(snippets, listElement, doc) {
 }
 
 async function Main() {
+
+    // Import pagination module
+    paginationModule = await import(PAGINATION_MODULE_PATH);
+
+
+    // Get stats
+    const statsResponse = await fetch(STATS_FILE_PATH);
+    const stats = await statsResponse.json();
+
+
     // Get all snippets
-    let snippets = await FetchSnippetsData(2);
+    let pageNumber = paginationModule.getPageNumber();
+    let snippets = await FetchSnippetsData(stats, SNIPPETS_PER_PAGE * (pageNumber - 1));  // Intentionally - 1 since data.json is 0 index DO NOT CHANGE 
 
 
     // Clear list
@@ -82,6 +92,13 @@ async function Main() {
 
     // Add to list
     addSnippetsToList(snippets, listElement, document);
+
+
+    // Update pagination bar
+    if (SNIPPETS_PER_PAGE < stats.snippetsCount) {
+        let totalPages = Math.ceil(stats.snippetsCount / SNIPPETS_PER_PAGE);
+        paginationModule.assignPaginationBtns(pageNumber, totalPages);
+    }
 }
 
 

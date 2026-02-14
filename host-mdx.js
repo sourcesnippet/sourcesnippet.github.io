@@ -78,8 +78,6 @@ function createSnippetsData(outputPath) {
     fs.writeFileSync(path.join(outputPath, SNIPPETS_DATA_DIR, SNIPPETS_STATS_FILE), JSON.stringify(stats));
 }
 function injectDefaultDataIntoPrimary(outputPath) {
-    console.log("SNIPPETS_PER_PAGE=>", SNIPPETS_PER_PAGE)
-
     // Get Html
     const htmlFilePath = path.join(outputPath, SNIPPETS_ALL_FILE)
     const html = fs.readFileSync(htmlFilePath, 'utf-8');
@@ -177,7 +175,7 @@ export function onSiteCreateEnd(inputPath, outputPath, wasInterrupted) {
         // Fallback sort by title
         const titleA = (a.title || "").toLowerCase();
         const titleB = (b.title || "").toLowerCase();
-        return titleA.localeCompare(titleB);
+        return titleB.localeCompare(titleA);
     });
 
 

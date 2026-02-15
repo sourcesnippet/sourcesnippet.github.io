@@ -14,6 +14,7 @@ const SNIPPETS_DATA_DIR = "/static/data/"
 const SNIPPETS_DATA_PREFIX = "data-"
 const SNIPPETS_STATS_FILE = "_stats.json"
 const SNIPPETS_ALL_FILE = "/snippets/index.html"
+const INDEX_FOLDER = "/index"
 
 
 // Properties
@@ -97,6 +98,25 @@ function injectDefaultDataIntoPrimary(outputPath) {
 
     // Update file
     fs.writeFileSync(htmlFilePath, document.toString());
+}
+function moveUpContents(folderPath){
+
+    // Get parent directory
+    const targetDir = path.resolve(folderPath);
+    const parentDir = path.dirname(targetDir);
+    const items = fs.readdirSync(targetDir);
+
+
+    // Move all items up to parent directory
+    items.forEach((item) => {
+      const oldPath = path.join(targetDir, item);
+      const newPath = path.join(parentDir, item);
+      fs.renameSync(oldPath, newPath);
+    });
+
+
+    // Remove the empty directory
+    fs.rmdirSync(targetDir);
 }
 
 
@@ -185,6 +205,10 @@ export function onSiteCreateEnd(inputPath, outputPath, wasInterrupted) {
 
     // Inject default data into /all
     // injectDefaultDataIntoPrimary(outputPath);
+
+
+    // Move up all files from index.js
+    moveUpContents(path.join(outputPath, INDEX_FOLDER));
 }
 
 export function toTriggerRecreate(event, path) {

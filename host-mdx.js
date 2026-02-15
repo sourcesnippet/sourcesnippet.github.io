@@ -2,8 +2,6 @@ import fs from "fs"
 import path from "path"
 import remarkHeadingId from 'remark-heading-id';
 import rehypeMdxCodeProps from 'rehype-mdx-code-props'
-import { parseHTML } from 'linkedom';
-import { SNIPPETS_PER_PAGE, SNIPPET_LIST_ID, addSnippetsToList } from "./snippets/script.js"
 
 
 // To Set Properties
@@ -13,7 +11,6 @@ const SNIPPETS_PER_FILE = 5;
 const SNIPPETS_DATA_DIR = "/static/data/"
 const SNIPPETS_DATA_PREFIX = "data-"
 const SNIPPETS_STATS_FILE = "_stats.json"
-const SNIPPETS_ALL_FILE = "/snippets/index.html"
 const INDEX_FOLDER = "/index"
 
 
@@ -77,27 +74,6 @@ function createSnippetsData(outputPath) {
         snippetsPerFile: SNIPPETS_PER_FILE
     }
     fs.writeFileSync(path.join(outputPath, SNIPPETS_DATA_DIR, SNIPPETS_STATS_FILE), JSON.stringify(stats));
-}
-function injectDefaultDataIntoPrimary(outputPath) {
-    // Get Html
-    const htmlFilePath = path.join(outputPath, SNIPPETS_ALL_FILE)
-    const html = fs.readFileSync(htmlFilePath, 'utf-8');
-    const { document } = parseHTML(html);
-
-
-    // Skip if list container not found
-    const listElement = document.querySelector(SNIPPET_LIST_ID);
-    if (!listElement) {
-        return;
-    }
-
-
-    // Add all snippets
-    addSnippetsToList(snippetsList, listElement, document);
-
-
-    // Update file
-    fs.writeFileSync(htmlFilePath, document.toString());
 }
 function moveUpContents(folderPath){
 
@@ -201,10 +177,6 @@ export function onSiteCreateEnd(inputPath, outputPath, wasInterrupted) {
 
     // Create data.json & _stats.json file for all snippets
     createSnippetsData(outputPath);
-
-
-    // Inject default data into /all
-    // injectDefaultDataIntoPrimary(outputPath);
 
 
     // Move up all files from index.js

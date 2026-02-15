@@ -1,7 +1,12 @@
 import { SITE_NAME, HTMLSkeleton, Header, SearchBar, NavBar, SnippetCard, PaginationBar, Footer } from "@/global.jsx"
 
+export const extendHead = (<>
+    <link rel="stylesheet" href="/static/global-styles.css" />
+    <link rel="stylesheet" href="/styles.css" />
+    <script type="module" src="script.js"></script>
+</>)
 
-<HTMLSkeleton title={SITE_NAME} description={"Simple reuseable code snippets for your convenience"} extendHead={<><link rel="stylesheet" href="/static/global-styles.css" /><link rel="stylesheet" href="/styles.css" /></>}>
+<HTMLSkeleton title={SITE_NAME} description={"Simple reuseable code snippets for your convenience"} extendHead={extendHead}>
 
     <Header />
     <SearchBar />
@@ -29,7 +34,7 @@ import { SITE_NAME, HTMLSkeleton, Header, SearchBar, NavBar, SnippetCard, Pagina
         <SnippetCard className="is-loading" tags={["dart", "flutter", "firebase"]}/>
     </main>
 
-    <PaginationBar />
+    <PaginationBar style={"display:none"}/>
     <hr />
     <Footer showWarning={true} />
 

@@ -299,7 +299,7 @@ code {
     background-repeat: no-repeat;
     background-size: contain;
     background-origin: content-box;
-    transition: background-image 0s 2s;
+    transition: background-image 0s 1s;
 }
 
 .codetabs-copy:active {

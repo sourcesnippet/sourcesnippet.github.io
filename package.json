@@ -1,7 +1,6 @@
 {
   "type": "module",
   "dependencies": {
-    "linkedom": "^0.18.12",
     "pagefind": "^1.4.0",
     "rehype-mdx-code-props": "^3.0.1",
     "remark-heading-id": "^1.0.1"

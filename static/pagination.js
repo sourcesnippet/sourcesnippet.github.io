@@ -1,5 +1,6 @@
 // Properties
 export const PAGE_QUERY = "page";
+export const SEARCH_QUERY = "search";
 export const STATS_FILE_PATH = "/static/data/_stats.json"
 export const DATA_FILE_PATH_PREFIX = "/static/data/data-"
 
@@ -9,6 +10,10 @@ export function getPageNumFromUrl() {
     const urlParams = new URLSearchParams(window.location.search);
     const pageNumber = Number(urlParams.get(PAGE_QUERY)) || 1;
     return Math.max(pageNumber, 1);
+}
+export function getSearchQueryFromUrl() {
+    const urlParams = new URLSearchParams(window.location.search);
+    return urlParams.get(SEARCH_QUERY);
 }
 export function gotoPage(pageNumber) {
     const url = new URL(window.location.href);

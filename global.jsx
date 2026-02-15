@@ -44,9 +44,9 @@ export function Header() {
     </a>)
 }
 
-export function SearchBar() {
-    return (<div className="search-wrapper">
-        <input id="search" type="text" placeholder="Search..." title={SEARCHBAR_TOOLTIP} />
+export function SearchBar({ id="searchbar" }) {
+    return (<div id={id} className="search-wrapper">
+        <input className="search-input" type="text" placeholder="Search..." title={SEARCHBAR_TOOLTIP} />
         <button className="search-btn" title={SEARCHBAR_TOOLTIP}>🔍</button>
     </div>)
 }

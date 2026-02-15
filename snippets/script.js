@@ -1,10 +1,15 @@
-import { getPageNumFromUrl, fetchSnippetsData, assignPaginationBtns } from "/static/pagination.js"
+import { getPageNumFromUrl, fetchSnippetsData, assignPaginationBtns, getSearchQueryFromUrl } from "/static/pagination.js"
+import * as pagefind from "/static/search/pagefind.js";
 
 
 // Properties
 export const RESULTS_PER_PAGE = 500;
-export const SNIPPET_LIST_ID = "#raw-snippet-list"
-export const PAGINATION_BAR_ID = "#pagination"
+export const SNIPPET_LIST_SELECTOR = "#raw-snippet-list"
+export const PAGINATION_BAR_SELECTOR = "#pagination"
+export const SEARCH_INPUT_SELECTOR = "#searchbar .search-input"
+export const SEARCH_BTN_SELECTOR = "#searchbar .search-btn"
+export const SEARCH_BANNER_SELECTOR = "#search-banner"
+export const SEARCH_DISPLAY_SELECTOR = "#search-display"
 
 
 // Methods
@@ -14,7 +19,7 @@ function removeChildren(element) {
     }
 }
 
-export function addSnippetsToList(snippets, listElement, doc) {
+function addSnippetsToList(snippets, listElement, doc) {
     // Add elements to list
     const fragment = doc.createDocumentFragment();
     for (let i = 0; i < snippets.length; i++) {
@@ -37,7 +42,7 @@ export function addSnippetsToList(snippets, listElement, doc) {
     listElement.appendChild(fragment);
 }
 
-export function updatePaginationBar(stats, pageNumber) {
+function updatePaginationBar(stats, pageNumber) {
 
     // Return if there aren't enough snippets to paginate
     if (stats.snippetsCount <= RESULTS_PER_PAGE) {
@@ -46,7 +51,7 @@ export function updatePaginationBar(stats, pageNumber) {
 
 
     // Get pagination bar
-    let paginationBar = document.querySelector(PAGINATION_BAR_ID);
+    let paginationBar = document.querySelector(PAGINATION_BAR_SELECTOR);
     paginationBar.style.display = "";  // Ensure pagination bar is visible
 
 
@@ -55,18 +60,70 @@ export function updatePaginationBar(stats, pageNumber) {
     assignPaginationBtns(paginationBar, pageNumber, totalPages);
 }
 
+function displaySearchQuery(searchQuery) {
+
+    // Return if no query
+    if (!searchQuery) {
+        return;
+    }
+
+
+    // Show search banner
+    let searchBanner = document.querySelector(SEARCH_BANNER_SELECTOR);
+    searchBanner.style.display = "";
+
+
+    // Show search query
+    let searchDisplay = document.querySelector(SEARCH_DISPLAY_SELECTOR);
+    searchDisplay.textContent = searchQuery;
+}
+
+function addSearchFunctionality(searchQuery) {
+    // Get search elements
+    let searchInput = document.querySelector(SEARCH_INPUT_SELECTOR);
+    let searchBtn = document.querySelector(SEARCH_BTN_SELECTOR);
+
+
+    // Add query to input if already searched for
+    searchInput.value = searchQuery;
+
+
+    // Create search method
+    const search = () => {
+        const query = searchInput.value;
+        if (query) {
+            window.location.href = `?search=${encodeURIComponent(query)}`;
+        }
+    };
+
+
+    // Bind search method with button and input bar
+    searchBtn.addEventListener('click', search);
+    searchInput.addEventListener('keypress', (event) => {
+        if (event.key === 'Enter') {
+            search();
+        }
+    });
+}
+
 async function main() {
 
-    // Get page number
-    const pageNumber = getPageNumFromUrl();
+    // Display search query on page
+    let searchQuery = getSearchQueryFromUrl();
+    displaySearchQuery(searchQuery);
+
+
+    // Add search functionality
+    addSearchFunctionality(searchQuery);
 
 
     // Get all snippets based on page number
+    const pageNumber = getPageNumFromUrl();
     const { stats, snippets } = await fetchSnippetsData(RESULTS_PER_PAGE, RESULTS_PER_PAGE * (pageNumber - 1));
 
 
     // Clear list
-    const listElement = document.querySelector(SNIPPET_LIST_ID);
+    const listElement = document.querySelector(SNIPPET_LIST_SELECTOR);
     removeChildren(listElement);
 
 

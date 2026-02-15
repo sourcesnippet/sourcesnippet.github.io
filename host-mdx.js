@@ -1,5 +1,6 @@
 import fs from "fs"
 import path from "path"
+import * as pagefind from "pagefind";
 import remarkHeadingId from 'remark-heading-id';
 import rehypeMdxCodeProps from 'rehype-mdx-code-props'
 
@@ -12,6 +13,8 @@ const SNIPPETS_DATA_DIR = "/static/data/"
 const SNIPPETS_DATA_PREFIX = "data-"
 const SNIPPETS_STATS_FILE = "_stats.json"
 const INDEX_FOLDER = "/index"
+const SNIPPETS_SEARCH_DIR = "/static/search/"
+const UNTITLED_NAME = "Untitled"
 
 
 // Properties
@@ -75,7 +78,7 @@ function createSnippetsData(outputPath) {
     }
     fs.writeFileSync(path.join(outputPath, SNIPPETS_DATA_DIR, SNIPPETS_STATS_FILE), JSON.stringify(stats));
 }
-function moveUpContents(folderPath){
+function moveUpContents(folderPath) {
 
     // Get parent directory
     const targetDir = path.resolve(folderPath);
@@ -85,14 +88,39 @@ function moveUpContents(folderPath){
 
     // Move all items up to parent directory
     items.forEach((item) => {
-      const oldPath = path.join(targetDir, item);
-      const newPath = path.join(parentDir, item);
-      fs.renameSync(oldPath, newPath);
+        const oldPath = path.join(targetDir, item);
+        const newPath = path.join(parentDir, item);
+        fs.renameSync(oldPath, newPath);
     });
 
 
     // Remove the empty directory
     fs.rmdirSync(targetDir);
+}
+async function buildSearchIndex(outputPath) {
+
+    // Add all records
+    const { index } = await pagefind.createIndex();
+    for (const snippet of snippetsList) {
+
+        let title = snippet?.title ?? UNTITLED_NAME
+        let tags = snippet?.tags ?? []
+        let keyWords = snippet?.tags ?? []
+
+        await index.addCustomRecord({
+            url: snippet.url,
+            content: `${title} ${tags.join(" ")} ${keyWords.join(" ")}`,
+            language: "en",
+            meta: { title: title },
+            filters: { tags: tags }
+        });
+    }
+
+
+    // Save all records
+    await index.writeFiles({
+        outputPath: path.join(outputPath, SNIPPETS_SEARCH_DIR)
+    });
 }
 
 
@@ -147,7 +175,7 @@ export function onFileCreateEnd(inputPath, outputPath, inFilePath, outFilePath, 
     }
 }
 
-export function onSiteCreateEnd(inputPath, outputPath, wasInterrupted) {
+export async function onSiteCreateEnd(inputPath, outputPath, wasInterrupted) {
     // Return if site was interrupted while creating
     if (wasInterrupted) {
         return;
@@ -181,6 +209,10 @@ export function onSiteCreateEnd(inputPath, outputPath, wasInterrupted) {
 
     // Move up all files from index.js
     moveUpContents(path.join(outputPath, INDEX_FOLDER));
+
+
+    // Create a search index
+    await buildSearchIndex(outputPath);
 }
 
 export function toTriggerRecreate(event, path) {

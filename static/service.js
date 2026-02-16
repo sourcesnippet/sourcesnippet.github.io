@@ -3,6 +3,8 @@ export const PAGE_QUERY = "page";
 export const SEARCH_QUERY = "search";
 export const STATS_FILE_PATH = "/static/data/_stats.json"
 export const DATA_FILE_PATH_PREFIX = "/static/data/data-"
+export const PAGEFIND_PATH = "/static/search/pagefind.js"
+let pagefind;
 
 
 // Methods
@@ -20,8 +22,7 @@ export function gotoPage(pageNumber) {
     url.searchParams.set(PAGE_QUERY, pageNumber);
     window.location.href = url.toString();
 }
-export async function fetchSnippetsData(resultCount, skipCount = 0) {
-
+async function fetchDefaultSnippets(resultCount, skipCount = 0) {
     // Get stats
     const statsResponse = await fetch(STATS_FILE_PATH);
     const stats = await statsResponse.json();
@@ -44,18 +45,62 @@ export async function fetchSnippetsData(resultCount, skipCount = 0) {
         const dataResponse = await fetch(`${DATA_FILE_PATH_PREFIX}${i}.json`);
         const data = await dataResponse.json();
 
+
         // Add fetched snippets to list
         for (let j = snippetsPerFile - skipIndex - 1; 0 <= j && snippets.length < resultCount; j--) {
             snippets.push(data.snippets[j]);
         }
 
+
         // Reset skip index
         skipIndex = 0;
     }
 
-    return { stats, snippets };
+    return {
+        snippets,  // Snippets data within resultCount
+        totalSnippets: snippetsCount   // Total available snippets
+    };
 }
-export function assignPaginationBtns(paginationBar, currentIndex, totalIndices) {
+export async function fetchSnippets(searchQuery, resultCount, skipCount = 0) {
+
+    // fetch default snippets if no query is provided
+    if (!searchQuery) {
+        return fetchDefaultSnippets(resultCount, skipCount);
+    }
+
+
+    // Init pagefind if not already assigned
+    if (!pagefind) {
+        pagefind = await import(PAGEFIND_PATH);
+        await pagefind.init();
+    }
+
+
+    // Get search results & store in snippets
+    let snippets = []
+    const search = await pagefind.search(searchQuery);
+    for (let i = skipCount; i < resultCount + skipCount; i++) {
+
+        // Break if exceeded number of snippets found
+        if (search.results.length <= i) {
+            break;
+        }
+
+
+        // Add to snippets list
+        let data = await search.results[i].data();
+        snippets.push({
+            url: data?.url ?? "#",
+            title: data?.meta?.title ?? "",
+            thumbnail: data?.meta?.thumbnail ?? "",
+            tags: data?.meta?.tags?.split(",").filter(Boolean) ?? []
+        });
+    }
+
+
+    return { snippets, totalSnippets: search.results.length };
+}
+export function setupPaginationBtns(paginationBar, currentIndex, totalIndices) {
 
     // Get all elements in pagination bar
     let prevBtn = paginationBar.querySelector(".pagination-prev");

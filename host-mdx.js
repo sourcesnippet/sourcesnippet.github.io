@@ -104,6 +104,7 @@ async function buildSearchIndex(outputPath) {
     for (const snippet of snippetsList) {
 
         let title = snippet?.title ?? UNTITLED_NAME
+        let thumbnail = snippet?.thumbnail ?? ""
         let tags = snippet?.tags ?? []
         let keyWords = snippet?.tags ?? []
 
@@ -111,7 +112,7 @@ async function buildSearchIndex(outputPath) {
             url: snippet.url,
             content: `${title} ${tags.join(" ")} ${keyWords.join(" ")}`,
             language: "en",
-            meta: { title: title },
+            meta: { title, thumbnail, tags: tags.join(",") },
             filters: { tags: tags }
         });
     }

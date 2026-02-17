@@ -1,5 +1,6 @@
 // Properties
 export const PAGE_QUERY = "page";
+export const TAGS_QUERY = "tags";
 export const SEARCH_QUERY = "search";
 export const STATS_FILE_PATH = "/static/data/_stats.json"
 export const DATA_FILE_PATH_PREFIX = "/static/data/data-"
@@ -16,6 +17,11 @@ export function getPageNumFromUrl() {
 export function getSearchQueryFromUrl() {
     const urlParams = new URLSearchParams(window.location.search);
     return urlParams.get(SEARCH_QUERY);
+}
+export function getTagsQueryFromUrl() {
+    const urlParams = new URLSearchParams(window.location.search);
+    let tagsString = urlParams.get(TAGS_QUERY)
+    return tagsString?.split(",").filter(Boolean) ?? [];
 }
 export function gotoPage(pageNumber) {
     const url = new URL(window.location.href);
@@ -61,10 +67,10 @@ async function fetchDefaultSnippets(resultCount, skipCount = 0) {
         totalSnippets: snippetsCount   // Total available snippets
     };
 }
-export async function fetchSnippets(searchQuery, resultCount, skipCount = 0) {
+export async function fetchSnippets(searchQuery, tags = [], resultCount, skipCount = 0) {
 
     // fetch default snippets if no query is provided
-    if (!searchQuery) {
+    if (!searchQuery && tags.length == 0) {
         return fetchDefaultSnippets(resultCount, skipCount);
     }
 
@@ -78,7 +84,17 @@ export async function fetchSnippets(searchQuery, resultCount, skipCount = 0) {
 
     // Get search results & store in snippets
     let snippets = []
-    const search = await pagefind.search(searchQuery);
+    let options = tags.length == 0 ? {} : {
+        filters: {
+            tags: {
+                any: tags
+            }
+        }
+    };
+
+    console.log(options);
+    const search = await pagefind.search(searchQuery, options);
+    console.log(search);
     for (let i = skipCount; i < resultCount + skipCount; i++) {
 
         // Break if exceeded number of snippets found

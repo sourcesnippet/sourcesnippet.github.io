@@ -1,4 +1,4 @@
-import { getSearchQueryFromUrl, getPageNumFromUrl, fetchSnippets, setupPaginationBtns } from "/static/service.js"
+import { getSearchQueryFromUrl, getPageNumFromUrl, fetchSnippets, setupPaginationBtns, getTagsQueryFromUrl } from "/static/service.js"
 import { SEARCH_QUERY } from "/static/service.js"
 
 // Properties
@@ -102,7 +102,7 @@ export function setupSearch(searchQuery = "", quickSearchCount = DEFAULT_QUICK_S
 
         // Get search results
         const query = searchInput.value;
-        const quickSearchResults = (query === "") ? [] : (await fetchSnippets(query, quickSearchCount + 1)).snippets;
+        const quickSearchResults = (query === "") ? [] : (await fetchSnippets(query, [], quickSearchCount + 1)).snippets;
         console.log(quickSearchResults)
         if (thisSearchId !== lastSearchId) {
             return;
@@ -146,7 +146,8 @@ export async function setupPage(resultsPerPage, quickSearchCount, selectors, sub
 
     // Get all snippets based on page number & search query
     const pageNumber = getPageNumFromUrl();
-    const { snippets, totalSnippets } = await fetchSnippets(searchQuery, resultsPerPage, resultsPerPage * (pageNumber - 1));
+    const tags = getTagsQueryFromUrl();
+    const { snippets, totalSnippets } = await fetchSnippets(searchQuery, tags, resultsPerPage, resultsPerPage * (pageNumber - 1));
 
 
     // Set search count

@@ -1,3 +1,12 @@
+// Properties
+const SEARCH_INPUT_SELECTOR = "#searchbar .search-input"
+const SEARCH_DROPDOWN_SELECTOR = "#searchbar .search-dropdown"
+const SEARCH_MORE_SELECTOR = "#searchbar .search-more"
+const SEARCH_NONEFOUND_SELECTOR = "#searchbar .search-nonefound"
+const SEARCH_BTN_SELECTOR = "#searchbar .search-btn"
+
+
+// Methods
 function changeTab(element, index) {
 
     // Make sure index is a number
@@ -36,7 +45,7 @@ function changeTabByButton(element, index) {
     element.classList.add("codetabs-selected");
 }
 
-function copyCode(element){
+function copyCode(element) {
     console.log("copying code!", element)
 
 
@@ -46,3 +55,21 @@ function copyCode(element){
 
     navigator.clipboard.writeText(codeElement?.innerText?.trim() ?? "");
 }
+
+async function main() {
+    const paginationModule = await import("/pagination.js")
+    paginationModule.setupSearch(
+        undefined,
+        undefined,
+        {
+            searchInput: SEARCH_INPUT_SELECTOR,
+            searchDropdown: SEARCH_DROPDOWN_SELECTOR,
+            searchMore: SEARCH_MORE_SELECTOR,
+            searchNonefound: SEARCH_NONEFOUND_SELECTOR,
+            searchBtn: SEARCH_BTN_SELECTOR,
+        }
+    );
+
+}
+
+main();

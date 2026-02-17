@@ -4,6 +4,7 @@ import { getPageNumFromUrl } from "/static/service.js"
 
 // Properties
 export const RESULTS_PER_PAGE = 500;
+export const QUICK_SEARCH_COUNT = 4;
 export const SNIPPET_LIST_SELECTOR = "#raw-snippet-list"
 export const SEARCH_INPUT_SELECTOR = "#searchbar .search-input"
 export const SEARCH_BTN_SELECTOR = "#searchbar .search-btn"
@@ -57,12 +58,15 @@ function addSnippetsToList(snippets) {
 if (typeof window !== "undefined") {
     setupPage(
         RESULTS_PER_PAGE,
-        SEARCH_BANNER_SELECTOR,
-        SEARCH_DISPLAY_SELECTOR,
-        SEARCH_INPUT_SELECTOR,
-        SEARCH_BTN_SELECTOR,
-        SEARCH_COUNT_SELECTOR,
-        PAGINATION_BAR_SELECTOR,
+        QUICK_SEARCH_COUNT,
+        {
+            searchBanner: SEARCH_BANNER_SELECTOR,
+            searchDisplay: SEARCH_DISPLAY_SELECTOR,
+            searchInput: SEARCH_INPUT_SELECTOR,
+            searchBtn: SEARCH_BTN_SELECTOR,
+            searchCount: SEARCH_COUNT_SELECTOR,
+            paginationBar: PAGINATION_BAR_SELECTOR,
+        },
         addSnippetsToList
     );
 }

@@ -6,10 +6,11 @@ import path from "path"
 export const SITE_NAME = "SourceSnippet";
 export const SITE_MOTTO = "Come. Copy. Go. As simple as that!";
 export const REPO_LINK = "https://github.com/sourcesnippet/sourcesnippet.github.io";
-export const SEARCHBAR_TOOLTIP = ""
 export const SITE_CREATION_TOOL = "https://www.npmjs.com/package/host-mdx"
 export const SITE_LOGO_PATH = "/static/Logo.png"
 export const PLACEHOLDER_IMG_PATH = "/static/Placeholder.png"
+export const DEFAULT_SNIPPET_STYLES_PATH = "styles.css"
+export const DEFAULT_SNIPPET_SCRIPT_PATH = "script.js"
 
 
 /* Internal Properties */
@@ -44,10 +45,14 @@ export function Header() {
     </a>)
 }
 
-export function SearchBar({ id="searchbar" }) {
+export function SearchBar({ id = "searchbar" }) {
     return (<div id={id} className="search-wrapper">
-        <input className="search-input" type="text" placeholder="Search..." title={SEARCHBAR_TOOLTIP} />
-        <button className="search-btn" title={SEARCHBAR_TOOLTIP}>🔍</button>
+        <input className="search-input" type="text" placeholder="Search..." />
+        <div className="search-dropdown">
+            <a href="#" className="search-more" style={"display:none"}>Show all results</a>
+            <a href="#" className="search-nonefound" style={"display:none"}>No results found</a>
+        </div>
+        <button className="search-btn">🔍</button>
     </div>)
 }
 
@@ -78,13 +83,14 @@ export function SnippetCard({ className = "", imgSrc, text, link, tags = [] }) {
 export function Snippet({ metaData = {}, children }) {
 
     // Default styles Component
-    const stylePath = "styles.css";
-    const stylePathExists = fs.existsSync(path.join(hostmdxCwd, stylePath));
+    const stylePathExists = fs.existsSync(path.join(hostmdxCwd, DEFAULT_SNIPPET_STYLES_PATH));
+    const scriptPathExists = fs.existsSync(path.join(hostmdxCwd, DEFAULT_SNIPPET_SCRIPT_PATH));
     const defaultHead = (<>
         <link rel="preload" href="/static/copy-done-icon.png" as="image" />
         <link rel="stylesheet" href="/static/global-styles.css" />
         <link rel="stylesheet" href="/static/code-styles.css" />
-        {stylePathExists && <link rel="stylesheet" href={stylePath} />}
+        {stylePathExists && <link rel="stylesheet" href={DEFAULT_SNIPPET_STYLES_PATH} />}
+        {scriptPathExists && <script type="module" src={DEFAULT_SNIPPET_SCRIPT_PATH}></script>}
         <script src="/static/global-script.js"></script>
     </>);
 

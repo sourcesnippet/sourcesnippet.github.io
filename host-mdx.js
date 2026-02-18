@@ -5,6 +5,7 @@ import { TAGS_QUERY } from "./static/global-script.js"
 import * as pagefind from "pagefind";
 import remarkHeadingId from 'remark-heading-id';
 import rehypeMdxCodeProps from 'rehype-mdx-code-props'
+import * as esbuild from 'esbuild';
 
 
 // To Set Properties
@@ -166,6 +167,29 @@ function injectTags(outputPath) {
     container.innerHTML = htmlContent;
     fs.writeFileSync(filePath, document.toString(), 'utf8');
 }
+async function compressFile(filePath) {
+    const fileExt = path.extname(filePath).toLowerCase()
+    if (fileExt === ".css") {
+        const sourceCode = fs.readFileSync(filePath, 'utf8');
+        const minified = await esbuild.transform(sourceCode, {
+            loader: "css",
+            charset: 'utf8',
+            minify: true
+        });
+        fs.writeFileSync(filePath, minified.code);
+    }
+    else if (fileExt === ".js") {
+        const sourceCode = fs.readFileSync(filePath, 'utf8');
+        const minified = await esbuild.transform(sourceCode, {
+            loader: "js",
+            charset: 'utf8',
+            minifyWhitespace: true,
+            minifySyntax: true,
+            minifyIdentifiers: false,
+        });
+        fs.writeFileSync(filePath, minified.code);
+    }
+}
 
 
 // Override Methods
@@ -208,7 +232,11 @@ export function onSiteCreateStart(inputPath, outputPath) {
     snippetsList = [];
 }
 
-export function onFileCreateEnd(inputPath, outputPath, inFilePath, outFilePath, result) {
+export async function onFileCreateEnd(inputPath, outputPath, inFilePath, outFilePath, result) {
+
+    // Compress file if js or css
+    await compressFile(outFilePath);
+
 
     // Add to snippets list
     let absSnippetsDir = path.join(inputPath, SNIPPETS_DIR)

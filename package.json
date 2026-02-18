@@ -1,6 +1,7 @@
 {
   "type": "module",
   "dependencies": {
+    "esbuild": "^0.27.3",
     "linkedom": "^0.18.12",
     "pagefind": "^1.4.0",
     "rehype-mdx-code-props": "^3.0.1",

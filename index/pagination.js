@@ -3,7 +3,7 @@ import { PAGE_QUERY, TAGS_QUERY, SEARCH_QUERY } from "/static/global-script.js"
 
 
 // Properties
-export const QUICK_SEARCH_DELAY = 400;  // Amount to wait before quick searching
+export const QUICK_SEARCH_DELAY = 300;  // Amount to wait before quick searching
 export const DEFAULT_QUICK_SEARCH_COUNT = 5;
 let lastSearchId = 0;  // To avoid older quick search request from overriding newer one
 
@@ -21,110 +21,27 @@ function debounce(func, delay) {
     };
 }
 
-function getPageNumFromUrl() {
+export function getPageNumFromUrl() {
     const urlParams = new URLSearchParams(window.location.search);
     const pageNumber = Number(urlParams.get(PAGE_QUERY)) || 1;
     return Math.max(pageNumber, 1);
 }
 
-function getSearchQueryFromUrl() {
+export function getSearchQueryFromUrl() {
     const urlParams = new URLSearchParams(window.location.search);
     return urlParams.get(SEARCH_QUERY);
 }
 
-function getTagsQueryFromUrl() {
+export function getTagsQueryFromUrl() {
     const urlParams = new URLSearchParams(window.location.search);
     let tagsString = urlParams.get(TAGS_QUERY)
     return tagsString?.split(",").filter(Boolean) ?? [];
 }
 
-function gotoPageNumber(pageNumber) {
+export function gotoPageNumber(pageNumber) {
     const url = new URL(window.location.href);
     url.searchParams.set(PAGE_QUERY, pageNumber);
     window.location.href = url.toString();
-}
-
-function loadingQueryBanner(queries = {}, selectors = {}) {
-
-    // Return if no queries
-    if (!queries.searchQuery && queries.tags.length == 0) {
-        return;
-    }
-
-
-    // Return if banner not found
-    let queryBannerElement = document.querySelector(selectors.queryBanner);
-    if (!queryBannerElement) {
-        return;
-    }
-
-
-    // Make sure banner is visible
-    queryBannerElement.style.display = "block"
-
-
-    // Write as loading
-    queryBannerElement.textContent = "Loading..."
-}
-
-function assignQueryBanner(resultCount = 0, queries = {}, selectors = {}) {
-
-    // Return if no queries
-    if (!queries.searchQuery && queries.tags.length == 0) {
-        return;
-    }
-
-
-    // Return if banner not found
-    let queryBannerElement = document.querySelector(selectors.queryBanner);
-    if (!queryBannerElement) {
-        return;
-    }
-
-
-    // Make sure banner is visible
-    queryBannerElement.style.display = "block"
-
-
-    // Write into banner based on queries
-    let queryText = `${resultCount} results`;
-    queryText += queries.searchQuery ? ` for "${queries.searchQuery}"` : "";
-    queryText += queries.tags.length != 0 ? ` with ${queries.tags.length == 1 ? "tag" : "tags"} ${queries.tags.map(i => `[ ${i} ]`).join(" ")}` : "";
-
-
-    // Assign into query Banner
-    queryBannerElement.textContent = queryText;
-}
-
-function populateSearchDropdown(dropdownElement, searchMoreElement, searchNonefoundElement, query, snippets, areMoreAvailable = false) {
-
-    // Remove old quick search results
-    const oldLinks = dropdownElement.querySelectorAll('a');
-    oldLinks.forEach(link => {
-        if (!link.isSameNode(searchMoreElement) && !link.isSameNode(searchNonefoundElement)) {
-            link.remove()
-        }
-    });
-
-
-    // Change display of "show all results"
-    searchMoreElement.style.display = areMoreAvailable ? "block" : "none";
-    searchMoreElement.href = `?${SEARCH_QUERY}=${encodeURIComponent(query)}`;
-
-
-    // Change display of "No results found"
-    searchNonefoundElement.style.display = snippets.length == 0 && query.length != 0 ? "block" : "none";
-
-
-    // Add new quick search results
-    snippets.forEach(item => {
-        const anchor = document.createElement('a');
-        anchor.href = item.url;
-        anchor.textContent = item.title;
-        anchor.title = item.title;
-        dropdownElement.insertBefore(anchor, searchMoreElement);
-    });
-
 }
 
 function setupPaginationBtns(paginationBar, currentIndex, totalIndices) {
@@ -211,15 +128,94 @@ function setupPaginationBtns(paginationBar, currentIndex, totalIndices) {
     nextBtn.onclick = toShowNext ? () => { gotoPageNumber(currentIndex + 1) } : null;
 }
 
-export function setupSearch(searchQuery = "", quickSearchCount = DEFAULT_QUICK_SEARCH_COUNT, selectors = {}) {
+function loadingQueryBanner(queries = {}, selectors = {}) {
 
-    // Show what was searched for (if any)
-    if (searchQuery == "") {
-        let searchQuery = getSearchQueryFromUrl();
-        assignQueryBanner(searchQuery, selectors);
+    // Return if no queries
+    if (!queries.searchQuery && queries.tags.length == 0) {
+        return;
     }
 
 
+    // Return if banner not found
+    let queryBannerElement = document.querySelector(selectors.queryBanner);
+    if (!queryBannerElement) {
+        return;
+    }
+
+
+    // Make sure banner is visible
+    queryBannerElement.style.display = ""
+
+
+    // Write as loading
+    queryBannerElement.textContent = "Loading..."
+}
+
+function assignQueryBanner(resultCount = 0, queries = {}, selectors = {}) {
+
+    console.log("here")
+
+    // Return if no queries
+    if (!queries.searchQuery && queries.tags.length == 0) {
+        console.log("returning")
+
+        return;
+    }
+
+
+    // Return if banner not found
+    let queryBannerElement = document.querySelector(selectors.queryBanner);
+    if (!queryBannerElement) {
+        return;
+    }
+
+
+    // Make sure banner is visible
+    queryBannerElement.style.display = ""
+
+
+    // Write into banner based on queries
+    let queryText = `${resultCount} ${resultCount == 1 ? "result" : "results"}`;
+    queryText += queries.searchQuery ? ` for "${queries.searchQuery}"` : "";
+    queryText += queries.tags.length != 0 ? ` with ${queries.tags.length == 1 ? "tag" : "tags"} ${queries.tags.map(i => `[ ${i} ]`).join(" ")}` : "";
+
+
+    // Assign into query Banner
+    queryBannerElement.textContent = queryText;
+}
+
+function populateSearchDropdown(dropdownElement, searchMoreElement, searchNonefoundElement, query, snippets, areMoreAvailable = false) {
+
+    // Remove old quick search results
+    const oldLinks = dropdownElement.querySelectorAll('a');
+    oldLinks.forEach(link => {
+        if (!link.isSameNode(searchMoreElement) && !link.isSameNode(searchNonefoundElement)) {
+            link.remove()
+        }
+    });
+
+
+    // Change display of "show all results"
+    searchMoreElement.style.display = areMoreAvailable ? "" : "none";
+    searchMoreElement.href = `/?${SEARCH_QUERY}=${encodeURIComponent(query)}`;
+
+
+    // Change display of "No results found"
+    searchNonefoundElement.style.display = snippets.length == 0 && query.length != 0 ? "" : "none";
+
+
+    // Add new quick search results
+    snippets.forEach(item => {
+        const anchor = document.createElement('a');
+        anchor.href = item.url;
+        anchor.textContent = item.title;
+        anchor.title = item.title;
+        dropdownElement.insertBefore(anchor, searchMoreElement);
+    });
+
+}
+
+export function setupSearch(searchQuery = "", quickSearchCount = DEFAULT_QUICK_SEARCH_COUNT, selectors = {}) {
     // Get all elements
     const searchInput = document.querySelector(selectors.searchInput);
     const searchBtn = document.querySelector(selectors.searchBtn);
@@ -235,7 +231,7 @@ export function setupSearch(searchQuery = "", quickSearchCount = DEFAULT_QUICK_S
     // Create search methods
     const gotoSearchPage = () => {
         const query = searchInput.value;
-        window.location.href = query ? `?${SEARCH_QUERY}=${encodeURIComponent(query)}` : window.location.pathname;
+        window.location.href = query ? `/?${SEARCH_QUERY}=${encodeURIComponent(query)}` : window.location.pathname;
     };
     const quickSearch = debounce(async () => {
         // Set new search id
@@ -245,7 +241,6 @@ export function setupSearch(searchQuery = "", quickSearchCount = DEFAULT_QUICK_S
         // Get search results
         const query = searchInput.value;
         const quickSearchResults = (query === "") ? [] : (await fetchSnippets(query, [], quickSearchCount + 1)).snippets;
-        console.log(quickSearchResults)
         if (thisSearchId !== lastSearchId) {
             return;
         }
@@ -305,6 +300,6 @@ export async function setupPage(resultsPerPage, quickSearchCount, selectors, sub
         const totalPages = 0 < totalSnippets ? Math.ceil(totalSnippets / resultsPerPage) : 1;
         let paginationBar = document.querySelector(selectors.paginationBar);
         paginationBar.style.display = "";  // Ensure pagination bar is visible
-        setupPaginationBtns(paginationBar, pageNumber, totalPages);
+        setupPaginationBtns(paginationBar, urlQueries.pageNumber, totalPages);
     }
 }

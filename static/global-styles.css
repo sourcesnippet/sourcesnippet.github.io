@@ -207,6 +207,13 @@ code {
 }
 
 
+/* Query banner */
+#query-banner {
+    text-align: center;
+    margin-bottom: 2rem;
+    color: var(--muted)
+}
+
 
 /* Snippets */
 #snippet-header {

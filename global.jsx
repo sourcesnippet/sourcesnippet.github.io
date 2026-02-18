@@ -59,10 +59,10 @@ export function SearchBar({ id = "searchbar" }) {
 
 export function NavBar() {
     return (<nav id="navbar">
-        <a href="/snippets">All</a>
         <a href="/tags">Tags</a>
         <a href="/about">About</a>
         <a href="/terms">Terms</a>
+        <a href="/contact">Contact</a>
     </nav>)
 }
 
@@ -265,8 +265,6 @@ export function Footer({ showWarning = false }) {
             <a href={REPO_LINK} target="_blank">Repository</a>
             <hr />
             <a href={`${REPO_LINK}/issues`} target="_blank">Report Bug</a>
-            <hr />
-            <a href="/contact">Contact</a>
         </div>
         {showWarning && <div id="footer-warning">Scraping data for AI training or any other purpose is strictly prohibited. <a href="/terms#ai-data-scraping-policy" aria-label="Learn more about scraping policy">Learn More</a></div>}
     </footer>)

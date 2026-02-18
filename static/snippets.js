@@ -46,9 +46,6 @@ function changeTabByButton(element, index) {
 }
 
 function copyCode(element) {
-    console.log("copying code!", element)
-
-
     // Get content contains all code blocks
     let content = element?.parentNode;
     let codeElement = content?.querySelector(".codetabs-active code");
@@ -67,7 +64,8 @@ async function main() {
             searchMore: SEARCH_MORE_SELECTOR,
             searchNonefound: SEARCH_NONEFOUND_SELECTOR,
             searchBtn: SEARCH_BTN_SELECTOR,
-        }
+        },
+        false
     );
 
 }

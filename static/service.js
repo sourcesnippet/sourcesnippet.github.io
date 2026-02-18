@@ -64,15 +64,10 @@ export async function fetchSnippets(searchQuery, tags = [], resultCount, skipCou
     let snippets = []
     let options = tags.length == 0 ? {} : {
         filters: {
-            tags: {
-                any: tags
-            }
+            tags: { any: tags }
         }
     };
-
-    console.log(options);
     const search = await pagefind.search(searchQuery, options);
-    console.log(search);
     for (let i = skipCount; i < resultCount + skipCount; i++) {
 
         // Break if exceeded number of snippets found

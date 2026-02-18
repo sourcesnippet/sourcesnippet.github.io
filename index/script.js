@@ -5,9 +5,9 @@ import { TAGS_QUERY } from "/static/global-script.js"
 // Properties
 export const RESULTS_PER_PAGE = 16;
 export const QUICK_SEARCH_COUNT = 5;
-export const CARDS_PER_ROW = 4;
 export const SNIPPET_CARD_SELECTOR = ".snippet-card";
 export const SNIPPET_LOADING_CLASS = "is-loading"
+export const SNIPPET_THUMBNAIL_SELECTOR = ".snippet-card-thumbnail"
 export const SNIPPET_IMG_SELECTOR = ".snippet-card-thumbnail img"
 export const SNIPPET_TITLE_SELECTOR = ".snippet-card-title"
 export const SNIPPET_TITLE_DIV_SELECTOR = ".snippet-card-title div"
@@ -35,31 +35,33 @@ function updateSnippetCards(snippets) {
 
 
         // Hide/Remove card if no more snippets left
-        if (snippets.length <= i && i < CARDS_PER_ROW) {
-            card.style.visibility = "hidden";
-            continue;
-        }
-        else if (snippets.length <= i) {
+        if (snippets.length <= i) {
             card.style.display = "none";
             continue;
         }
 
 
-        // Add thumbnail
+        // Add image to thumbnail
         let imgElement = card.querySelector(SNIPPET_IMG_SELECTOR);
         let thumbnail = snippets[i]?.thumbnail;
         const imgUrl = thumbnail ? new URL(thumbnail, window.location.origin + snippets[i]?.url).href : "";
         imgElement.src = imgUrl;
 
 
-        // Add title 
-        let titleElement = card.querySelector(SNIPPET_TITLE_SELECTOR);
-        titleElement.href = snippets[i]?.url;
+        // Add link to thumbnail
+        let thumbnailElement = card.querySelector(SNIPPET_THUMBNAIL_SELECTOR);
+        thumbnailElement.href = snippets[i]?.url;
+        thumbnailElement.style.display = thumbnail ? "" : "none";
 
 
-        // Add link
+        // Add text to title
         let titleDivElement = card.querySelector(SNIPPET_TITLE_DIV_SELECTOR);
         titleDivElement.textContent = snippets[i]?.title;
+
+
+        // Add link to title
+        let titleElement = card.querySelector(SNIPPET_TITLE_SELECTOR);
+        titleElement.href = snippets[i]?.url;
 
 
         // Remove existing tags
@@ -80,7 +82,7 @@ function updateSnippetCards(snippets) {
 
             // Assign values to tag element
             const tagElement = document.createElement('a');
-            tagElement.href = `?${TAGS_QUERY}=${encodeURIComponent(tags[i])}`;
+            tagElement.href = `/?${TAGS_QUERY}=${encodeURIComponent(tags[i])}`;
             tagElement.className = SNIPPET_TAG_CLASS;
             tagElement.textContent = tags[i];
             tagContainer.appendChild(tagElement);

@@ -138,12 +138,18 @@ code {
     border: 1px solid var(--border);
     border-radius: 0 4px 4px 0;
     background-color: var(--accent-dull);
-    padding: 0 0.75rem;
+    padding: 0.4rem;
     cursor: pointer;
+    aspect-ratio: 1 / 1;
+    background-image: url("/static/search-icon.png");
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-origin: content-box;
+    background-position: center;
 }
 
 .search-btn:active {
-    background: var(--accent)
+    background-color: var(--accent)
 }
 
 .search-dropdown {
@@ -193,7 +199,7 @@ code {
 
 .search-more {
     text-align: center;
-    background-color: rgba(0,0,0, 0.25);
+    background-color: rgba(0, 0, 0, 0.25);
 }
 
 .search-nonefound {

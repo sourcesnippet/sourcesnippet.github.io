@@ -1,9 +1,10 @@
-import { getSearchQueryFromUrl, getPageNumFromUrl, fetchSnippets, setupPaginationBtns, getTagsQueryFromUrl } from "/static/service.js"
-import { SEARCH_QUERY } from "/static/service.js"
+import { fetchSnippets } from "/static/service.js"
+import { PAGE_QUERY, TAGS_QUERY, SEARCH_QUERY } from "/static/global-script.js"
+
 
 // Properties
-const QUICK_SEARCH_DELAY = 400;  // Amount to wait before quick searching
-const DEFAULT_QUICK_SEARCH_COUNT = 5;
+export const QUICK_SEARCH_DELAY = 400;  // Amount to wait before quick searching
+export const DEFAULT_QUICK_SEARCH_COUNT = 5;
 let lastSearchId = 0;  // To avoid older quick search request from overriding newer one
 
 
@@ -20,22 +21,79 @@ function debounce(func, delay) {
     };
 }
 
-function displaySearchQuery(searchQuery, selectors) {
+function getPageNumFromUrl() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const pageNumber = Number(urlParams.get(PAGE_QUERY)) || 1;
+    return Math.max(pageNumber, 1);
+}
 
-    // Return if no query
-    if (!searchQuery) {
+function getSearchQueryFromUrl() {
+    const urlParams = new URLSearchParams(window.location.search);
+    return urlParams.get(SEARCH_QUERY);
+}
+
+function getTagsQueryFromUrl() {
+    const urlParams = new URLSearchParams(window.location.search);
+    let tagsString = urlParams.get(TAGS_QUERY)
+    return tagsString?.split(",").filter(Boolean) ?? [];
+}
+
+function gotoPageNumber(pageNumber) {
+    const url = new URL(window.location.href);
+    url.searchParams.set(PAGE_QUERY, pageNumber);
+    window.location.href = url.toString();
+}
+
+function loadingQueryBanner(queries = {}, selectors = {}) {
+
+    // Return if no queries
+    if (!queries.searchQuery && queries.tags.length == 0) {
         return;
     }
 
 
-    // Show search banner
-    let searchBanner = document.querySelector(selectors.searchBanner);
-    searchBanner.style.display = "";
+    // Return if banner not found
+    let queryBannerElement = document.querySelector(selectors.queryBanner);
+    if (!queryBannerElement) {
+        return;
+    }
 
 
-    // Show search query
-    let searchDisplay = document.querySelector(selectors.searchDisplay);
-    searchDisplay.textContent = searchQuery;
+    // Make sure banner is visible
+    queryBannerElement.style.display = "block"
+
+
+    // Write as loading
+    queryBannerElement.textContent = "Loading..."
+}
+
+function assignQueryBanner(resultCount = 0, queries = {}, selectors = {}) {
+
+    // Return if no queries
+    if (!queries.searchQuery && queries.tags.length == 0) {
+        return;
+    }
+
+
+    // Return if banner not found
+    let queryBannerElement = document.querySelector(selectors.queryBanner);
+    if (!queryBannerElement) {
+        return;
+    }
+
+
+    // Make sure banner is visible
+    queryBannerElement.style.display = "block"
+
+
+    // Write into banner based on queries
+    let queryText = `${resultCount} results`;
+    queryText += queries.searchQuery ? ` for "${queries.searchQuery}"` : "";
+    queryText += queries.tags.length != 0 ? ` with ${queries.tags.length == 1 ? "tag" : "tags"} ${queries.tags.map(i => `[ ${i} ]`).join(" ")}` : "";
+
+
+    // Assign into query Banner
+    queryBannerElement.textContent = queryText;
 }
 
 function populateSearchDropdown(dropdownElement, searchMoreElement, searchNonefoundElement, query, snippets, areMoreAvailable = false) {
@@ -69,12 +127,96 @@ function populateSearchDropdown(dropdownElement, searchMoreElement, searchNonefo
 
 }
 
+function setupPaginationBtns(paginationBar, currentIndex, totalIndices) {
+
+    // Get all elements in pagination bar
+    let prevBtn = paginationBar.querySelector(".pagination-prev");
+    let page1 = paginationBar.querySelector(".pagination-item:nth-of-type(2)"); // Intentionall not :nth-of-type(1) DO NOT CHANGE
+    let startDots = paginationBar.querySelector(".pagination-dots:nth-of-type(1)");
+    let page4 = paginationBar.querySelector(".pagination-item:nth-of-type(3)");
+    let page5 = paginationBar.querySelector(".pagination-item:nth-of-type(4)");
+    let pageActiveBtn = paginationBar.querySelector(".pagination-active");
+    let page7 = paginationBar.querySelector(".pagination-item:nth-of-type(6)");
+    let page8 = paginationBar.querySelector(".pagination-item:nth-of-type(7)");
+    let endDots = paginationBar.querySelector(".pagination-dots:nth-of-type(2)");
+    let page11 = paginationBar.querySelector(".pagination-item:nth-of-type(8)");
+    let nextBtn = paginationBar.querySelector(".pagination-next");
+
+
+    // Prev Button
+    let toShowPrev = (currentIndex != 1);
+    prevBtn.style.display = toShowPrev ? "" : "none"
+    prevBtn.onclick = toShowPrev ? () => { gotoPageNumber(currentIndex - 1) } : null;
+
+
+    // Page 1 button
+    let toShowPage1 = (4 <= currentIndex);
+    page1.style.display = toShowPage1 ? "" : "none";
+    page1.onclick = toShowPage1 ? () => { gotoPageNumber(1) } : null;
+    page1.textContent = toShowPage1 ? 1 : "-";
+
+
+    // Start Dots 
+    let toShowStartDots = (5 <= currentIndex);
+    startDots.style.display = toShowStartDots ? "" : "none";
+
+
+    // Page 4 button
+    let toShowPage4 = (3 <= currentIndex);
+    page4.style.display = toShowPage4 ? "" : "none";
+    page4.onclick = toShowPage4 ? () => { gotoPageNumber(currentIndex - 2) } : null;
+    page4.textContent = toShowPage4 ? currentIndex - 2 : "-";
+
+
+    // Page 5 button
+    let toShowPage5 = (2 <= currentIndex);
+    page5.style.display = toShowPage5 ? "" : "none";
+    page5.onclick = toShowPage5 ? () => { gotoPageNumber(currentIndex - 1) } : null;
+    page5.textContent = toShowPage5 ? currentIndex - 1 : "-";
+
+
+    // Active button
+    pageActiveBtn.textContent = currentIndex;
+
+
+    // Page 7 button
+    let toShowPage7 = (totalIndices >= currentIndex + 1);
+    page7.style.display = toShowPage7 ? "" : "none";
+    page7.onclick = toShowPage7 ? () => { gotoPageNumber(currentIndex + 1) } : null;
+    page7.textContent = toShowPage7 ? currentIndex + 1 : "-";
+
+
+    // Page 8 button
+    let toShowPage8 = (totalIndices >= currentIndex + 2);
+    page8.style.display = toShowPage8 ? "" : "none";
+    page8.onclick = toShowPage8 ? () => { gotoPageNumber(currentIndex + 2) } : null;
+    page8.textContent = toShowPage8 ? currentIndex + 2 : "-";
+
+
+    // Ending Dots
+    let toShowEndDots = (currentIndex < totalIndices - 3);
+    endDots.style.display = toShowEndDots ? "" : "none";
+
+
+    // Page 11 button
+    let toShowPage11 = (currentIndex < totalIndices - 2);
+    page11.style.display = toShowPage11 ? "" : "none";
+    page11.onclick = toShowPage11 ? () => { gotoPageNumber(totalIndices) } : null;
+    page11.textContent = toShowPage11 ? totalIndices : "-";
+
+
+    // Next button
+    let toShowNext = (currentIndex != totalIndices);
+    nextBtn.style.display = toShowNext ? "" : "none";
+    nextBtn.onclick = toShowNext ? () => { gotoPageNumber(currentIndex + 1) } : null;
+}
+
 export function setupSearch(searchQuery = "", quickSearchCount = DEFAULT_QUICK_SEARCH_COUNT, selectors = {}) {
 
     // Show what was searched for (if any)
     if (searchQuery == "") {
         let searchQuery = getSearchQueryFromUrl();
-        displaySearchQuery(searchQuery, selectors);
+        assignQueryBanner(searchQuery, selectors);
     }
 
 
@@ -130,28 +272,28 @@ export function setupSearch(searchQuery = "", quickSearchCount = DEFAULT_QUICK_S
 
 export async function setupPage(resultsPerPage, quickSearchCount, selectors, substanceCallback) {
 
-    // Show what was searched for (if any)
-    let searchQuery = getSearchQueryFromUrl();
-    displaySearchQuery(searchQuery, selectors);
+    // Get url queries 
+    const urlQueries = {
+        searchQuery: getSearchQueryFromUrl(),
+        pageNumber: getPageNumFromUrl(),
+        tags: getTagsQueryFromUrl()
+    }
 
 
     // Setup search functionality on page
-    setupSearch(searchQuery, quickSearchCount, selectors);
+    setupSearch(urlQueries.searchQuery, quickSearchCount, selectors);
 
 
     // Set search to loading
-    let searchCount = document.querySelector(selectors.searchCount);
-    searchCount.textContent = "Loading"
+    loadingQueryBanner(urlQueries, selectors);
 
 
     // Get all snippets based on page number & search query
-    const pageNumber = getPageNumFromUrl();
-    const tags = getTagsQueryFromUrl();
-    const { snippets, totalSnippets } = await fetchSnippets(searchQuery, tags, resultsPerPage, resultsPerPage * (pageNumber - 1));
+    const { snippets, totalSnippets } = await fetchSnippets(urlQueries.searchQuery, urlQueries.tags, resultsPerPage, resultsPerPage * (urlQueries.pageNumber - 1));
 
 
-    // Set search count
-    searchCount.textContent = totalSnippets;
+    // Display what was queried
+    assignQueryBanner(totalSnippets, urlQueries, selectors);
 
 
     // Add snippet data to all cards

@@ -1,4 +1,5 @@
 import { setupPage } from "/pagination.js"
+import { TAGS_QUERY } from "/static/global-script.js"
 
 
 // Properties
@@ -17,9 +18,7 @@ export const SEARCH_DROPDOWN_SELECTOR = "#searchbar .search-dropdown"
 export const SEARCH_MORE_SELECTOR = "#searchbar .search-more"
 export const SEARCH_NONEFOUND_SELECTOR = "#searchbar .search-nonefound"
 export const SEARCH_BTN_SELECTOR = "#searchbar .search-btn"
-export const SEARCH_BANNER_SELECTOR = "#search-banner"
-export const SEARCH_COUNT_SELECTOR = "#search-count"
-export const SEARCH_DISPLAY_SELECTOR = "#search-display"
+export const QUERY_BANNER_SELECTOR = "#query-banner"
 export const PAGINATION_BAR_SELECTOR = "#pagination"
 
 
@@ -81,7 +80,7 @@ function updateSnippetCards(snippets) {
 
             // Assign values to tag element
             const tagElement = document.createElement('a');
-            tagElement.href = '#';
+            tagElement.href = `?${TAGS_QUERY}=${encodeURIComponent(tags[i])}`;
             tagElement.className = SNIPPET_TAG_CLASS;
             tagElement.textContent = tags[i];
             tagContainer.appendChild(tagElement);
@@ -96,14 +95,12 @@ if (typeof window !== "undefined") {
         RESULTS_PER_PAGE,
         QUICK_SEARCH_COUNT,
         {
-            searchBanner: SEARCH_BANNER_SELECTOR,
-            searchDisplay: SEARCH_DISPLAY_SELECTOR,
             searchInput: SEARCH_INPUT_SELECTOR,
             searchDropdown: SEARCH_DROPDOWN_SELECTOR,
             searchMore: SEARCH_MORE_SELECTOR,
             searchNonefound: SEARCH_NONEFOUND_SELECTOR,
             searchBtn: SEARCH_BTN_SELECTOR,
-            searchCount: SEARCH_COUNT_SELECTOR,
+            queryBanner: QUERY_BANNER_SELECTOR,
             paginationBar: PAGINATION_BAR_SELECTOR
         },
         updateSnippetCards

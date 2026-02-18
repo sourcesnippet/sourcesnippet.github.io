@@ -1,5 +1,7 @@
 import fs from "fs"
 import path from "path"
+import { parseHTML } from 'linkedom';
+import { TAGS_QUERY } from "./static/global-script.js"
 import * as pagefind from "pagefind";
 import remarkHeadingId from 'remark-heading-id';
 import rehypeMdxCodeProps from 'rehype-mdx-code-props'
@@ -15,10 +17,13 @@ const SNIPPETS_STATS_FILE = "_stats.json"
 const INDEX_FOLDER = "/index"
 const SNIPPETS_SEARCH_DIR = "/static/search/"
 const UNTITLED_NAME = "Untitled"
+const TAGS_FILE_PATH = "/tags/index.html"
+const TAGS_CONTAINER_SELECTOR = "#tag-list-container"
 
 
 // Properties
 let snippetsList = []
+let tagsSet = new Set();
 
 
 // Utility Methods
@@ -123,6 +128,44 @@ async function buildSearchIndex(outputPath) {
         outputPath: path.join(outputPath, SNIPPETS_SEARCH_DIR)
     });
 }
+function injectTags(outputPath) {
+
+    // Read tags/index.html page
+    const filePath = path.join(outputPath, TAGS_FILE_PATH);
+    const htmlSource = fs.readFileSync(filePath, 'utf8');
+    const { document } = parseHTML(htmlSource);
+
+
+    // Return if no conainer found
+    const container = document.querySelector(TAGS_CONTAINER_SELECTOR);
+    if (!container) {
+        return;
+    }
+
+
+    // Sort and group tags into [["a...", ...], ["b...", ...], ...]
+    const sortedTags = Array.from(tagsSet).sort((a, b) => a.localeCompare(b)).reduce((accum, tag) => {
+        const lastGroup = accum[accum.length - 1];
+        if (lastGroup && lastGroup[0][0].toLowerCase() === tag[0].toLowerCase()) {
+            lastGroup.push(tag);
+        } else {
+            accum.push([tag]);
+        }
+        return accum;
+    }, []);
+
+
+    // Generate html from tags
+    const htmlContent = sortedTags.map(group => {
+        const links = group.map(tag => `<a class="tag" href="/?${TAGS_QUERY}=${encodeURIComponent(tag)}">${tag}</a>`).join('');
+        return `<div class="tag-list">${links}</div>`;
+    }).join('\n\n');
+
+
+    // Injecting html & save
+    container.innerHTML = htmlContent;
+    fs.writeFileSync(filePath, document.toString(), 'utf8');
+}
 
 
 // Override Methods
@@ -166,6 +209,8 @@ export function onSiteCreateStart(inputPath, outputPath) {
 }
 
 export function onFileCreateEnd(inputPath, outputPath, inFilePath, outFilePath, result) {
+
+    // Add to snippets list
     let absSnippetsDir = path.join(inputPath, SNIPPETS_DIR)
     let inputFileName = path.basename(inFilePath);
     if (result?.exports?.metaData && inputFileName == SNIPPETS_INDEX_FILE && isSubPath(absSnippetsDir, inFilePath)) {
@@ -173,6 +218,13 @@ export function onFileCreateEnd(inputPath, outputPath, inFilePath, outFilePath, 
             ...result?.exports?.metaData,
             url: `/${path.dirname(path.relative(inputPath, inFilePath))}/`
         });
+    }
+
+
+    // Add to tags set
+    let tags = result?.exports?.metaData?.tags ?? []
+    if (tags.length !== 0) {
+        tags.forEach(item => tagsSet.add(item.toLowerCase()))
     }
 }
 
@@ -214,6 +266,10 @@ export async function onSiteCreateEnd(inputPath, outputPath, wasInterrupted) {
 
     // Create a search index
     await buildSearchIndex(outputPath);
+
+
+    // Inject all tags in "/tags" page
+    injectTags(outputPath);
 }
 
 export function toTriggerRecreate(event, path) {

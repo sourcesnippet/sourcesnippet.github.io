@@ -1,24 +1,25 @@
 import fs from "fs"
 import path from "path"
+import { TAGS_QUERY } from "@/static/global-script.js";
 
 
-/* Properties */
+// Properties
 export const SITE_NAME = "SourceSnippet";
 export const SITE_MOTTO = "Come. Copy. Go. As simple as that!";
 export const REPO_LINK = "https://github.com/sourcesnippet/sourcesnippet.github.io";
 export const SITE_CREATION_TOOL = "https://www.npmjs.com/package/host-mdx"
-export const SITE_LOGO_PATH = "/static/Logo.png"
-export const PLACEHOLDER_IMG_PATH = "/static/Placeholder.png"
+export const SITE_LOGO_PATH = "/static/logo.png"
+export const PLACEHOLDER_IMG_PATH = "/static/placeholder.png"
 export const DEFAULT_SNIPPET_STYLES_PATH = "styles.css"
 export const DEFAULT_SNIPPET_SCRIPT_PATH = "script.js"
 
 
-/* Internal Properties */
+// Internal Properties
 const languageClassPrefix = "hljs language-"
 const displayNameProp = "display-name"
 
 
-/* Components */
+// Components
 export function HTMLSkeleton({ title = "", description = "", children, extendHead = <></> }) {    // The "Boilerplate" html, Useful for cross device compatibility
     return (<>
         <html lang="en">
@@ -52,7 +53,7 @@ export function SearchBar({ id = "searchbar" }) {
             <a href="#" className="search-more" style={"display:none"}>Show all results</a>
             <a href="#" className="search-nonefound" style={"display:none"}>No results found</a>
         </div>
-        <button className="search-btn">🔍</button>
+        <button className="search-btn"></button>
     </div>)
 }
 
@@ -65,9 +66,17 @@ export function NavBar() {
     </nav>)
 }
 
-export function SnippetCard({ className = "", imgSrc, text, link, tags = [] }) {
+export function Tags({ tags }) {
 
-    const TagsComponent = tags.map((tag, index) => (<a className="tag" key={index} href="#">{tag}</a>));
+    // Return empty fragment if no tags
+    if (!tags || tags?.length == 0) {
+        return (<></>)
+    }
+
+    return tags?.map((tag, index) => (<a className="tag" key={index} href={`/?${TAGS_QUERY}=${encodeURIComponent(tag)}`}>{tag}</a>));
+}
+
+export function SnippetCard({ className = "", imgSrc, text, link, tags = [] }) {
 
     return (<div className={`snippet-card ${className}`}>
         <a href={link} className="snippet-card-thumbnail" tabindex="-1">
@@ -76,7 +85,9 @@ export function SnippetCard({ className = "", imgSrc, text, link, tags = [] }) {
         <a href={link} className="snippet-card-title" title={text}>
             <div>{text}</div>
         </a>
-        <div className="snippet-card-tags">{TagsComponent}</div>
+        <div className="snippet-card-tags">
+            <Tags tags={tags} />
+        </div>
     </div>)
 }
 
@@ -91,14 +102,8 @@ export function Snippet({ metaData = {}, children }) {
         <link rel="stylesheet" href="/static/code-styles.css" />
         {stylePathExists && <link rel="stylesheet" href={DEFAULT_SNIPPET_STYLES_PATH} />}
         {scriptPathExists && <script type="module" src={DEFAULT_SNIPPET_SCRIPT_PATH}></script>}
-        <script src="/static/global-script.js"></script>
+        <script src="/static/snippets.js"></script>
     </>);
-
-
-    // Tags Component
-    const TagsComponent = metaData?.tags?.map((tag, index) => {
-        return (<a className="tag" key={index} href="#">{tag}</a>)
-    });
 
 
     return (<HTMLSkeleton title={`${metaData?.title} | ${SITE_NAME}`} extendHead={[defaultHead, metaData?.extendHead]}>
@@ -110,7 +115,7 @@ export function Snippet({ metaData = {}, children }) {
         <hr style="margin-bottom: 2rem" />
 
         <div id="snippet-header">
-            {metaData?.thumbnail && metaData?.thumbnail !== "" && <img id="snippet-thumbnail" src={metaData?.thumbnail} /* onerror="this.src='/static/Placeholder.png'" */ alt="thumbnail" />}
+            {metaData?.thumbnail && metaData?.thumbnail !== "" && <img id="snippet-thumbnail" src={metaData?.thumbnail} onerror={`this.src='${PLACEHOLDER_IMG_PATH}'`} alt="thumbnail" />}
             <div id="snippet-card-title-wrapper">
                 <h1 id="snippet-card-title">{metaData?.title ?? "Untitled"}</h1>
                 {metaData?.author && <a id="snippet-author" className={!metaData?.authorWebsite && "snippet-no-author"} href={metaData?.authorWebsite ? metaData?.authorWebsite : undefined}>By {metaData.author}</a>}
@@ -123,7 +128,9 @@ export function Snippet({ metaData = {}, children }) {
             {children}
         </article>
 
-        <div className="tag-container">{TagsComponent}</div>
+        <div className="tag-container">
+            <Tags tags={metaData?.tags} />
+        </div>
 
         <hr style="margin-top: 2rem" />
         <Footer showWarning={true} />

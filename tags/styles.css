@@ -4,7 +4,7 @@ body {
 
 
 .tag-list {
-    margin-bottom: 2.5rem;
+    margin-bottom: 1.5rem;
     display: flex;
     flex-wrap: wrap;
     gap: 0.3rem;
@@ -12,6 +12,9 @@ body {
     align-items: end;
 }
 
+.tag-list:last-of-type {
+    margin-bottom: 2rem;
+}
 
 .tag-list .tag:first-of-type::first-letter {
     font-size: 1.5rem;

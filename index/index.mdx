@@ -3,13 +3,15 @@ import { HTMLSkeleton, Header, SearchBar, NavBar, SnippetCard, PaginationBar, Fo
 
 
 export const extendHead = (<>
-    <link rel="stylesheet" href="/static/global-styles.css" />
-    <link rel="stylesheet" href="/styles.css" />
-    <script src="script.js" type="module"></script>
+    <meta name="description" content="Simple reuseable code snippets for your convenience" />
+    <link rel="preload" href="/static/logo.png" as="image" />
+    <script rel="modulepreload" src="script.js" type="module"></script>
 </>)
 
 
-<HTMLSkeleton title={SITE_NAME} description={"Simple reuseable code snippets for your convenience"} extendHead={extendHead}>
+<HTMLSkeleton title={SITE_NAME} extendHead={extendHead}>
+    <link rel="stylesheet" href="/static/global-styles.css" />
+    <link rel="stylesheet" href="/styles.css" />
 
     <Header />
     <SearchBar />

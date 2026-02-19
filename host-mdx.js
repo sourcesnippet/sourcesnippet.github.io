@@ -1,11 +1,12 @@
 import fs from "fs"
 import path from "path"
-import { parseHTML } from 'linkedom';
-import { TAGS_QUERY } from "./static/global.js"
+import * as esbuild from "esbuild";
+import { parseHTML } from "linkedom";
 import * as pagefind from "pagefind";
-import remarkHeadingId from 'remark-heading-id';
-import rehypeMdxCodeProps from 'rehype-mdx-code-props'
-import * as esbuild from 'esbuild';
+import remarkHeadingId from "remark-heading-id";
+import rehypeMdxCodeProps from "rehype-mdx-code-props"
+import { SitemapStream, streamToPromise } from "sitemap";
+import { TAGS_QUERY, SITE_DOMAIN } from "./static/global.js"
 
 
 // To Set Properties
@@ -19,6 +20,7 @@ const INDEX_FOLDER = "/index"
 const SNIPPETS_SEARCH_DIR = "/static/search/"
 const UNTITLED_NAME = "Untitled"
 const TAGS_FILE_PATH = "/tags/index.html"
+const ROBOTS_TXT_PATH = "robots.txt"
 const TAGS_CONTAINER_SELECTOR = "#tag-list-container"
 
 
@@ -52,6 +54,18 @@ function isSubPath(potentialParent, thePath) {
             thePath[potentialParent.length] === path.sep ||
             thePath[potentialParent.length] === undefined
         );
+}
+function getFiles(dir, allFiles = []) {
+    const files = fs.readdirSync(dir);
+    for (const file of files) {
+        const name = path.join(dir, file);
+        if (fs.statSync(name).isDirectory()) {
+            getFiles(name, allFiles);
+        } else {
+            allFiles.push(name);
+        }
+    }
+    return allFiles;
 }
 
 
@@ -190,6 +204,41 @@ async function compressFile(filePath) {
         fs.writeFileSync(filePath, minified.code);
     }
 }
+async function generateSitemap(outputPath, baseUrl) {
+
+    // Initialization
+    const sitemap = new SitemapStream({ hostname: baseUrl });
+    const writeStream = fs.createWriteStream(path.join(outputPath, 'sitemap.xml'));
+    sitemap.pipe(writeStream);
+
+
+    // Get all .html files from output path & add to sitemap
+    const files = getFiles(outputPath).filter(file => path.extname(file) === '.html');
+    for (const file of files) {
+        let urlPath = path.relative(outputPath, file)
+            .replace(/\\/g, '/') // Ensure forward slashes for URL
+            .replace(/index\.html$/, ''); // Remove index.html for clean URLs
+
+        sitemap.write({
+            url: urlPath,
+            changefreq: 'weekly',
+            priority: urlPath === '' ? 1.0 : 0.7,
+            lastmod: fs.statSync(file).mtime.toISOString()
+        });
+    }
+
+
+    // End and return site map
+    sitemap.end();
+    await streamToPromise(sitemap);
+
+
+    // Add sitemap to robots.txt
+    const filePath = path.join(outputPath, ROBOTS_TXT_PATH);
+    const sitemapText = `User-agent: *\nSitemap: ${SITE_DOMAIN}/sitemap.xml\n\n`;
+    let existingContent = fs.readFileSync(filePath, 'utf8');
+    fs.writeFileSync(filePath, sitemapText + existingContent);
+}
 
 
 // Override Methods
@@ -292,12 +341,16 @@ export async function onSiteCreateEnd(inputPath, outputPath, wasInterrupted) {
     moveUpContents(path.join(outputPath, INDEX_FOLDER));
 
 
+    // Inject all tags in "/tags" page
+    injectTags(outputPath);
+
+
     // Create a search index
     await buildSearchIndex(outputPath);
 
 
-    // Inject all tags in "/tags" page
-    injectTags(outputPath);
+    // Create site map
+    await generateSitemap(outputPath, SITE_DOMAIN);
 }
 
 export function toTriggerRecreate(event, path) {

@@ -4,12 +4,6 @@ import { SITE_NAME, SITE_MOTTO, REPO_LINK, SITE_LOGO_PATH, PLACEHOLDER_IMG_PATH,
 
 
 // Properties
-// export const SITE_NAME = "SourceSnippet";
-// export const SITE_MOTTO = "Come. Copy. Go. As simple as that!";
-// export const REPO_LINK = "https://github.com/sourcesnippet/sourcesnippet.github.io";
-// export const SITE_CREATION_TOOL = "https://www.npmjs.com/package/host-mdx"
-// export const SITE_LOGO_PATH = "/static/logo.png"
-// export const PLACEHOLDER_IMG_PATH = "/static/placeholder.png"
 export const DEFAULT_SNIPPET_STYLES_PATH = "styles.css"
 export const DEFAULT_SNIPPET_SCRIPT_PATH = "script.js"
 
@@ -20,7 +14,7 @@ const displayNameProp = "display-name"
 
 
 // Components
-export function HTMLSkeleton({ title = "", description = "", children, extendHead = <></> }) {    // The "Boilerplate" html, Useful for cross device compatibility
+export function HTMLSkeleton({ title = "", extendHead = <></>, children }) {    // The "Boilerplate" html, Useful for cross device compatibility
     return (<>
         <html lang="en">
             <head>
@@ -28,7 +22,6 @@ export function HTMLSkeleton({ title = "", description = "", children, extendHea
                 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
                 <title>{title}</title>
                 <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?" />
-                <meta name="description" content={description}></meta>
                 {extendHead}
             </head>
             <body>
@@ -54,7 +47,7 @@ export function SearchBar({ id = "searchbar" }) {
             <a href="#" className="search-more" style={"display:none"}>Show all results</a>
             <a className="search-nonefound" style={"display:none"}>No results found</a>
         </div>
-        <button className="search-btn"></button>
+        <button className="search-btn" aria-label="Search Button"></button>
     </div>)
 }
 
@@ -81,7 +74,7 @@ export function SnippetCard({ className = "", imgSrc, text, link, tags = [] }) {
 
     return (<div className={`snippet-card ${className}`}>
         <a href={link} className="snippet-card-thumbnail" tabindex="-1">
-            <img src={imgSrc ?? PLACEHOLDER_IMG_PATH} onerror={`this.src='${PLACEHOLDER_IMG_PATH}'`} alt="thumbnail" />
+            <img src={imgSrc ?? PLACEHOLDER_IMG_PATH} onerror={`this.src='${PLACEHOLDER_IMG_PATH}'`} alt="thumbnail" fetchpriority="high" />
         </a>
         <a href={link} className="snippet-card-title" title={text}>
             <div>{text}</div>
@@ -102,6 +95,9 @@ export function Snippet({ metaData = {}, children }) {
         <link rel="stylesheet" href="/static/global-styles.css" />
         <link rel="stylesheet" href="/static/code-styles.css" />
         <script src="/static/snippets.js"></script>
+        <meta name="description" content={metaData?.title} />
+        <meta name="keywords" content={metaData?.tags?.join(", ")} />
+        <meta name="author" content={metaData?.author} />
         {stylePathExists && <link rel="stylesheet" href={DEFAULT_SNIPPET_STYLES_PATH} />}
         {scriptPathExists && <script src={DEFAULT_SNIPPET_SCRIPT_PATH} type="module"></script>}
     </>);
@@ -272,7 +268,7 @@ export function Footer({ showWarning = false }) {
             <hr />
             <a href={`${REPO_LINK}/issues`} target="_blank">Report Bug</a>
         </div>
-        {showWarning && <div id="footer-warning">Scraping data for AI training or any other purpose is strictly prohibited. <a href="/terms#ai-data-scraping-policy" aria-label="Learn more about scraping policy">Learn More</a></div>}
+        {showWarning && <div id="footer-warning">Scraping data for AI training or any other purpose is strictly prohibited. <a href="/terms#ai-data-scraping-policy" aria-label="Learn more about scraping policy">View Terms</a></div>}
     </footer>)
 }
 

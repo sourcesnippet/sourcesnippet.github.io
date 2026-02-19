@@ -1,42 +1,41 @@
 /* Core */
 :root {
-    --bg: #0f1115;
-    --surface: #2b2f3b;
-    --text: #dbdbdb;
-    --muted: rgb(122, 124, 129);
-    --border: rgb(85, 88, 100);
-    --accent: #7dd3fc;
-    --accent-muted: #60a4c4;
-    --accent-dull: #1f3e5d;
-    --code-background: #1d1f21;
+    --color-bg: #0f1115;
+    --color-surface: #2b2f3b;
+    --color-text: #dbdbdb;
+    --color-text-muted: rgb(122, 124, 129);
+    --color-border: rgb(85, 88, 100);
+
+    --color-accent: #7dd3fc;
+    --color-accent-muted: #60a4c4;
+    --color-accent-dull: #1f3e5d;
+
     --body-width: 1000px;
-    --project-gaps: 10px;
-    --exp-item-margin: 1rem;
     --body-width-padding: 1rem;
 }
 
 body {
     font-family: system-ui, sans-serif;
-    background: var(--bg);
-    color: var(--text);
+    background: var(--color-bg);
+    color: var(--color-text);
     margin: 0 auto;
     padding: 1.5rem var(--body-width-padding);
     max-width: var(--body-width);
 }
 
 a {
-    color: var(--text);
+    color: var(--color-text);
     text-decoration: none;
 }
 
 a:hover {
-    color: var(--accent);
+    color: var(--color-accent);
 }
 
 input[type=text] {
     box-sizing: border-box;
     box-shadow: none;
-    color: var(--text);
+    color: var(--color-text);
     padding: 0 0.5rem;
     font-size: 1rem;
     outline: none;
@@ -44,7 +43,7 @@ input[type=text] {
 
 hr {
     border: 0;
-    border-top: 1px solid var(--border);
+    border-top: 1px solid var(--color-border);
     margin: 0;
 }
 
@@ -74,7 +73,7 @@ code {
     margin: 0;
     margin-bottom: 0.5rem;
     font-size: 1.75rem;
-    color: var(--text);
+    color: var(--color-text);
     align-self: end;
     /* text-decoration: none; */
     font-weight: bold;
@@ -82,7 +81,7 @@ code {
 
 #site-motto {
     font-size: 0.9rem;
-    color: var(--accent);
+    color: var(--color-accent);
 }
 
 
@@ -125,8 +124,8 @@ code {
     height: 100%;
     border: none;
     padding: 0 0.5rem;
-    background-color: var(--bg);
-    border: 1px solid var(--border);
+    background-color: var(--color-bg);
+    border: 1px solid var(--color-border);
     border-right: none;
     border-radius: 4px 0 0 4px;
 }
@@ -135,9 +134,9 @@ code {
     z-index: 2;
     height: 100%;
     border: none;
-    border: 1px solid var(--border);
+    border: 1px solid var(--color-border);
     border-radius: 0 4px 4px 0;
-    background-color: var(--accent-dull);
+    background-color: var(--color-accent-dull);
     padding: 0.4rem;
     cursor: pointer;
     aspect-ratio: 1 / 1;
@@ -149,7 +148,7 @@ code {
 }
 
 .search-btn:active {
-    background-color: var(--accent)
+    background-color: var(--color-accent)
 }
 
 .search-dropdown {
@@ -160,8 +159,8 @@ code {
     top: calc(100% - 1px);
     left: 50%;
     width: calc(100% - 4px);
-    background-color: var(--surface);
-    border: 1px solid var(--border);
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
     border-top: none;
     border-radius: 0 0 4px 4px;
     transform: translate(-50%, 0);
@@ -174,12 +173,12 @@ code {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    border-top: 1px solid var(--border);
+    border-top: 1px solid var(--color-border);
 }
 
 .search-dropdown a:hover,
 .search-dropdown a:active {
-    background-color: var(--accent-dull);
+    background-color: var(--color-accent-dull);
 }
 
 .search-dropdown a:last-of-type {
@@ -207,13 +206,6 @@ code {
 }
 
 
-/* Query banner */
-#query-banner {
-    text-align: center;
-    margin-bottom: 2rem;
-    color: var(--muted)
-}
-
 
 /* Snippets */
 #snippet-header {
@@ -226,7 +218,7 @@ code {
 }
 
 #snippet-thumbnail {
-    border: 1px solid var(--border);
+    border: 1px solid var(--color-border);
     border-radius: 5px;
     flex: 1;
     aspect-ratio: 16 / 9;
@@ -256,17 +248,17 @@ code {
     font-weight: bold;
     margin-bottom: 1.25rem;
     font-size: 1.3rem;
-    color: var(--muted);
+    color: var(--color-text-muted);
     width: fit-content;
 }
 
 #snippet-author:not(.snippet-no-author):hover {
-    color: var(--accent-muted);
+    color: var(--color-accent-muted);
 }
 
 #snippet-creation-date,
 #snippet-update-date {
-    color: var(--muted);
+    color: var(--color-text-muted);
     line-height: 1.4;
     width: fit-content;
     /* font-size: 1.1rem; */
@@ -279,14 +271,14 @@ code {
 }
 
 
+
 /* Code Tabs */
 .codetabs {
     position: relative;
     width: 100%;
-    border: 1px solid var(--border);
+    border: 1px solid var(--color-border);
     border-radius: 3px;
     overflow: hidden;
-    background-color: var(--code-background);
     margin-bottom: 1rem;
 }
 
@@ -296,7 +288,7 @@ code {
     align-items: center;
     height: 3.25rem;
     width: 100%;
-    background-color: var(--accent-dull);
+    background-color: var(--color-accent-dull);
     padding: 5px 0.6rem 0 0.6rem;
     overflow-x: scroll;
     box-sizing: border-box;
@@ -324,35 +316,35 @@ code {
 .codetabs-topbar button {
     font-weight: bold;
     background-color: transparent;
-    color: var(--text);
+    color: var(--color-text);
     padding: 0.4rem 0.6rem;
     border-radius: 3px;
-    border-color: color-mix(in srgb, var(--border), white 25%);
+    border-color: color-mix(in srgb, var(--color-border), white 25%);
     border-style: solid;
     border-width: 1px;
     cursor: pointer;
 }
 
 .codetabs-topbar button:hover {
-    background-color: color-mix(in srgb, var(--accent-dull), black 20%);
+    background-color: color-mix(in srgb, var(--color-accent-dull), black 20%);
 }
 
 .codetabs-selected {
-    background-color: color-mix(in srgb, var(--accent-dull), black 40%) !important;
+    background-color: color-mix(in srgb, var(--color-accent-dull), black 40%) !important;
 }
 
 .codetabs select {
     width: 6rem;
-    background-color: color-mix(in srgb, var(--accent-dull), black 25%);
-    color: var(--text);
+    background-color: color-mix(in srgb, var(--color-accent-dull), black 25%);
+    color: var(--color-text);
     padding: 0.4rem;
     border-radius: 3px;
-    border-color: color-mix(in srgb, var(--border), white 25%);
+    border-color: color-mix(in srgb, var(--color-border), white 25%);
 
 }
 
 .codetabs select option {
-    background-color: color-mix(in srgb, var(--accent-dull), black 25%);
+    background-color: color-mix(in srgb, var(--color-accent-dull), black 25%);
 }
 
 .codetabs-copy {
@@ -364,8 +356,8 @@ code {
     cursor: pointer;
     padding: 5px;
     border-radius: 5px;
-    border: 1px solid var(--border);
-    background-color: var(--accent-dull);
+    border: 1px solid var(--color-border);
+    background-color: var(--color-accent-dull);
     background-image: url("/static/copy-icon.png");
     background-repeat: no-repeat;
     background-size: contain;
@@ -430,7 +422,7 @@ code {
 
 .tag {
     display: inline-block;
-    background-color: var(--accent-dull);
+    background-color: var(--color-accent-dull);
     box-sizing: border-box;
     border-radius: 3px;
     padding: 4px 6px;
@@ -440,13 +432,13 @@ code {
     font-size: 0.75rem;
     width: fit-content;
     font-weight: 500;
-    color: var(--text);
+    color: var(--color-text);
     width: fit-content;
 }
 
 .tag:hover {
-    background-color: var(--accent-muted);
-    color: var(--bg);
+    background-color: var(--color-accent-muted);
+    color: var(--color-bg);
     cursor: pointer;
 }
 
@@ -476,8 +468,8 @@ code {
     font-weight: 500;
     /* text-decoration: none; */
     background-color: transparent;
-    color: var(--text);
-    border: 1px solid var(--border);
+    color: var(--color-text);
+    border: 1px solid var(--color-border);
     border-radius: 3px;
     box-sizing: border-box;
     position: relative;
@@ -486,15 +478,15 @@ code {
 .pagination-next:hover,
 .pagination-prev:hover,
 .pagination-item:hover {
-    background-color: var(--border);
-    color: var(--text);
+    background-color: var(--color-border);
+    color: var(--color-text);
     cursor: pointer;
 }
 
 .pagination-active {
-    background-color: var(--accent);
-    border-color: var(--accent);
-    color: var(--bg);
+    background-color: var(--color-accent);
+    border-color: var(--color-accent);
+    color: var(--color-bg);
     cursor: default;
     pointer-events: none;
 }
@@ -513,7 +505,7 @@ code {
     width: 8px;
     height: 8px;
     border-style: solid;
-    border-color: var(--text);
+    border-color: var(--color-text);
 }
 
 .pagination-prev::before {
@@ -554,37 +546,37 @@ footer {
 
 #footer-links a {
     /* text-decoration: none; */
-    color: var(--muted);
+    color: var(--color-text-muted);
     font-weight: 500;
 }
 
 #footer-links a:hover {
-    color: var(--accent-muted);
+    color: var(--color-accent-muted);
 }
 
 #footer-links hr {
     display: block;
     margin: 0 1rem;
     opacity: 0.75;
-    border: 1px solid var(--muted);
+    border: 1px solid var(--color-text-muted);
 }
 
 #footer-warning {
     width: fit-content;
-    color: var(--muted);
+    color: var(--color-text-muted);
     font-size: 0.85rem;
     margin: 0 auto;
     text-align: center;
 }
 
 #footer-warning a {
-    color: var(--muted);
+    color: var(--color-text-muted);
     font-weight: 500;
     text-decoration: underline;
 }
 
 #footer-warning a:hover {
-    color: var(--accent-muted);
+    color: var(--color-accent-muted);
 }
 
 

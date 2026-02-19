@@ -19,7 +19,7 @@ body {
 }
 
 #terms-of-service a {
-    color: var(--muted);
+    color: var(--color-text-muted);
     text-decoration: none;
 }
 

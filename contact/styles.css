@@ -22,7 +22,7 @@ body {
 }
 
 #contacts-wrapper a {
-    color: var(--muted);
+    color: var(--color-text-muted);
     text-decoration: none;
 }
 
@@ -38,5 +38,5 @@ body {
 #author {
     font-size: 0.9rem;
     text-align: center;
-    color: var(--muted);
+    color: var(--color-text-muted);
 }

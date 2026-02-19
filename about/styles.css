@@ -12,24 +12,24 @@ body {
     margin: auto;
     text-align: center;
     max-width: 900px;
-    color: var(--muted);
+    color: var(--color-text-muted);
     line-height: 1.5;
 }
 
 #about ol {
     margin: auto;
     width: fit-content;
-    color: var(--muted);
+    color: var(--color-text-muted);
     line-height: 1.4;
 }
 
 #about a {
-    color: var(--muted);
+    color: var(--color-text-muted);
     text-decoration: none;
 }
 
 #about a:hover {
-    color: var(--accent-muted);
+    color: var(--color-accent-muted);
 }
 
 #footer-seperator {
@@ -41,7 +41,7 @@ body {
 }
 
 #built-with {
-    color: var(--muted);
+    color: var(--color-text-muted);
     text-align: center;
     font-size: 0.85rem;
     margin-top: 3rem;
@@ -49,10 +49,10 @@ body {
 
 #built-with a {
     text-decoration: underline;
-    color: var(--muted);
+    color: var(--color-text-muted);
     font-weight: bold;
 }
 
 #built-with a:hover {
-    color: var(--accent-muted);
+    color: var(--color-accent-muted);
 }

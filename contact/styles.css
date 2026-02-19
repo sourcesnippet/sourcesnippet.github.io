@@ -11,19 +11,19 @@ body {
     max-width: 1400px !important;
 }
 
-h1 {
+#contacts-wrapper {
+    flex: 1;
+    align-content: center;
+}
+
+#contacts-wrapper h1 {
     margin: 0 0 4rem 0;
     text-align: center;
 }
 
-a {
+#contacts-wrapper a {
     color: var(--muted);
     text-decoration: none;
-}
-
-#contacts-wrapper {
-    flex: 1;
-    align-content: center;
 }
 
 #contacts {

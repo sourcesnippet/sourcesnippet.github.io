@@ -1,7 +1,7 @@
 import fs from "fs"
 import path from "path"
 import { parseHTML } from 'linkedom';
-import { TAGS_QUERY } from "./static/global-script.js"
+import { TAGS_QUERY } from "./static/global.js"
 import * as pagefind from "pagefind";
 import remarkHeadingId from 'remark-heading-id';
 import rehypeMdxCodeProps from 'rehype-mdx-code-props'

@@ -1,15 +1,15 @@
 import fs from "fs"
 import path from "path"
-import { TAGS_QUERY } from "@/static/global-script.js";
+import { SITE_NAME, SITE_MOTTO, REPO_LINK, SITE_LOGO_PATH, PLACEHOLDER_IMG_PATH, TAGS_QUERY } from "@/static/global.js";
 
 
 // Properties
-export const SITE_NAME = "SourceSnippet";
-export const SITE_MOTTO = "Come. Copy. Go. As simple as that!";
-export const REPO_LINK = "https://github.com/sourcesnippet/sourcesnippet.github.io";
-export const SITE_CREATION_TOOL = "https://www.npmjs.com/package/host-mdx"
-export const SITE_LOGO_PATH = "/static/logo.png"
-export const PLACEHOLDER_IMG_PATH = "/static/placeholder.png"
+// export const SITE_NAME = "SourceSnippet";
+// export const SITE_MOTTO = "Come. Copy. Go. As simple as that!";
+// export const REPO_LINK = "https://github.com/sourcesnippet/sourcesnippet.github.io";
+// export const SITE_CREATION_TOOL = "https://www.npmjs.com/package/host-mdx"
+// export const SITE_LOGO_PATH = "/static/logo.png"
+// export const PLACEHOLDER_IMG_PATH = "/static/placeholder.png"
 export const DEFAULT_SNIPPET_STYLES_PATH = "styles.css"
 export const DEFAULT_SNIPPET_SCRIPT_PATH = "script.js"
 
@@ -48,10 +48,11 @@ export function Header() {
 
 export function SearchBar({ id = "searchbar" }) {
     return (<div id={id} className="search-wrapper">
+        <script src="/static/search.js" type="module"></script>
         <input className="search-input" type="text" placeholder="Search..." />
         <div className="search-dropdown">
             <a href="#" className="search-more" style={"display:none"}>Show all results</a>
-            <a href="#" className="search-nonefound" style={"display:none"}>No results found</a>
+            <a className="search-nonefound" style={"display:none"}>No results found</a>
         </div>
         <button className="search-btn"></button>
     </div>)
@@ -66,14 +67,14 @@ export function NavBar() {
     </nav>)
 }
 
-export function Tags({ tags }) {
+export function Tags({ tags, assignHref = true }) {
 
     // Return empty fragment if no tags
     if (!tags || tags?.length == 0) {
         return (<></>)
     }
 
-    return tags?.map((tag, index) => (<a className="tag" key={index} href={`/?${TAGS_QUERY}=${encodeURIComponent(tag)}`}>{tag}</a>));
+    return tags?.map((tag, index) => (<a className="tag" key={index} href={assignHref ? `/?${TAGS_QUERY}=${encodeURIComponent(tag)}` : undefined}>{tag}</a>));
 }
 
 export function SnippetCard({ className = "", imgSrc, text, link, tags = [] }) {
@@ -86,7 +87,7 @@ export function SnippetCard({ className = "", imgSrc, text, link, tags = [] }) {
             <div>{text}</div>
         </a>
         <div className="snippet-card-tags">
-            <Tags tags={tags} />
+            <Tags tags={tags} assignHref={false} />
         </div>
     </div>)
 }
@@ -100,9 +101,9 @@ export function Snippet({ metaData = {}, children }) {
         <link rel="preload" href="/static/copy-done-icon.png" as="image" />
         <link rel="stylesheet" href="/static/global-styles.css" />
         <link rel="stylesheet" href="/static/code-styles.css" />
-        {stylePathExists && <link rel="stylesheet" href={DEFAULT_SNIPPET_STYLES_PATH} />}
-        {scriptPathExists && <script type="module" src={DEFAULT_SNIPPET_SCRIPT_PATH}></script>}
         <script src="/static/snippets.js"></script>
+        {stylePathExists && <link rel="stylesheet" href={DEFAULT_SNIPPET_STYLES_PATH} />}
+        {scriptPathExists && <script src={DEFAULT_SNIPPET_SCRIPT_PATH} type="module"></script>}
     </>);
 
 
@@ -138,7 +139,7 @@ export function Snippet({ metaData = {}, children }) {
     </HTMLSkeleton>)
 }
 
-export function CodeTabs({ activeIndex = 0, dropdown = false, id = undefined, style = {}, children }) {
+export function CodeTabs({ activeIndex = 0, dropdown = false, id = undefined, style = {}, childrenStyle = "", children }) {
 
     // Make sure children are in array format
     if (!Array.isArray(children)) {
@@ -182,12 +183,17 @@ export function CodeTabs({ activeIndex = 0, dropdown = false, id = undefined, st
         }
 
 
+        // Add common styles to children
+        firstSubchild = Preact.cloneElement(firstSubchild, {
+            style: `${childrenStyle};${firstSubchild?.props?.style}`
+        });
+
+
         // Set as active if it matches index
-        if (i === activeIndex) {
-            children[i] = Preact.cloneElement(child, {
-                className: `${child.props.className || ""} codetabs-active`.trim()
-            });
-        }
+        children[i] = Preact.cloneElement(child, {
+            className: `${child.props.className || ""} ${i === activeIndex ? "codetabs-active" : ""}`,
+            children: firstSubchild
+        });
 
 
         // Skip if no className or displayName props

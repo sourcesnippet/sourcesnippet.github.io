@@ -1,13 +1,17 @@
-import { SITE_NAME, HTMLSkeleton, Header, SearchBar, NavBar, SnippetCard, PaginationBar, Footer } from "@/global.jsx"
+import { SITE_NAME } from "@/static/global.js"
+import { HTMLSkeleton, Header, SearchBar, NavBar, SnippetCard, PaginationBar, Footer } from "@/components.jsx"
+
 
 export const STYLES = (<>
     <link rel="stylesheet" href="/static/global-styles.css" />
     <link rel="stylesheet" href="/tags/styles.css" />
 </>)
 
+
 <HTMLSkeleton title={`Tags | ${SITE_NAME}`} extendHead={STYLES}>
 
     <Header />
+    <SearchBar />
 
     <hr/>
     <NavBar />

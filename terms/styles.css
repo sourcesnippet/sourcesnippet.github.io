@@ -3,30 +3,30 @@ body {
     padding: 1.5rem 1rem !important;
 }
 
-h1 {
+#terms-of-service {
+    line-height: 1.7;
+}
+
+#terms-of-service h1 {
     margin: 3rem 0 4rem 0;
     text-align: center;
     line-height: 1 !important;
 }
 
-h2 {
+#terms-of-service h2 {
     margin: 3rem 0 1rem 0;
     line-height: 1.2 !important;
 }
 
-a {
+#terms-of-service a {
     color: var(--muted);
     text-decoration: none;
 }
 
-ul {
+#terms-of-service ul {
     padding-left: 1.75rem;
 }
 
-#terms-of-service{
-    line-height: 1.7;
-}
-
-li {
+#terms-of-service li {
     margin-bottom: 0.5rem;
 }

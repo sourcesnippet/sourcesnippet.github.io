@@ -1,39 +1,46 @@
-import { SITE_NAME, SITE_CREATION_TOOL, HTMLSkeleton, Header, Footer } from "@/global.jsx"
+import { SITE_NAME, SITE_CREATION_TOOL } from "@/static/global.js"
+import { HTMLSkeleton, Header, SearchBar, NavBar, Footer } from "@/components.jsx"
+
 
 export const STYLES = (<>
     <link rel="stylesheet" href="/static/global-styles.css" />
     <link rel="stylesheet" href="/about/styles.css" />
 </>)
 
+
 <HTMLSkeleton title={`About | ${SITE_NAME}`} extendHead={STYLES}>
 
-<Header />
+    <Header />
+    <SearchBar />
 
-<hr/>
+    <hr/>
+    <NavBar />
+    <hr/>
 
-# About
+    <section id="about">
+        # About
 
-We've all found ourselves scouring decades old forums to salvage code or having our **[Stack Overflow](https://stackoverflow.com/)** question [closed] or finding the exact post we needed only to see that the solution was deleted.
-This site was made to solve all those problems & save your valuable time by giving you reuseable bite size snippets of code, Along with the following promises:  
+        We've all wasted time scouring decades old forums or [closed] **[Stack Overflow](https://stackoverflow.com/)** questions just to salvage a few lines of code.
+        This site was made to save your time by giving you reuseable bite-sized snippets of code, Along with the following promises:
 
-<br/>
+        <br/>
 
-1. No Ads or Selling you courses
-1. No Subscriptions or Paywall
-1. No Cookies or Data tracking
-1. No forced AI
-1. No Feature Bloat or UI Clutter
+        1. No Ads
+        1. No Subscriptions/Paywall
+        1. No Cookies or Data tracking
+        1. No UI Clutter
+        1. No forced AI
 
-<br/>
-<br/>
+        <br/>
+        <br/>
 
-The less time you spend here the better. So simply copy the damn code & leave.
+        The less time you spend here the better. So simply copy the damn code & leave.
+    </section>
 
-<hr id="footer-seperator"/>
+    <hr id="footer-seperator"/>
 
-<Footer />
+    <Footer />
 
-
-<div id="built-with">This site was created using <a href={SITE_CREATION_TOOL}>host-mdx</a></div>
+    <div id="built-with">This site was created using <a href={SITE_CREATION_TOOL}>host-mdx</a></div>
 
 </HTMLSkeleton>

@@ -1,4 +1,6 @@
-import { SITE_NAME, HTMLSkeleton, Header, Footer } from "@/global.jsx"
+import { SITE_NAME } from "@/static/global.js"
+import { HTMLSkeleton, Header, SearchBar, NavBar, Footer } from "@/components.jsx"
+
 
 export const STYLES = (<>
     <link rel="stylesheet" href="/static/global-styles.css" />
@@ -6,28 +8,32 @@ export const STYLES = (<>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
 </>)
 
+
 <HTMLSkeleton title={`Contact | ${SITE_NAME}`} extendHead={STYLES}>
 
-<Header />
+    <Header />
+    <SearchBar />
 
-<hr/>
+    <hr/>
+    <NavBar />
+    <hr/>
 
-<section id="contacts-wrapper">
-    # Contact
+    <section id="contacts-wrapper">
+        # Contact
 
-    <div id="contacts">
-        <a className="fa-solid fa-earth-americas" target="_blank" href="https://manasmakde.github.io/"></a>
-        <a className="fab fa-linkedin" target="_blank" href="https://www.linkedin.com/in/manas-makde/"></a>
-        <a className="fab fa-instagram" target="_blank" href="https://www.instagram.com/manas_makde/"></a>
-        <a className="fab fa-github" target="_blank" href="https://github.com/ManasMakde"></a>
-        <a className="fa-solid fa-envelope" target="_blank" href="mailto:manasmakde@gmail.com"></a>
-    </div>
+        <div id="contacts">
+            <a className="fa-solid fa-earth-americas" target="_blank" href="https://manasmakde.github.io/"></a>
+            <a className="fab fa-linkedin" target="_blank" href="https://www.linkedin.com/in/manas-makde/"></a>
+            <a className="fab fa-instagram" target="_blank" href="https://www.instagram.com/manas_makde/"></a>
+            <a className="fab fa-github" target="_blank" href="https://github.com/ManasMakde"></a>
+            <a className="fa-solid fa-envelope" target="_blank" href="mailto:manasmakde@gmail.com"></a>
+        </div>
 
-    <div id="author">This site was created by Manas R. Makde</div>
-</section>
+        <div id="author">This site was created by Manas R. Makde</div>
+    </section>
 
-<hr/>
+    <hr/>
 
-<Footer/>
+    <Footer/>
 
 </HTMLSkeleton>

@@ -21,7 +21,7 @@ export function HTMLSkeleton({ title = "", extendHead = <></>, children }) {    
                 <meta charSet="UTF-8" />
                 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
                 <title>{title}</title>
-                <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?" />
+                <link rel="shortcut icon" type="image/x-icon" href="/static/favicon.ico?" />
                 {extendHead}
             </head>
             <body>
@@ -67,11 +67,10 @@ export function Tags({ tags, assignHref = true }) {
         return (<></>)
     }
 
-    return tags?.map((tag, index) => (<a className="tag" key={index} href={assignHref ? `/?${TAGS_QUERY}=${encodeURIComponent(tag)}` : undefined}>{tag}</a>));
+    return tags?.map((tag, index) => (<a className="tag" key={index} href={assignHref ? `/?${TAGS_QUERY}=${encodeURIComponent(tag.toLowerCase())}` : undefined}>{tag.toLowerCase()}</a>));
 }
 
 export function SnippetCard({ className = "", imgSrc, text, link, tags = [] }) {
-
     return (<div className={`snippet-card ${className}`}>
         <a href={link} className="snippet-card-thumbnail" tabindex="-1">
             <img src={imgSrc ?? PLACEHOLDER_IMG_PATH} onerror={`this.src='${PLACEHOLDER_IMG_PATH}'`} alt="thumbnail" fetchpriority="high" />
@@ -180,8 +179,9 @@ export function CodeTabs({ activeIndex = 0, dropdown = false, id = undefined, st
 
 
         // Add common styles to children
+        let styleString = (childrenStyle !== "" ? `${childrenStyle};` : "") + (firstSubchild?.props?.style ? firstSubchild.props.style : "");
         firstSubchild = Preact.cloneElement(firstSubchild, {
-            style: `${childrenStyle};${firstSubchild?.props?.style}`
+            style: styleString != "" ? styleString : undefined
         });
 
 

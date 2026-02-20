@@ -3,19 +3,53 @@ import { Snippet, CodeTabs } from "@/components.jsx";
 
 export const metaData = {
   title: '"Hello World" in every programming language',
-  thumbnail: "HelloWorld.webp",
+  thumbnail: "hello-world.webp",
   author: "Manas R. Makde",
   authorWebsite: "https://manasmakde.github.io/",
-  createdOnDate: new Date("2023-10-24"),
-  editedOnDate: new Date("2023-11-30"),
-  tags: ["c", "c++", "c#", "javascript"]
+  tags: ["Ada", "bash", "brainfuck", "c", "c#", "c++", "css", "d", "dart", "elixir", "f#"]
 }
 
 
 <Snippet metaData={metaData}>
 
-  <CodeTabs activeIndex={0}>
-  ```c++
+  <CodeTabs activeIndex={0} dropdown={true}>
+  ```Ada
+  with Ada.Text_IO; use Ada.Text_IO;
+  procedure Hello is
+  begin
+          Put_Line ("Hello, World!");
+  end Hello;
+  ```
+
+  ```Bash
+  echo "Hello, World!";
+  ```
+  
+  ```Brainfuck
+  -[------->+<]>-.-[->+++++<]>++.+++++++..+++.[->+++++<]>+.------------.---[->+++<]>.-[--->+<]>---.+++.------.--------.-[--->+<]>.
+  ```
+
+  ```C
+  #include <stdio.h>
+
+  int main() {
+    printf("Hello, World!");
+    return 0;
+  }
+  ```
+
+  ```C#
+  using System; 
+
+  class HelloWorld {         
+      static void Main(string[] args)
+      {
+          System.Console.WriteLine("Hello, World!");
+      }
+  }
+  ```
+
+  ```C++
   #include <iostream>
 
   using namespace std;
@@ -26,15 +60,37 @@ export const metaData = {
   }
   ```
 
-  ```html
-  <!DOCTYPE html>
-
-  <html>
-    <body>
-      Hello, World!
-    </body>
-  </html>
+  ```CSS
+  body::before{
+    content:"Hello, World!";
+  }
   ```
+
+  ```D
+  import std.stdio;
+
+  void main()
+  {
+      writeln("Hello, World!");
+  }
+  ```
+
+  ```Dart
+  void main() {
+    print("Hello, World!");
+  }
+  ```
+
+  ```Elixer
+  IO.puts "Hello, World!"
+  ```
+
+  ```F#
+  open System
+
+  printfn "Hello, World!"
+  ```
+
   </CodeTabs>
 
 </Snippet>

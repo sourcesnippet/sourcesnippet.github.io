@@ -248,6 +248,7 @@ async function main() {
 
 
     // Get all snippets based on page number, search & tags query
+    console.log(urlQueries.searchQuery, urlQueries.tags, RESULTS_PER_PAGE, RESULTS_PER_PAGE * (urlQueries.pageNumber - 1))
     const { snippets, totalSnippets } = await fetchSnippets(urlQueries.searchQuery, urlQueries.tags, RESULTS_PER_PAGE, RESULTS_PER_PAGE * (urlQueries.pageNumber - 1));
 
 

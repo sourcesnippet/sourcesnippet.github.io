@@ -24,7 +24,7 @@ export function getPageNumFromUrl() {
 
 export function getSearchQueryFromUrl() {
     const urlParams = new URLSearchParams(window.location.search);
-    return urlParams.get(SEARCH_QUERY);
+    return urlParams.get(SEARCH_QUERY) ?? "";
 }
 
 export function getTagsQueryFromUrl() {
@@ -55,9 +55,22 @@ async function fetchDefaultSnippets(resultCount, skipCount = 0) {
     let skipIndex = (skipCount + deficitSnippets) % snippetsPerFile;
 
 
+    console.log(
+        "snippetsCount = ",snippetsCount,
+        "| snippetsPerFile = ", snippetsPerFile,
+        "| resultCount =", resultCount,
+        "| totalFiles =", totalFiles, 
+        "| remainderSnippets =", remainderSnippets, 
+        "| deficitSnippets =", deficitSnippets, 
+        "| skipFiles =", skipFiles, 
+        "| skipIndex =", skipIndex
+      );
+
+
     // Iterate and fetch snippets
     for (let i = totalFiles - skipFiles - 1; 0 <= i && snippets.length < resultCount; i--) {
 
+        
         // Fetch snippets
         const dataResponse = await fetch(`${DATA_FILE_PATH_PREFIX}${i}.json`);
         const data = await dataResponse.json();

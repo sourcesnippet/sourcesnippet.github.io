@@ -1,0 +1,117 @@
+import { Snippet, CodeTabs } from "@/components.jsx";
+
+
+export const metaData = {
+  title: "Animated copy button in pure css",
+  thumbnail: "copy-btn.gif",
+  author: "Manas R. Makde",
+  authorWebsite: "https://manasmakde.github.io/",
+  tags: ["html", "css", "scss"]
+}
+
+
+<Snippet metaData={metaData}>
+
+  <CodeTabs activeIndex={1}>
+  ```HTML
+  <button></button>
+  ```
+  ```CSS
+  button {
+    height: 5rem;
+    width: 5rem;
+    position: relative;
+    
+    cursor: pointer;
+    padding: 0.5rem;
+    border-radius: 5px;
+    border: solid 3px black;
+    
+    background-color: lightgray;
+    background-image: url("https://cdn-icons-png.flaticon.com/512/178/178921.png");
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-origin: content-box;
+    
+    transition: background-image 0s 2s;
+  }
+
+  button:active {
+    background-image: url("https://cdn-icons-png.flaticon.com/512/18/18442.png");
+    transition-delay: 0s;
+  }
+
+  button:active::after {
+    opacity: 1;
+    transition: opacity 0s 0s;
+  }
+
+  button::after {
+    content: 'Copied';
+    position: absolute;
+    bottom: -2.5rem;
+    right: 50%;
+    transform: translate(50%, 0);
+    
+    color: white;
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+    background-color: gray;
+    
+    opacity: 0;
+    transition: opacity 0.2s 2s;
+  }
+  ```
+
+  ```SCSS
+  button {
+    height: 5rem;
+    width: 5rem;
+    position: relative;
+
+    cursor: pointer;
+    padding: 0.5rem;
+    border-radius: 5px;
+    border: solid 3px black;
+
+    background-color: lightgray;
+    background-image: url("https://cdn-icons-png.flaticon.com/512/178/178921.png");
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-origin: content-box;
+
+    transition: background-image 0s 2s;
+
+    &:active {
+      background-image: url("https://cdn-icons-png.flaticon.com/512/18/18442.png");
+      transition-delay: 0s;
+
+      &::after {
+        opacity: 1;
+        transition: opacity 0s 0s;
+      }
+    }
+
+    &::after {
+      content: 'Copied';
+      position: absolute;
+      bottom: -2.5rem;
+      right: 50%;
+      transform: translate(50%, 0);
+
+      color: white;
+      padding: 0.5rem;
+      border-radius: 0.5rem;
+      background-color: gray;
+
+      opacity: 0;
+      transition: opacity 0.2s 2s;
+    }
+
+  }
+  ```
+
+
+  </CodeTabs>
+
+</Snippet>

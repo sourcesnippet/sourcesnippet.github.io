@@ -287,22 +287,26 @@ export async function onFileCreateEnd(inputPath, outputPath, inFilePath, outFile
     await compressFile(outFilePath);
 
 
-    // Add to snippets list
+    // Return if not snippet file or no meta data 
     let absSnippetsDir = path.join(inputPath, SNIPPETS_DIR)
     let inputFileName = path.basename(inFilePath);
-    if (result?.exports?.metaData && inputFileName == SNIPPETS_INDEX_FILE && isSubPath(absSnippetsDir, inFilePath)) {
-        snippetsList.push({
-            ...result?.exports?.metaData,
-            url: `/${path.dirname(path.relative(inputPath, inFilePath))}/`
-        });
+    if (!result?.exports?.metaData || inputFileName != SNIPPETS_INDEX_FILE || !isSubPath(absSnippetsDir, inFilePath)) {
+        return;
     }
 
 
-    // Add to tags set
-    let tags = result?.exports?.metaData?.tags ?? []
-    if (tags.length !== 0) {
-        tags.forEach(item => tagsSet.add(item.toLowerCase()))
+    // Make sure all tags are lowercase
+    let tags = result?.exports?.metaData?.tags;
+    if (tags && tags.length != 0) {
+        result.exports.metaData.tags = tags.map(tag => tag.toLowerCase());
     }
+
+
+    // Add to snippets list
+    snippetsList.push({
+        ...result?.exports?.metaData,
+        url: `/${path.dirname(path.relative(inputPath, inFilePath))}/`
+    });
 }
 
 export async function onSiteCreateEnd(inputPath, outputPath, wasInterrupted) {

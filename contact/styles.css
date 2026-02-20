@@ -17,13 +17,8 @@ body {
 }
 
 #contacts-wrapper h1 {
-    margin: 0 0 4rem 0;
+    margin: 0 0 3rem 0;
     text-align: center;
-}
-
-#contacts-wrapper a {
-    color: var(--color-text-muted);
-    text-decoration: none;
 }
 
 #contacts {
@@ -33,6 +28,48 @@ body {
     font-size: 2.25rem;
     gap: 2.25rem;
     font-weight: normal !important;
+}
+
+#contacts a {
+    color: var(--color-text-muted);
+    text-decoration: none;
+    background-size: contain;
+    height: 3rem;
+    width: 3rem;
+    background-color: var(--color-text-muted);
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+    mask-size: contain;
+}
+
+#contacts a:hover {
+    background-color: var(--color-accent);
+}
+
+#website-contact {
+    -webkit-mask-image: url('/static/earth-icon.png');
+    mask-image: url('/static/earth-icon.png');
+
+}
+
+#linkedin-contact {
+    -webkit-mask-image: url('/static/linkedin-icon.png');
+    mask-image: url('/static/linkedin-icon.png');
+}
+
+#instagram-contact {
+    -webkit-mask-image: url("/static/instagram-icon.png");
+    mask-image: url("/static/instagram-icon.png");
+}
+
+#github-contact {
+    -webkit-mask-image: url("/static/github-icon.png");
+    image: url("/static/github-icon.png");
+}
+
+#email-contact {
+    -webkit-mask-image: url("/static/email-icon.png");
+    image: url("/static/email-icon.png");
 }
 
 #author {

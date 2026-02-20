@@ -46,31 +46,20 @@ async function fetchDefaultSnippets(resultCount, skipCount = 0) {
 
 
     // Setup variables
-    const { snippetsCount, snippetsPerFile } = stats;
+    const { totalSnippets, snippetsPerFile } = stats;
     let snippets = [];
-    let totalFiles = Math.ceil(snippetsCount / snippetsPerFile);
-    let remainderSnippets = snippetsCount % snippetsPerFile;
+    let totalFiles = Math.ceil(totalSnippets / snippetsPerFile);
+    let remainderSnippets = totalSnippets % snippetsPerFile;
+    remainderSnippets = remainderSnippets || snippetsPerFile;  // Round back reminder 0 to snippetsPerFile
     let deficitSnippets = snippetsPerFile - remainderSnippets;
     let skipFiles = Math.trunc((skipCount + deficitSnippets) / snippetsPerFile);
     let skipIndex = (skipCount + deficitSnippets) % snippetsPerFile;
 
 
-    console.log(
-        "snippetsCount = ",snippetsCount,
-        "| snippetsPerFile = ", snippetsPerFile,
-        "| resultCount =", resultCount,
-        "| totalFiles =", totalFiles, 
-        "| remainderSnippets =", remainderSnippets, 
-        "| deficitSnippets =", deficitSnippets, 
-        "| skipFiles =", skipFiles, 
-        "| skipIndex =", skipIndex
-      );
-
-
     // Iterate and fetch snippets
     for (let i = totalFiles - skipFiles - 1; 0 <= i && snippets.length < resultCount; i--) {
 
-        
+
         // Fetch snippets
         const dataResponse = await fetch(`${DATA_FILE_PATH_PREFIX}${i}.json`);
         const data = await dataResponse.json();
@@ -88,7 +77,7 @@ async function fetchDefaultSnippets(resultCount, skipCount = 0) {
 
     return {
         snippets,  // Snippets data within resultCount
-        totalSnippets: snippetsCount   // Total available snippets
+        totalSnippets: totalSnippets   // Total available snippets
     };
 }
 
@@ -114,7 +103,7 @@ export async function fetchSnippets(searchQuery, tags = [], resultCount, skipCou
             tags: { any: tags }
         }
     };
-    const search = await pagefind.search(searchQuery, options);
+    const search = await pagefind.search(searchQuery === "" ? null : searchQuery, options);  // Intentionally adding null otherwise results don't show up DO NOT CHANGE
     for (let i = skipCount; i < resultCount + skipCount; i++) {
 
         // Break if exceeded number of snippets found

@@ -6,6 +6,7 @@ import { SITE_NAME, SITE_MOTTO, REPO_LINK, SITE_LOGO_PATH, PLACEHOLDER_IMG_PATH,
 // Properties
 export const DEFAULT_SNIPPET_STYLES_PATH = "styles.css"
 export const DEFAULT_SNIPPET_SCRIPT_PATH = "script.js"
+export const DEFAULT_CODE_TAB_STYLE = "max-height:31rem"
 
 
 // Internal Properties
@@ -91,8 +92,8 @@ export function Snippet({ metaData = {}, children }) {
     const scriptPathExists = fs.existsSync(path.join(hostmdxCwd, DEFAULT_SNIPPET_SCRIPT_PATH));
     const defaultHead = (<>
         <link rel="preload" href="/static/copy-done-icon.png" as="image" />
-        <link rel="stylesheet" href="/static/global-styles.css" />
         <link rel="stylesheet" href="/static/code-styles.css" />
+        <link rel="stylesheet" href="/static/global-styles.css" />
         <script src="/static/snippets.js"></script>
         <meta name="description" content={metaData?.title} />
         <meta name="keywords" content={metaData?.tags?.join(", ")} />
@@ -134,7 +135,7 @@ export function Snippet({ metaData = {}, children }) {
     </HTMLSkeleton>)
 }
 
-export function CodeTabs({ activeIndex = 0, dropdown = false, id = undefined, style = {}, childrenStyle = "", children }) {
+export function CodeTabs({ activeIndex = 0, dropdown = false, id = undefined, style = {}, childrenStyle = DEFAULT_CODE_TAB_STYLE, children }) {
 
     // Make sure children are in array format
     if (!Array.isArray(children)) {

@@ -2,13 +2,20 @@
 :root {
     --color-bg: #0f1115;
     --color-surface: #2b2f3b;
+    --color-surface-dark: #3a3a3a;
     --color-text: #dbdbdb;
     --color-text-muted: rgb(122, 124, 129);
     --color-border: rgb(85, 88, 100);
 
     --color-accent: #7dd3fc;
+    --color-accent-vibrant: #305478;
     --color-accent-muted: #60a4c4;
     --color-accent-dull: #1f3e5d;
+
+    /* taken from code-styles.css DO NOT REMOVE */
+    --color-code-bg: #1d1f21;
+    --code-padding: 12px;
+    /* --code-font-size: 75%; */
 
     --body-width: 1000px;
     --body-width-padding: 1rem;
@@ -47,8 +54,16 @@ hr {
     margin: 0;
 }
 
+pre {
+    border: solid 1px var(--color-border);
+    border-radius: 3px;
+    background-color: var(--color-code-bg);
+}
+
 code {
-    font-size: 0.7;
+    display: block;
+    padding: var(--code-padding);
+    /* font-size: var(--code-font-size); */
 }
 
 
@@ -267,8 +282,17 @@ code {
 
 #snippet-content {
     margin-bottom: 3rem;
-    font-size: 1.125rem;
     line-height: 1.5;
+}
+
+#snippet-content img {
+    width: 100%;
+}
+
+#snippet-content  a {
+    text-underline-offset: 2px;
+    color: var(--color-accent);
+    text-decoration: underline;
 }
 
 
@@ -374,6 +398,8 @@ code {
 .codetabs-content pre {
     display: none;
     margin: 0;
+    border: none;
+    padding: 0;
 }
 
 .codetabs-content code {
@@ -413,7 +439,6 @@ code {
 }
 
 
-
 /* Tags */
 .tag-container {
     display: flex;
@@ -423,7 +448,7 @@ code {
 
 .tag {
     display: inline-block;
-    background-color: var(--color-accent-dull);
+    background-color: var(--color-accent-vibrant);
     box-sizing: border-box;
     border-radius: 3px;
     padding: 4px 6px;

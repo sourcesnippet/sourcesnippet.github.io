@@ -1,8 +1,8 @@
-import { TAGS_QUERY, fetchSnippets, getSearchQueryFromUrl, getPageNumFromUrl, getTagsQueryFromUrl } from "/static/global.js"
+import { TAGS_QUERY, fetchSnippets, getSearchQueryFromUrl, getPageNumFromUrl, getTagsQueryFromUrl, gotoPageNumber } from "/static/global.js"
 
 
 // Properties
-const RESULTS_PER_PAGE = 24;
+const RESULTS_PER_PAGE = 16;
 const QUERY_BANNER_SELECTOR = "#query-banner"
 const SNIPPET_CARD_SELECTOR = ".snippet-card";
 const SNIPPET_LOADING_CLASS = "is-loading"
@@ -248,7 +248,6 @@ async function main() {
 
 
     // Get all snippets based on page number, search & tags query
-    console.log(urlQueries.searchQuery, urlQueries.tags, RESULTS_PER_PAGE, RESULTS_PER_PAGE * (urlQueries.pageNumber - 1))
     const { snippets, totalSnippets } = await fetchSnippets(urlQueries.searchQuery, urlQueries.tags, RESULTS_PER_PAGE, RESULTS_PER_PAGE * (urlQueries.pageNumber - 1));
 
 

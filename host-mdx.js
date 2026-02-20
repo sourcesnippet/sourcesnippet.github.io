@@ -12,7 +12,7 @@ import { TAGS_QUERY, SITE_DOMAIN } from "./static/global.js"
 // To Set Properties
 const SNIPPETS_DIR = "/snippets/"
 const SNIPPETS_INDEX_FILE = "index.mdx"
-const SNIPPETS_PER_FILE = 5;
+const SNIPPETS_PER_FILE = 500;
 const SNIPPETS_DATA_DIR = "/static/data/"
 const SNIPPETS_DATA_PREFIX = "data-"
 const SNIPPETS_STATS_FILE = "_stats.json"
@@ -26,7 +26,7 @@ const TAGS_CONTAINER_SELECTOR = "#tag-list-container"
 
 // Properties
 let snippetsList = []
-let tagsSet = new Set();
+let tagsSet = new Set();  // Necessary for /tags page DO NOT REMOVE 
 
 
 // Utility Methods
@@ -93,7 +93,7 @@ function createSnippetsData(outputPath) {
 
     // Create stats file
     let stats = {
-        snippetsCount: snippetsList.length,
+        totalSnippets: snippetsList.length,
         snippetsPerFile: SNIPPETS_PER_FILE
     }
     fs.writeFileSync(path.join(outputPath, SNIPPETS_DATA_DIR, SNIPPETS_STATS_FILE), JSON.stringify(stats));
@@ -117,31 +117,28 @@ function moveUpContents(folderPath) {
     // Remove the empty directory
     fs.rmdirSync(targetDir);
 }
-async function buildSearchIndex(outputPath) {
-
-    // Add all records
-    const { index } = await pagefind.createIndex();
-    for (const snippet of snippetsList) {
-
-        let title = snippet?.title ?? UNTITLED_NAME
-        let thumbnail = snippet?.thumbnail ?? ""
-        let tags = snippet?.tags ?? []
-        let keyWords = snippet?.tags ?? []
-
-        await index.addCustomRecord({
-            url: snippet.url,
-            content: `${title} ${tags.join(" ")} ${keyWords.join(" ")}`,
-            language: "en",
-            meta: { title, thumbnail, tags: tags.join(",") },
-            filters: { tags: tags }
+async function compressFile(filePath) {
+    const fileExt = path.extname(filePath).toLowerCase()
+    if (fileExt === ".css") {
+        const sourceCode = fs.readFileSync(filePath, 'utf8');
+        const minified = await esbuild.transform(sourceCode, {
+            loader: "css",
+            charset: 'utf8',
+            minify: true
         });
+        fs.writeFileSync(filePath, minified.code);
     }
-
-
-    // Save all records
-    await index.writeFiles({
-        outputPath: path.join(outputPath, SNIPPETS_SEARCH_DIR)
-    });
+    else if (fileExt === ".js") {
+        const sourceCode = fs.readFileSync(filePath, 'utf8');
+        const minified = await esbuild.transform(sourceCode, {
+            loader: "js",
+            charset: 'utf8',
+            minifyWhitespace: true,
+            minifySyntax: true,
+            minifyIdentifiers: false,
+        });
+        fs.writeFileSync(filePath, minified.code);
+    }
 }
 function injectTags(outputPath) {
 
@@ -181,28 +178,31 @@ function injectTags(outputPath) {
     container.innerHTML = htmlContent;
     fs.writeFileSync(filePath, document.toString(), 'utf8');
 }
-async function compressFile(filePath) {
-    const fileExt = path.extname(filePath).toLowerCase()
-    if (fileExt === ".css") {
-        const sourceCode = fs.readFileSync(filePath, 'utf8');
-        const minified = await esbuild.transform(sourceCode, {
-            loader: "css",
-            charset: 'utf8',
-            minify: true
+async function buildSearchIndex(outputPath) {
+
+    // Add all records
+    const { index } = await pagefind.createIndex();
+    for (const snippet of snippetsList) {
+
+        let title = snippet?.title ?? UNTITLED_NAME
+        let thumbnail = snippet?.thumbnail ?? ""
+        let tags = snippet?.tags ?? []
+        let keywords = snippet?.keywords ?? []
+
+        await index.addCustomRecord({
+            url: snippet.url,
+            content: `${title} ${tags.join(" ")} ${keywords.join(" ")}`,
+            language: "en",
+            meta: { title, thumbnail, tags: tags.join(",") },
+            filters: { tags: tags }
         });
-        fs.writeFileSync(filePath, minified.code);
     }
-    else if (fileExt === ".js") {
-        const sourceCode = fs.readFileSync(filePath, 'utf8');
-        const minified = await esbuild.transform(sourceCode, {
-            loader: "js",
-            charset: 'utf8',
-            minifyWhitespace: true,
-            minifySyntax: true,
-            minifyIdentifiers: false,
-        });
-        fs.writeFileSync(filePath, minified.code);
-    }
+
+
+    // Save all records
+    await index.writeFiles({
+        outputPath: path.join(outputPath, SNIPPETS_SEARCH_DIR)
+    });
 }
 async function generateSitemap(outputPath, baseUrl) {
 
@@ -296,8 +296,8 @@ export async function onFileCreateEnd(inputPath, outputPath, inFilePath, outFile
 
 
     // Make sure all tags are lowercase
-    let tags = result?.exports?.metaData?.tags;
-    if (tags && tags.length != 0) {
+    let tags = result?.exports?.metaData?.tags ?? [];
+    if (tags.length != 0) {
         result.exports.metaData.tags = tags.map(tag => tag.toLowerCase());
     }
 
@@ -307,6 +307,10 @@ export async function onFileCreateEnd(inputPath, outputPath, inFilePath, outFile
         ...result?.exports?.metaData,
         url: `/${path.dirname(path.relative(inputPath, inFilePath))}/`
     });
+
+
+    // Add to tagsSet
+    tags.forEach(item => tagsSet.add(item.toLowerCase()))
 }
 
 export async function onSiteCreateEnd(inputPath, outputPath, wasInterrupted) {

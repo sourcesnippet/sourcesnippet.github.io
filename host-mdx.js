@@ -118,6 +118,14 @@ function moveUpContents(folderPath) {
     fs.rmdirSync(targetDir);
 }
 async function compressFile(filePath) {
+
+    // Return if not valid file path
+    if(!filePath || fs.lstatSync(filePath).isDirectory() ){
+        return;
+    }
+
+
+    // Compress .css & .js files
     const fileExt = path.extname(filePath).toLowerCase()
     if (fileExt === ".css") {
         const sourceCode = fs.readFileSync(filePath, 'utf8');

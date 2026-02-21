@@ -15,7 +15,7 @@
 .snippets-card-container {
     --row-count: 4;
     --item-width: calc(var(--body-width) / var(--row-count) - var(--gap));
-    --gap: 1.5rem;
+    --gap: 1.25rem;
 
     display: grid;
     gap: var(--gap);
@@ -34,7 +34,7 @@
     height: 100%;
     aspect-ratio: 1 / 1;
     background-color: var(--color-surface-dark);
-    /* border: 1px solid var(--color-border); */
+    border: 1px solid var(--color-surface-dark);
     border-radius: 6px;
     overflow: hidden;
 }

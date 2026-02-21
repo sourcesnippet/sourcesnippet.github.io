@@ -1,11 +1,24 @@
-import { SITE_NAME } from "@/static/global.js"
+import { SITE_NAME, SITE_DOMAIN, SITE_DESCRIPTION, SITE_PREVIEW_IMG } from "@/static/global.js"
 import { HTMLSkeleton, Header, SearchBar, NavBar, SnippetCard, PaginationBar, Footer } from "@/components.jsx"
 
 
 export const extendHead = (<>
-    <meta name="description" content="Simple reuseable code snippets for your convenience" />
+    <meta name="description" content={SITE_DESCRIPTION} />
     <link rel="preload" href="/static/logo.png" as="image" />
     <script rel="modulepreload" src="script.js" type="module"></script>
+
+    {/* Preview card*/}
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={`${SITE_DOMAIN}/`} />
+    <meta property="og:title" content={SITE_NAME} />
+    <meta property="og:description" content={SITE_DESCRIPTION} />
+    <meta property="og:image" content={SITE_PREVIEW_IMG} />
+
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content={`${SITE_DOMAIN}/`} />
+    <meta property="twitter:title" content={SITE_NAME} />
+    <meta property="twitter:description" content={SITE_DESCRIPTION} />
+    <meta property="twitter:image" content={SITE_PREVIEW_IMG} />
 </>)
 
 
@@ -42,16 +55,6 @@ export const extendHead = (<>
         <SnippetCard className="is-loading" tags={["elixir", "phoenix"]}/>
         <SnippetCard className="is-loading" tags={["sql", "redis", "mongodb"]}/>
         <SnippetCard className="is-loading" tags={["dart", "flutter", "firebase"]}/>
-
-        <SnippetCard className="is-loading" tags={["typescript", "react", "nextjs", "tailwind"]}/>
-        <SnippetCard className="is-loading" tags={["html", "css", "javascript"]}/>
-        <SnippetCard className="is-loading" tags={["rust", "wasm"]}/>
-        <SnippetCard className="is-loading" tags={["python", "django", "postgresql"]}/>
-
-        <SnippetCard className="is-loading" tags={["swift", "ios", "swiftui"]}/>
-        <SnippetCard className="is-loading" tags={["go", "docker", "kubernetes", "grpc"]}/>
-        <SnippetCard className="is-loading" tags={["java", "spring-boot", "maven"]}/>
-        <SnippetCard className="is-loading" tags={["ruby", "rails"]}/>
     </main>
 
     <PaginationBar style={"display:none"}/>

@@ -1,6 +1,6 @@
 import fs from "fs"
 import path from "path"
-import { SITE_NAME, SITE_MOTTO, REPO_LINK, SITE_LOGO_PATH, PLACEHOLDER_IMG_PATH, TAGS_QUERY } from "@/static/global.js";
+import { SITE_NAME, SITE_DOMAIN, SITE_MOTTO, REPO_LINK, SITE_LOGO_PATH, PLACEHOLDER_IMG_PATH, TAGS_QUERY } from "@/static/global.js";
 
 
 // Properties
@@ -12,6 +12,32 @@ export const DEFAULT_CODE_TAB_STYLE = "max-height:31rem"
 // Internal Properties
 const languageClassPrefix = "hljs language-"
 const displayNameProp = "display-name"
+
+
+// Utility Methods
+function formatDate(dateInput) {
+    if (dateInput === undefined || dateInput === null) {
+        return "-";
+    }
+
+
+    if (dateInput instanceof Date) {
+        if (isNaN(dateInput.getTime())) {
+            return "-";
+        }
+
+        const formatter = new Intl.DateTimeFormat('en-GB', {
+            day: '2-digit',
+            month: 'long',
+            year: 'numeric'
+        });
+
+        return formatter.format(dateInput);
+    }
+
+
+    return dateInput;
+}
 
 
 // Components
@@ -87,19 +113,37 @@ export function SnippetCard({ className = "", imgSrc, text, link, tags = [] }) {
 
 export function Snippet({ metaData = {}, children }) {
 
+
     // Default styles Component
     const stylePathExists = fs.existsSync(path.join(hostmdxCwd, DEFAULT_SNIPPET_STYLES_PATH));
     const scriptPathExists = fs.existsSync(path.join(hostmdxCwd, DEFAULT_SNIPPET_SCRIPT_PATH));
+    const title = metaData?.title;
+    const url = new URL(SITE_DOMAIN + "/" + path.relative(hostmdxInputPath, hostmdxCwd) + "/").href
+    const thumbnail = metaData?.thumbnail ? new URL(metaData?.thumbnail, url).href : "";
     const defaultHead = (<>
         <link rel="preload" href="/static/copy-done-icon.png" as="image" />
         <link rel="stylesheet" href="/static/code-styles.css" />
         <link rel="stylesheet" href="/static/global-styles.css" />
         <script src="/static/snippets.js"></script>
-        <meta name="description" content={metaData?.title} />
+        <meta name="description" content={title} />
         <meta name="keywords" content={metaData?.tags?.join(", ")} />
         <meta name="author" content={metaData?.author} />
         {stylePathExists && <link rel="stylesheet" href={DEFAULT_SNIPPET_STYLES_PATH} />}
         {scriptPathExists && <script src={DEFAULT_SNIPPET_SCRIPT_PATH} type="module"></script>}
+
+
+        {/* Preview card*/}
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content={url} />
+        <meta property="og:title" content={title} />
+        <meta property="og:description" content={title} />
+        <meta property="og:image" content={thumbnail} />
+
+        <meta property="twitter:card" content="summary_large_image" />
+        <meta property="twitter:url" content={url} />
+        <meta property="twitter:title" content={title} />
+        <meta property="twitter:description" content={title} />
+        <meta property="twitter:image" content={thumbnail} />
     </>);
 
 
@@ -271,30 +315,4 @@ export function Footer({ showWarning = false }) {
         </div>
         {showWarning && <div id="footer-warning">Scraping data for AI training or any other purpose is strictly prohibited. <a href="/terms#ai-data-scraping-policy" aria-label="Learn more about scraping policy">View Terms</a></div>}
     </footer>)
-}
-
-
-// Utility Methods
-function formatDate(dateInput) {
-    if (dateInput === undefined || dateInput === null) {
-        return "-";
-    }
-
-
-    if (dateInput instanceof Date) {
-        if (isNaN(dateInput.getTime())) {
-            return "-";
-        }
-
-        const formatter = new Intl.DateTimeFormat('en-GB', {
-            day: '2-digit',
-            month: 'long',
-            year: 'numeric'
-        });
-
-        return formatter.format(dateInput);
-    }
-
-
-    return dateInput;
 }

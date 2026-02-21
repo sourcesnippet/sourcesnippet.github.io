@@ -1,21 +1,32 @@
 /* Core */
 :root {
     --color-bg: #0f1115;
-    --color-surface: #2b2f3b;
+    --color-surface: #455444;
     --color-surface-dark: #3a3a3a;
     --color-text: #dbdbdb;
     --color-text-muted: rgb(122, 124, 129);
     --color-border: rgb(85, 88, 100);
 
-    --color-accent: #7dd3fc;
+
+    /* Blue Theme */
+    /* --color-accent: #7dd3fc;
     --color-accent-vibrant: #305478;
     --color-accent-muted: #60a4c4;
-    --color-accent-dull: #1f3e5d;
+    --color-accent-dull: #1f3e5d; */
+
+
+    /* Green Theme */
+    --color-accent: #78fd60;
+    --color-accent-vibrant: #3d6b31;
+    --color-accent-muted: #74c460;
+    --color-accent-dull: #27661e;
+    --color-accent-dark: #50554f;
+
 
     /* taken from code-styles.css DO NOT REMOVE */
     --color-code-bg: #1d1f21;
     --code-padding: 12px;
-    /* --code-font-size: 75%; */
+
 
     --body-width: 1000px;
     --body-width-padding: 1rem;
@@ -289,7 +300,7 @@ code {
     width: 100%;
 }
 
-#snippet-content  a {
+#snippet-content a {
     text-underline-offset: 2px;
     color: var(--color-accent);
     text-decoration: underline;
@@ -313,7 +324,7 @@ code {
     align-items: center;
     height: 3.25rem;
     width: 100%;
-    background-color: var(--color-accent-dull);
+    background-color: var(--color-accent-dark);
     padding: 5px 0.6rem 0 0.6rem;
     overflow-x: scroll;
     box-sizing: border-box;
@@ -351,16 +362,16 @@ code {
 }
 
 .codetabs-topbar button:hover {
-    background-color: color-mix(in srgb, var(--color-accent-dull), black 20%);
+    background-color: rgba(0, 0, 0, 0.2);
 }
 
 .codetabs-selected {
-    background-color: color-mix(in srgb, var(--color-accent-dull), black 40%) !important;
+    background-color: rgba(0, 0, 0, 0.4) !important;
 }
 
 .codetabs select {
     width: 6rem;
-    background-color: color-mix(in srgb, var(--color-accent-dull), black 25%);
+    background-color: rgba(0, 0, 0, 0.25);
     color: var(--color-text);
     padding: 0.4rem;
     border-radius: 3px;
@@ -369,7 +380,7 @@ code {
 }
 
 .codetabs select option {
-    background-color: color-mix(in srgb, var(--color-accent-dull), black 25%);
+    background-color: var(--color-surface);
 }
 
 .codetabs-copy {
@@ -381,6 +392,7 @@ code {
     cursor: pointer;
     padding: 5px;
     border-radius: 5px;
+    image-rendering: pixelated;
     border: 1px solid var(--color-border);
     background-color: var(--color-accent-dull);
     background-image: url("/static/copy-icon.png");

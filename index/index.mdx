@@ -9,15 +9,15 @@ export const extendHead = (<>
 
     {/* Preview card*/}
     <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={SITE_NAME} />
     <meta property="og:url" content={`${SITE_DOMAIN}/`} />
-    <meta property="og:title" content={SITE_NAME} />
-    <meta property="og:description" content={SITE_DESCRIPTION} />
+    <meta property="og:title" content={`${SITE_NAME}`} />
     <meta property="og:image" content={SITE_PREVIEW_IMG} />
 
+    <meta name="twitter:site" content={SITE_NAME} />
     <meta property="twitter:card" content="summary_large_image" />
     <meta property="twitter:url" content={`${SITE_DOMAIN}/`} />
     <meta property="twitter:title" content={SITE_NAME} />
-    <meta property="twitter:description" content={SITE_DESCRIPTION} />
     <meta property="twitter:image" content={SITE_PREVIEW_IMG} />
 </>)
 
@@ -36,25 +36,25 @@ export const extendHead = (<>
     <h2 id="query-banner" style="display:none"></h2>
 
     <main className="snippets-card-container">
-        <SnippetCard className="is-loading" tags={["typescript", "react", "nextjs", "tailwind"]}/>
-        <SnippetCard className="is-loading" tags={["html", "css", "javascript"]}/>
-        <SnippetCard className="is-loading" tags={["rust", "wasm"]}/>
-        <SnippetCard className="is-loading" tags={["python", "django", "postgresql"]}/>
+        <SnippetCard isLoading={true} tags={["typescript", "react", "nextjs", "tailwind"]}/>
+        <SnippetCard isLoading={true} tags={["html", "css", "javascript"]}/>
+        <SnippetCard isLoading={true} tags={["rust", "wasm"]}/>
+        <SnippetCard isLoading={true} tags={["python", "django", "postgresql"]}/>
 
-        <SnippetCard className="is-loading" tags={["swift", "ios", "swiftui"]}/>
-        <SnippetCard className="is-loading" tags={["go", "docker", "kubernetes", "grpc"]}/>
-        <SnippetCard className="is-loading" tags={["java", "spring-boot", "maven"]}/>
-        <SnippetCard className="is-loading" tags={["ruby", "rails"]}/>
+        <SnippetCard isLoading={true} tags={["swift", "ios", "swiftui"]}/>
+        <SnippetCard isLoading={true} tags={["go", "docker", "kubernetes", "grpc"]}/>
+        <SnippetCard isLoading={true} tags={["java", "spring-boot", "maven"]}/>
+        <SnippetCard isLoading={true} tags={["ruby", "rails"]}/>
         
-        <SnippetCard className="is-loading" tags={["swift", "ios", "swiftui"]}/>
-        <SnippetCard className="is-loading" tags={["kotlin", "android", "gdscript"]}/>
-        <SnippetCard className="is-loading" tags={["csharp", "dotnet", "azure"]}/>
-        <SnippetCard className="is-loading" tags={["php", "laravel"]}/>
+        <SnippetCard isLoading={true} tags={["swift", "ios", "swiftui"]}/>
+        <SnippetCard isLoading={true} tags={["kotlin", "android", "gdscript"]}/>
+        <SnippetCard isLoading={true} tags={["csharp", "dotnet", "azure"]}/>
+        <SnippetCard isLoading={true} tags={["php", "laravel"]}/>
         
-        <SnippetCard className="is-loading" tags={["c-plus-plus", "opengl"]}/>
-        <SnippetCard className="is-loading" tags={["elixir", "phoenix"]}/>
-        <SnippetCard className="is-loading" tags={["sql", "redis", "mongodb"]}/>
-        <SnippetCard className="is-loading" tags={["dart", "flutter", "firebase"]}/>
+        <SnippetCard isLoading={true} tags={["c-plus-plus", "opengl"]}/>
+        <SnippetCard isLoading={true} tags={["elixir", "phoenix"]}/>
+        <SnippetCard isLoading={true} tags={["sql", "redis", "mongodb"]}/>
+        <SnippetCard isLoading={true} tags={["dart", "flutter", "firebase"]}/>
     </main>
 
     <PaginationBar style={"display:none"}/>

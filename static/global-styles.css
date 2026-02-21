@@ -186,7 +186,7 @@ code {
     left: 50%;
     width: calc(100% - 4px);
     background-color: var(--color-surface);
-    border: 1px solid var(--color-border);
+    border: 1px solid color-mix(in srgb, var(--color-border), white 25%);
     border-top: none;
     border-radius: 0 0 4px 4px;
     transform: translate(-50%, 0);
@@ -199,7 +199,7 @@ code {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    border-top: 1px solid var(--color-border);
+    border-top: 1px solid color-mix(in srgb, var(--color-border), white 25%);
 }
 
 .search-dropdown a:hover,
@@ -227,7 +227,8 @@ code {
     background-color: rgba(0, 0, 0, 0.25);
 }
 
-.search-nonefound {
+.search-nonefound,
+.search-loading {
     pointer-events: none;
 }
 

@@ -1,17 +1,17 @@
-import fs from "fs"
-import path from "path"
+import fs from "fs";
+import path from "path";
 import { SITE_NAME, SITE_DOMAIN, SITE_MOTTO, REPO_LINK, SITE_LOGO_PATH, PLACEHOLDER_IMG_PATH, TAGS_QUERY } from "@/static/global.js";
 
 
 // Properties
-export const DEFAULT_SNIPPET_STYLES_PATH = "styles.css"
-export const DEFAULT_SNIPPET_SCRIPT_PATH = "script.js"
-export const DEFAULT_CODE_TAB_STYLE = "max-height:31rem"
+export const DEFAULT_SNIPPET_STYLES_PATH = "styles.css";
+export const DEFAULT_SNIPPET_SCRIPT_PATH = "script.js";
+export const DEFAULT_CODE_TAB_STYLE = "max-height:31rem";
 
 
 // Internal Properties
-const languageClassPrefix = "hljs language-"
-const displayNameProp = "display-name"
+const languageClassPrefix = "hljs language-";
+const displayNameProp = "display-name";
 
 
 // Utility Methods
@@ -71,8 +71,10 @@ export function SearchBar({ id = "searchbar" }) {
         <script src="/static/search.js" type="module"></script>
         <input className="search-input" type="text" placeholder="Search..." />
         <div className="search-dropdown">
+            <div className="search-results"></div>
             <a href="#" className="search-more" style={"display:none"}>Show all results</a>
             <a className="search-nonefound" style={"display:none"}>No results found</a>
+            <a className="search-loading" style={"display:none"}>Loading...</a>
         </div>
         <button className="search-btn" aria-label="Search Button"></button>
     </div>)
@@ -97,15 +99,16 @@ export function Tags({ tags, assignHref = true }) {
     return tags?.map((tag, index) => (<a className="tag" key={index} href={assignHref ? `/?${TAGS_QUERY}=${encodeURIComponent(tag.toLowerCase())}` : undefined}>{tag.toLowerCase()}</a>));
 }
 
-export function SnippetCard({ className = "", imgSrc, text, link, tags = [] }) {
-    return (<div className={`snippet-card ${className}`}>
-        <a href={link} className="snippet-card-thumbnail" tabindex="-1">
-            <img src={imgSrc ?? PLACEHOLDER_IMG_PATH} onerror={`this.src='${PLACEHOLDER_IMG_PATH}'`} alt="thumbnail" fetchpriority="high" />
+export function SnippetCard({ imgSrc, text, link, tags = [], isLoading = false, loadingClass = "is-loading" }) {
+    const removeLoadingFunction = isLoading ? `this.parentElement.classList.remove('${loadingClass}')` : ""
+    return (<div className="snippet-card">
+        <a href={link} className={`snippet-card-thumbnail ${isLoading ? loadingClass : ""}`} tabindex="-1">
+            <img src={imgSrc} onerror={`this.src='${PLACEHOLDER_IMG_PATH}';${removeLoadingFunction}`} onLoad={removeLoadingFunction} alt="thumbnail" fetchpriority="high" />
         </a>
-        <a href={link} className="snippet-card-title" title={text}>
+        <a href={link} className={`snippet-card-title ${loadingClass ? loadingClass : ""}`} title={text}>
             <div>{text}</div>
         </a>
-        <div className="snippet-card-tags">
+        <div className={`snippet-card-tags ${loadingClass ? loadingClass : ""}`}>
             <Tags tags={tags} assignHref={false} />
         </div>
     </div>)
@@ -117,7 +120,7 @@ export function Snippet({ metaData = {}, children }) {
     // Default styles Component
     const stylePathExists = fs.existsSync(path.join(hostmdxCwd, DEFAULT_SNIPPET_STYLES_PATH));
     const scriptPathExists = fs.existsSync(path.join(hostmdxCwd, DEFAULT_SNIPPET_SCRIPT_PATH));
-    const title = metaData?.title;
+    const title = `${metaData?.title} | ${SITE_NAME}`;
     const url = new URL(SITE_DOMAIN + "/" + path.relative(hostmdxInputPath, hostmdxCwd) + "/").href
     const thumbnail = metaData?.thumbnail ? new URL(metaData?.thumbnail, url).href : "";
     const defaultHead = (<>
@@ -134,15 +137,15 @@ export function Snippet({ metaData = {}, children }) {
 
         {/* Preview card*/}
         <meta property="og:type" content="website" />
+        <meta property="og:site_name" content={SITE_NAME} />
         <meta property="og:url" content={url} />
         <meta property="og:title" content={title} />
-        <meta property="og:description" content={title} />
         <meta property="og:image" content={thumbnail} />
 
+        <meta name="twitter:site" content={SITE_NAME} />
         <meta property="twitter:card" content="summary_large_image" />
         <meta property="twitter:url" content={url} />
         <meta property="twitter:title" content={title} />
-        <meta property="twitter:description" content={title} />
         <meta property="twitter:image" content={thumbnail} />
     </>);
 

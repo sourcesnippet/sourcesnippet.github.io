@@ -8,8 +8,10 @@ export const DEFAULT_SEARCH_SELECTORS = {
     searchInput: "#searchbar .search-input",
     searchBtn: "#searchbar .search-btn",
     searchDropdown: "#searchbar .search-dropdown",
+    searchResultContainer: "#searchbar .search-results",
     searchMore: "#searchbar .search-more",
     searchNonefound: "#searchbar .search-nonefound",
+    searchLoading: "#searchbar .search-loading"
 }
 let lastSearchId = 0;  // To avoid older quick search request from overriding newer one
 
@@ -27,15 +29,11 @@ function debounce(func, delay) {
     };
 }
 
-function populateSearchDropdown(dropdownElement, searchMoreElement, searchNonefoundElement, query, snippets, areMoreAvailable = false) {
+function populateSearchDropdown(searchResultContainer, searchMoreElement, searchNonefoundElement, query = "", snippets = [], areMoreAvailable = false) {
 
     // Remove old quick search results
-    const oldLinks = dropdownElement.querySelectorAll('a');
-    oldLinks.forEach(link => {
-        if (!link.isSameNode(searchMoreElement) && !link.isSameNode(searchNonefoundElement)) {
-            link.remove()
-        }
-    });
+    const oldLinks = searchResultContainer.querySelectorAll('a');
+    oldLinks.forEach(link => link.remove());
 
 
     // Change display of "show all results"
@@ -53,18 +51,19 @@ function populateSearchDropdown(dropdownElement, searchMoreElement, searchNonefo
         anchor.href = item.url;
         anchor.textContent = item.title;
         anchor.title = item.title;
-        dropdownElement.insertBefore(anchor, searchMoreElement);
+        searchResultContainer.appendChild(anchor);
     });
-
 }
 
 function setupSearch(quickSearchCount = DEFAULT_QUICK_SEARCH_COUNT, quickSearchDelay = QUICK_SEARCH_DELAY, selectors = DEFAULT_SEARCH_SELECTORS) {
     // Get all elements
     const searchInput = document.querySelector(selectors.searchInput);
     const searchBtn = document.querySelector(selectors.searchBtn);
-    const searchDropdown = document.querySelector(selectors.searchDropdown);
+    // const searchDropdown = document.querySelector(selectors.searchDropdown);
+    const searchResultContainer = document.querySelector(selectors.searchResultContainer);
     const searchMore = document.querySelector(selectors.searchMore);
     const searchNonefound = document.querySelector(selectors.searchNonefound);
+    const searchLoading = document.querySelector(selectors.searchLoading);
 
 
     // Add query to input if already searched for
@@ -82,6 +81,11 @@ function setupSearch(quickSearchCount = DEFAULT_QUICK_SEARCH_COUNT, quickSearchD
         const thisSearchId = ++lastSearchId;
 
 
+        // Set as loading
+        populateSearchDropdown(searchResultContainer, searchMore, searchNonefound);  // Hide everything in dropdown
+        searchLoading.style.display = "";
+
+
         // Get search results
         const query = searchInput.value;
         const quickSearchResults = (query === "") ? [] : (await fetchSnippets(query, [], quickSearchCount + 1)).snippets;
@@ -90,9 +94,13 @@ function setupSearch(quickSearchCount = DEFAULT_QUICK_SEARCH_COUNT, quickSearchD
         }
 
 
+        // Unset as loading
+        searchLoading.style.display = "none";
+
+
         // Assign found snippets into dropdown
         let areMoreAvailable = quickSearchCount < quickSearchResults.length;  // Are there more snippets available than what is shown in quicksearch?
-        populateSearchDropdown(searchDropdown, searchMore, searchNonefound, query, quickSearchResults.slice(0, quickSearchCount), areMoreAvailable);
+        populateSearchDropdown(searchResultContainer, searchMore, searchNonefound, query, quickSearchResults.slice(0, quickSearchCount), areMoreAvailable);
     }, quickSearchDelay);
 
 

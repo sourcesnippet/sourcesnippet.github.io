@@ -1,18 +1,18 @@
-import { TAGS_QUERY, fetchSnippets, getSearchQueryFromUrl, getPageNumFromUrl, getTagsQueryFromUrl, gotoPageNumber } from "/static/global.js"
+import { TAGS_QUERY, fetchSnippets, getSearchQueryFromUrl, getPageNumFromUrl, getTagsQueryFromUrl, gotoPageNumber } from "/static/global.js";
 
 
 // Properties
 const RESULTS_PER_PAGE = 16;
-const QUERY_BANNER_SELECTOR = "#query-banner"
+const QUERY_BANNER_SELECTOR = "#query-banner";
 const SNIPPET_CARD_SELECTOR = ".snippet-card";
-const SNIPPET_LOADING_CLASS = "is-loading"
-const SNIPPET_THUMBNAIL_SELECTOR = ".snippet-card-thumbnail"
-const SNIPPET_IMG_SELECTOR = ".snippet-card-thumbnail img"
-const SNIPPET_TITLE_SELECTOR = ".snippet-card-title"
-const SNIPPET_TITLE_DIV_SELECTOR = ".snippet-card-title div"
-const SNIPPET_TAG_CONTAINER_SELECTOR = ".snippet-card-tags"
-const SNIPPET_TAG_CLASS = "tag"
-const PAGINATION_BAR_SELECTOR = "#pagination"
+const SNIPPET_LOADING_CLASS = "is-loading";
+const SNIPPET_THUMBNAIL_SELECTOR = ".snippet-card-thumbnail";
+const SNIPPET_IMG_SELECTOR = ".snippet-card-thumbnail img";
+const SNIPPET_TITLE_SELECTOR = ".snippet-card-title";
+const SNIPPET_TITLE_DIV_SELECTOR = ".snippet-card-title div";
+const SNIPPET_TAG_CONTAINER_SELECTOR = ".snippet-card-tags";
+const SNIPPET_TAG_CLASS = "tag";
+const PAGINATION_BAR_SELECTOR = "#pagination";
 const PAGINATION_PREV_BTN_SELECTOR = ".pagination-prev";
 const PAGINATION_PAGE_1_SELECTOR = ".pagination-item:nth-of-type(2)";  // Intentionally not :nth-of-type(1) DO NOT CHANGE
 const PAGINATION_START_DOTS_SELECTOR = ".pagination-dots:nth-of-type(1)";
@@ -116,29 +116,6 @@ function setupPaginationBtns(currentIndex, totalIndices) {
     nextBtn.onclick = toShowNext ? () => { gotoPageNumber(currentIndex + 1) } : null;
 }
 
-function loadingQueryBanner(queries = {}) {
-
-    // Return if no queries
-    if (!queries.searchQuery && queries.tags.length == 0) {
-        return;
-    }
-
-
-    // Return if banner not found
-    let queryBannerElement = document.querySelector(QUERY_BANNER_SELECTOR);
-    if (!queryBannerElement) {
-        return;
-    }
-
-
-    // Make sure banner is visible
-    queryBannerElement.style.display = ""
-
-
-    // Write as loading
-    queryBannerElement.textContent = "Loading..."
-}
-
 function assignQueryBanner(resultCount = 0, queries = {}) {
 
     // Return if no queries
@@ -206,15 +183,17 @@ function updateSnippetCards(snippets) {
         // Add link to title
         let titleElement = card.querySelector(SNIPPET_TITLE_SELECTOR);
         titleElement.href = snippets[i]?.url;
+        titleElement.classList.remove(SNIPPET_LOADING_CLASS);
 
 
         // Remove existing tags
         let tagContainer = card.querySelector(SNIPPET_TAG_CONTAINER_SELECTOR);
+        tagContainer.classList.remove(SNIPPET_LOADING_CLASS);
         while (tagContainer.firstChild) {
             tagContainer.removeChild(tagContainer.firstChild);
         }
 
-
+        
         // Add tags
         let tags = snippets[i]?.tags ?? [];
         for (let i = 0; i < tags.length; i++) {
@@ -243,8 +222,8 @@ async function main() {
     }
 
 
-    // Set search to loading
-    loadingQueryBanner(urlQueries);
+    // Set search result as loading
+    assignQueryBanner("Loading", urlQueries);
 
 
     // Get all snippets based on page number, search & tags query

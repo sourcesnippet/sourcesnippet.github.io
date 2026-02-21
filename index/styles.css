@@ -85,9 +85,9 @@
 
 
 /* Card Loading */
-.is-loading .snippet-card-thumbnail,
-.is-loading .snippet-card-title div,
-.is-loading .tag {
+.snippet-card-thumbnail.is-loading,
+.snippet-card-title.is-loading div,
+.snippet-card-tags.is-loading .tag {
     background: var(--color-surface);
     background: linear-gradient(90deg,
             var(--color-surface) 25%,
@@ -103,17 +103,17 @@
     user-select: none;
 }
 
-.is-loading .snippet-card-title {
+.snippet-card-title.is-loading {
     cursor: default;
 }
 
-.is-loading .snippet-card-title div {
+.snippet-card-title.is-loading div {
     width: 100%;
     height: 2rem;
     border-radius: 3px;
 }
 
-.is-loading .snippet-card-thumbnail img {
+.snippet-card-thumbnail.is-loading img {
     visibility: hidden;
 }
 

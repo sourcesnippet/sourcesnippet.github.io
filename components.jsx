@@ -103,7 +103,7 @@ export function SnippetCard({ imgSrc, text, link, tags = [], isLoading = false, 
     const removeLoadingFunction = isLoading ? `this.parentElement.classList.remove('${loadingClass}')` : ""
     return (<div className="snippet-card">
         <a href={link} className={`snippet-card-thumbnail ${isLoading ? loadingClass : ""}`} tabindex="-1">
-            <img src={imgSrc} onerror={`this.src='${PLACEHOLDER_IMG_PATH}';${removeLoadingFunction}`} onLoad={removeLoadingFunction} alt="thumbnail" fetchpriority="high" />
+            <img src={imgSrc} onerror={`if(this.src!=='${PLACEHOLDER_IMG_PATH}')this.src='${PLACEHOLDER_IMG_PATH}';${removeLoadingFunction}`} onLoad={removeLoadingFunction} alt="thumbnail" fetchpriority="high" />
         </a>
         <a href={link} className={`snippet-card-title ${loadingClass ? loadingClass : ""}`} title={text}>
             <div>{text}</div>
@@ -159,7 +159,7 @@ export function Snippet({ metaData = {}, children }) {
         <hr style="margin-bottom: 2rem" />
 
         <div id="snippet-header">
-            {metaData?.thumbnail && metaData?.thumbnail !== "" && <img id="snippet-thumbnail" src={metaData?.thumbnail} onerror={`this.src='${PLACEHOLDER_IMG_PATH}'`} alt="thumbnail" />}
+            {metaData?.thumbnail && metaData?.thumbnail !== "" && <img id="snippet-thumbnail" src={metaData?.thumbnail} onerror={`if(this.src!=='${PLACEHOLDER_IMG_PATH}')this.src='${PLACEHOLDER_IMG_PATH}'`} alt="thumbnail" />}
             <div id="snippet-card-title-wrapper">
                 <h1 id="snippet-card-title">{metaData?.title ?? "Untitled"}</h1>
                 {metaData?.author && <a id="snippet-author" className={!metaData?.authorWebsite && "snippet-no-author"} href={metaData?.authorWebsite ? metaData?.authorWebsite : undefined}>By {metaData.author}</a>}

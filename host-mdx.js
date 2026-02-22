@@ -1,32 +1,32 @@
-import fs from "fs"
-import path from "path"
+import fs from "fs";
+import path from "path";
 import * as esbuild from "esbuild";
 import { parseHTML } from "linkedom";
 import * as pagefind from "pagefind";
 import remarkHeadingId from "remark-heading-id";
-import rehypeMdxCodeProps from "rehype-mdx-code-props"
+import rehypeMdxCodeProps from "rehype-mdx-code-props";
 import { SitemapStream, streamToPromise } from "sitemap";
-import { TAGS_QUERY, SITE_DOMAIN } from "./static/global.js"
+import { TAGS_QUERY, SITE_DOMAIN } from "./static/global.js";
 
 
 // To Set Properties
-const SNIPPETS_DIR = "/snippets/"
-const SNIPPETS_INDEX_FILE = "index.mdx"
+const SNIPPETS_DIR = "/snippets/";
+const SNIPPETS_INDEX_FILE = "index.mdx";
 const SNIPPETS_PER_FILE = 500;
-const SNIPPETS_DATA_DIR = "/static/data/"
-const SNIPPETS_DATA_PREFIX = "data-"
-const SNIPPETS_STATS_FILE = "_stats.json"
-const INDEX_FOLDER = "/index"
-const SNIPPETS_SEARCH_DIR = "/static/search/"
-const UNTITLED_NAME = "Untitled"
-const TAGS_FILE_PATH = "/tags/index.html"
-const ROBOTS_TXT_PATH = "robots.txt"
-const TAGS_CONTAINER_SELECTOR = "#tag-list-container"
-const CNAME_FILE = "CNAME"
+const SNIPPETS_DATA_DIR = "/static/data/";
+const SNIPPETS_DATA_PREFIX = "data-";
+const SNIPPETS_STATS_FILE = "_stats.json";
+const INDEX_FOLDER = "/index";
+const SNIPPETS_SEARCH_DIR = "/static/search/";
+const UNTITLED_NAME = "Untitled";
+const TAGS_FILE_PATH = "/tags/index.html";
+const ROBOTS_TXT_PATH = "robots.txt";
+const TAGS_CONTAINER_SELECTOR = "#tag-list-container";
+const CNAME_FILE = "CNAME";
 
 
 // Properties
-let snippetsList = []
+let snippetsList = [];
 let tagsSet = new Set();  // Necessary for /tags page DO NOT REMOVE 
 
 
@@ -244,8 +244,7 @@ async function generateSitemap(outputPath, baseUrl) {
         sitemap.write({
             url: urlPath,
             changefreq: 'weekly',
-            priority: urlPath === '' ? 1.0 : 0.7,
-            lastmod: fs.statSync(file).mtime.toISOString()
+            priority: urlPath === '' ? 1.0 : 0.7
         });
     }
 

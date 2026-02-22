@@ -616,6 +616,7 @@ progress::-moz-progress-bar {
 .pagination-item:hover {
     background-color: var(--color-border);
     color: var(--color-text);
+    border: var(--color-border);
     cursor: pointer;
 }
 

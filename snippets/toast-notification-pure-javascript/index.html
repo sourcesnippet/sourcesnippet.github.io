@@ -1,0 +1,100 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><title>Popup / Toast notification in pure Javascript | SourceSnippet</title><link rel="shortcut icon" type="image/x-icon" href="/static/favicon.ico?"/><link rel="preload" href="/static/copy-done-icon.png" as="image"/><link rel="stylesheet" href="/static/code-styles.css"/><link rel="stylesheet" href="/static/global-styles.css"/><script src="/static/snippets.js"></script><meta name="description" content="Popup / Toast notification in pure Javascript | SourceSnippet"/><meta name="keywords" content="html, css, javascript"/><meta name="author" content="Manas R. Makde"/><meta property="og:type" content="website"/><meta property="og:site_name" content="SourceSnippet"/><meta property="og:url" content="https://sourcesnippet.com/snippets/toast-notification-pure-javascript/"/><meta property="og:title" content="Popup / Toast notification in pure Javascript | SourceSnippet"/><meta property="og:image" content="https://sourcesnippet.com/snippets/toast-notification-pure-javascript/toast.gif"/><meta name="twitter:site" content="SourceSnippet"/><meta property="twitter:card" content="summary_large_image"/><meta property="twitter:url" content="https://sourcesnippet.com/snippets/toast-notification-pure-javascript/"/><meta property="twitter:title" content="Popup / Toast notification in pure Javascript | SourceSnippet"/><meta property="twitter:image" content="https://sourcesnippet.com/snippets/toast-notification-pure-javascript/toast.gif"/></head><body><a id="site-header" href="/"><img id="site-logo" alt="logo" src="/static/logo.png"/><div id="site-title">SourceSnippet</div><div id="site-motto">Come. Copy. Go. As simple as that!</div></a><div id="searchbar" class="search-wrapper"><script src="/static/search.js" type="module"></script><input type="text" placeholder="Search..." class="search-input"/><div class="search-dropdown"><div class="search-results"></div><a href="#" style="display:none" class="search-more">Show all results</a><a style="display:none" class="search-nonefound">No results found</a><a style="display:none" class="search-loading">Loading...</a></div><button aria-label="Search Button" class="search-btn"></button></div><hr/><nav id="navbar"><a href="/tags">Tags</a><a href="/about">About</a><a href="/terms">Terms</a><a href="/contact">Contact</a></nav><hr style="margin-bottom: 2rem"/><div id="snippet-header"><img id="snippet-thumbnail" src="toast.gif" onerror="if(this.src!=='/static/placeholder.png')this.src='/static/placeholder.png'" alt="thumbnail"/><div id="snippet-card-title-wrapper"><h1 id="snippet-card-title">Popup / Toast notification in pure Javascript</h1><a id="snippet-author" href="https://manasmakde.github.io/">By Manas R. Makde</a></div></div><article id="snippet-content"><div class="codetabs"><div class="codetabs-topbar"><button onclick="changeTabByButton(this, 0)" class="codetabs-selected">Javascript</button></div><button onclick="copyCode(this)" class="codetabs-copy"></button><div class="codetabs-content"><pre class=" codetabs-active"><code style="max-height:31rem;" class="hljs language-Javascript"><span class="hljs-comment">// Copy paste this code into your javascript &amp; invoke toast(&quot;...&quot;) from anywhere</span>
+
+<span class="hljs-keyword">const</span> transiton_duration = <span class="hljs-number">500</span>
+<span class="hljs-keyword">const</span> visible_duration = <span class="hljs-number">3000</span>
+
+<span class="hljs-keyword">let</span> toast_timeout = <span class="hljs-literal">null</span>;
+<span class="hljs-keyword">const</span> body_page = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">querySelector</span>(<span class="hljs-string">&quot;body&quot;</span>)
+<span class="hljs-keyword">const</span> toast_el = <span class="hljs-title class_">Object</span>.<span class="hljs-title function_">assign</span>(<span class="hljs-variable language_">document</span>.<span class="hljs-title function_">createElement</span>(<span class="hljs-string">&quot;div&quot;</span>), {
+  <span class="hljs-string">&quot;style&quot;</span>: <span class="hljs-string">`position: fixed;
+    bottom: 3rem;
+    right: 50%;
+    transform: translate(50%, 0);
+    z-index: 999;
+    padding: 1rem;
+    text-align:center;
+    color: white;
+    background-color: rgba(0, 0, 0, 0.8);
+    box-shadow: rgba(0, 0, 0, 0.4) 0px 5px 15px;
+    border-radius:10px;
+    pointer-events: none;
+    opacity:0;
+    transition: opacity <span class="hljs-subst">${transiton_duration}</span>ms;`</span>,
+})
+
+<span class="hljs-keyword">function</span> <span class="hljs-title function_">toast</span>(<span class="hljs-params">txt</span>) {
+
+  <span class="hljs-keyword">if</span> (toast_timeout != <span class="hljs-literal">undefined</span>)
+    <span class="hljs-built_in">clearTimeout</span>(toast_timeout);
+  <span class="hljs-keyword">else</span> 
+    body_page.<span class="hljs-title function_">prepend</span>(toast_el);
+
+  toast_el.<span class="hljs-property">innerText</span> = txt;
+  <span class="hljs-built_in">setTimeout</span>(<span class="hljs-function">() =></span> toast_el.<span class="hljs-property">style</span>.<span class="hljs-property">opacity</span> = <span class="hljs-string">&quot;1&quot;</span>, <span class="hljs-number">0</span>);
+
+  toast_timeout = <span class="hljs-built_in">setTimeout</span>(<span class="hljs-function">() =></span> {
+    toast_el.<span class="hljs-property">style</span>.<span class="hljs-property">opacity</span> = <span class="hljs-string">&quot;0&quot;</span>
+    toast_timeout = <span class="hljs-built_in">setTimeout</span>(<span class="hljs-function">() =></span> { toast_el.<span class="hljs-property">parentNode</span>.<span class="hljs-title function_">removeChild</span>(toast_el); toast_timeout = <span class="hljs-literal">null</span> }, transiton_duration);
+  }, visible_duration)
+
+}
+</code></pre></div></div>
+<p>To use in Html:</p>
+<pre><code class="hljs language-HTML"><span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;button&quot;</span> <span class="hljs-attr">onClick</span>=<span class="hljs-string">&quot;toast('This is a toast!')&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;Click Me&quot;</span> /></span>
+</code></pre>
+<p>To use in Javascript:</p>
+<pre><code class="hljs language-Javascript"><span class="hljs-title function_">toast</span>(<span class="hljs-string">&quot;This is a toast!&quot;</span>)
+</code></pre>
+<br/>
+<hr/>
+<br/>
+<p>Or if you prefer the cleaner version:</p>
+<div class="codetabs"><div class="codetabs-topbar"><button onclick="changeTabByButton(this, 0)">CSS</button><button onclick="changeTabByButton(this, 1)" class="codetabs-selected">Javascript</button></div><button onclick="copyCode(this)" class="codetabs-copy"></button><div class="codetabs-content"><pre class=" "><code style="max-height:31rem;" class="hljs language-CSS"><span class="hljs-selector-class">.toast</span> {
+    <span class="hljs-attribute">position</span>: fixed;
+    <span class="hljs-attribute">bottom</span>: <span class="hljs-number">3rem</span>;
+    <span class="hljs-attribute">right</span>: <span class="hljs-number">50%</span>;
+    <span class="hljs-attribute">transform</span>: <span class="hljs-built_in">translate</span>(<span class="hljs-number">50%</span>, <span class="hljs-number">0</span>);
+    <span class="hljs-attribute">z-index</span>: <span class="hljs-number">999</span>;
+    <span class="hljs-attribute">padding</span>: <span class="hljs-number">1rem</span>;
+    <span class="hljs-attribute">text-align</span>:center;
+    <span class="hljs-attribute">color</span>: white;
+    <span class="hljs-attribute">background-color</span>: <span class="hljs-built_in">rgba</span>(<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0.8</span>);
+    <span class="hljs-attribute">box-shadow</span>: <span class="hljs-built_in">rgba</span>(<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0.4</span>) <span class="hljs-number">0px</span> <span class="hljs-number">5px</span> <span class="hljs-number">15px</span>;
+    <span class="hljs-attribute">border-radius</span>:<span class="hljs-number">10px</span>;
+    <span class="hljs-attribute">pointer-events</span>: none;
+    <span class="hljs-attribute">opacity</span>:<span class="hljs-number">0</span>;
+    <span class="hljs-attribute">transition</span>: opacity;
+}
+</code></pre><pre class=" codetabs-active"><code style="max-height:31rem;" class="hljs language-Javascript"><span class="hljs-keyword">const</span> transiton_duration = <span class="hljs-number">500</span>
+<span class="hljs-keyword">const</span> visible_duration = <span class="hljs-number">3000</span>
+
+<span class="hljs-keyword">let</span> toast_timeout = <span class="hljs-literal">null</span>;
+<span class="hljs-keyword">const</span> body_page = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">querySelector</span>(<span class="hljs-string">&quot;body&quot;</span>)
+<span class="hljs-keyword">const</span> toast_el = <span class="hljs-title class_">Object</span>.<span class="hljs-title function_">assign</span>(<span class="hljs-variable language_">document</span>.<span class="hljs-title function_">createElement</span>(<span class="hljs-string">&quot;div&quot;</span>), {
+  <span class="hljs-string">&quot;style&quot;</span>: <span class="hljs-string">`transition-duration:<span class="hljs-subst">${transiton_duration}</span>ms;`</span>,
+  <span class="hljs-string">&quot;className&quot;</span>: <span class="hljs-string">&quot;toast&quot;</span>
+})
+
+<span class="hljs-keyword">function</span> <span class="hljs-title function_">toast</span>(<span class="hljs-params">txt</span>) { <span class="hljs-comment">// toast to notify extension actions to user</span>
+
+  <span class="hljs-keyword">if</span> (toast_timeout != <span class="hljs-literal">undefined</span>)  <span class="hljs-comment">//if toast is already active</span>
+    <span class="hljs-built_in">clearTimeout</span>(toast_timeout);
+  <span class="hljs-keyword">else</span> 
+    body_page.<span class="hljs-title function_">prepend</span>(toast_el);
+  
+  toast_el.<span class="hljs-property">innerText</span> = txt;
+  <span class="hljs-built_in">setTimeout</span>(<span class="hljs-function">() =></span> toast_el.<span class="hljs-property">style</span>.<span class="hljs-property">opacity</span> = <span class="hljs-string">&quot;1&quot;</span>, <span class="hljs-number">0</span>);
+
+  toast_timeout = <span class="hljs-built_in">setTimeout</span>(<span class="hljs-function">() =></span> {
+    toast_el.<span class="hljs-property">style</span>.<span class="hljs-property">opacity</span> = <span class="hljs-string">&quot;0&quot;</span>
+
+    toast_timeout = <span class="hljs-built_in">setTimeout</span>(<span class="hljs-function">() =></span> {
+      toast_el.<span class="hljs-property">parentNode</span>.<span class="hljs-title function_">removeChild</span>(toast_el);
+      toast_timeout = <span class="hljs-literal">null</span>;
+
+    }, transiton_duration);
+
+  }, visible_duration)
+
+}
+</code></pre></div></div></article><div class="tag-container"><a href="/?tags=html" class="tag">html</a><a href="/?tags=css" class="tag">css</a><a href="/?tags=javascript" class="tag">javascript</a></div><hr style="margin-top: 2rem"/><footer><a id="footer-logo-wrapper" href="/"><img id="footer-logo" alt="logo" src="/static/logo.png"/></a><div id="footer-links" style="margin-bottom: 2rem"><a href="https://github.com/sourcesnippet/sourcesnippet.github.io" target="_blank">Repository</a><hr/><a href="https://github.com/sourcesnippet/sourcesnippet.github.io/issues" target="_blank">Report Bug</a></div><div id="footer-warning">Scraping data for AI training or any other purpose is strictly prohibited. <a href="/terms#ai-data-scraping-policy" aria-label="Learn more about scraping policy">View Terms</a></div></footer></body></html>

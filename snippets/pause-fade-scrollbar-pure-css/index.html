@@ -1,0 +1,104 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><title>Pause &amp; fade scrollbar in pure css | SourceSnippet</title><link rel="shortcut icon" type="image/x-icon" href="/static/favicon.ico?"/><link rel="preload" href="/static/copy-done-icon.png" as="image"/><link rel="stylesheet" href="/static/code-styles.css"/><link rel="stylesheet" href="/static/global-styles.css"/><script src="/static/snippets.js"></script><meta name="description" content="Pause &amp; fade scrollbar in pure css | SourceSnippet"/><meta name="keywords" content="html, css, scss"/><meta name="author" content="Manas R. Makde"/><meta property="og:type" content="website"/><meta property="og:site_name" content="SourceSnippet"/><meta property="og:url" content="https://sourcesnippet.com/snippets/pause-fade-scrollbar-pure-css/"/><meta property="og:title" content="Pause &amp; fade scrollbar in pure css | SourceSnippet"/><meta property="og:image" content="https://sourcesnippet.com/snippets/pause-fade-scrollbar-pure-css/fading-scrollbar.gif"/><meta name="twitter:site" content="SourceSnippet"/><meta property="twitter:card" content="summary_large_image"/><meta property="twitter:url" content="https://sourcesnippet.com/snippets/pause-fade-scrollbar-pure-css/"/><meta property="twitter:title" content="Pause &amp; fade scrollbar in pure css | SourceSnippet"/><meta property="twitter:image" content="https://sourcesnippet.com/snippets/pause-fade-scrollbar-pure-css/fading-scrollbar.gif"/></head><body><a id="site-header" href="/"><img id="site-logo" alt="logo" src="/static/logo.png"/><div id="site-title">SourceSnippet</div><div id="site-motto">Come. Copy. Go. As simple as that!</div></a><div id="searchbar" class="search-wrapper"><script src="/static/search.js" type="module"></script><input type="text" placeholder="Search..." class="search-input"/><div class="search-dropdown"><div class="search-results"></div><a href="#" style="display:none" class="search-more">Show all results</a><a style="display:none" class="search-nonefound">No results found</a><a style="display:none" class="search-loading">Loading...</a></div><button aria-label="Search Button" class="search-btn"></button></div><hr/><nav id="navbar"><a href="/tags">Tags</a><a href="/about">About</a><a href="/terms">Terms</a><a href="/contact">Contact</a></nav><hr style="margin-bottom: 2rem"/><div id="snippet-header"><img id="snippet-thumbnail" src="fading-scrollbar.gif" onerror="if(this.src!=='/static/placeholder.png')this.src='/static/placeholder.png'" alt="thumbnail"/><div id="snippet-card-title-wrapper"><h1 id="snippet-card-title">Pause &amp; fade scrollbar in pure css</h1><a id="snippet-author" href="https://manasmakde.github.io/">By Manas R. Makde</a></div></div><article id="snippet-content"><div class="codetabs"><div class="codetabs-topbar"><button onclick="changeTabByButton(this, 0)">HTML</button><button onclick="changeTabByButton(this, 1)" class="codetabs-selected">CSS</button><button onclick="changeTabByButton(this, 2)">SCSS</button></div><button onclick="copyCode(this)" class="codetabs-copy"></button><div class="codetabs-content"><pre class=" "><code style="max-height:31rem;" class="hljs language-HTML"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;wrapper&quot;</span>></span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">article</span>></span>
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+    sed do eiusmod tempor incididunt ut labore et dolore magna 
+    aliqua. Ut enim ad minim veniam, quis nostrud exercitation 
+    ullamco aboris nisi ut aliquip ex ea commodo consequat.
+    Duis aute irure dolor in reprehenderit in voluptate
+    elit esse cillum dolore eu fugiat nulla pariatur.
+  <span class="hljs-tag">&lt;/<span class="hljs-name">article</span>></span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>></span>
+</code></pre><pre class=" codetabs-active"><code style="max-height:31rem;" class="hljs language-CSS"><span class="hljs-selector-class">.wrapper</span> {
+  <span class="hljs-attribute">width</span>: <span class="hljs-number">300px</span>;
+  <span class="hljs-attribute">height</span>: <span class="hljs-number">200px</span>;
+  <span class="hljs-attribute">margin</span>: <span class="hljs-number">100px</span> auto;
+  <span class="hljs-attribute">overflow</span>: auto;
+  <span class="hljs-attribute">white-space</span>: nowrap;
+  <span class="hljs-attribute">border-radius</span>: <span class="hljs-number">3px</span>;
+
+  -webkit-<span class="hljs-selector-tag">text</span>-<span class="hljs-attribute">fill</span>-<span class="hljs-attribute">color</span>: black;
+  <span class="hljs-attribute">background-color</span>: white;
+  <span class="hljs-attribute">box-shadow</span>: <span class="hljs-number">0</span> <span class="hljs-number">1px</span> <span class="hljs-number">20px</span> <span class="hljs-built_in">rgba</span>(<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0.5</span>);
+
+  <span class="hljs-attribute">color</span>: transparent;
+  <span class="hljs-attribute">transition</span>: color <span class="hljs-number">1s</span> ease;
+  <span class="hljs-attribute">transition-delay</span>: <span class="hljs-number">0.5s</span>;
+}
+
+<span class="hljs-selector-class">.wrapper</span><span class="hljs-selector-pseudo">:hover</span> {
+  <span class="hljs-attribute">color</span>: <span class="hljs-number">#c4c4c4</span>;
+  <span class="hljs-attribute">transition-duration</span>: <span class="hljs-number">200ms</span>;
+  <span class="hljs-attribute">transition-delay</span>: <span class="hljs-number">0s</span>;
+}
+
+<span class="hljs-selector-class">.wrapper</span>::-webkit-scrollbar {
+  <span class="hljs-attribute">width</span>: <span class="hljs-number">10px</span>;
+  <span class="hljs-attribute">height</span>: <span class="hljs-number">10px</span>;
+}
+
+<span class="hljs-selector-class">.wrapper</span>::-webkit-scrollbar-thumb {
+  <span class="hljs-attribute">border</span>: <span class="hljs-number">10px</span> solid;
+}
+
+<span class="hljs-selector-class">.wrapper</span>::-webkit-scrollbar-thumb:hover {
+  <span class="hljs-attribute">color</span>: <span class="hljs-number">#acacac</span>;
+}
+
+<span class="hljs-selector-class">.wrapper</span>::-webkit-scrollbar-thumb:active {
+  <span class="hljs-attribute">color</span>: <span class="hljs-number">#7c7c7c</span>;
+}
+
+<span class="hljs-selector-tag">article</span> {
+  <span class="hljs-attribute">padding</span>: <span class="hljs-number">1rem</span>;
+  <span class="hljs-attribute">font-size</span>: <span class="hljs-number">150%</span>;
+  <span class="hljs-attribute">word-wrap</span>: normal;
+  <span class="hljs-attribute">text-wrap</span>: wrap;
+}
+</code></pre><pre class=" "><code style="max-height:31rem;" class="hljs language-SCSS"><span class="hljs-selector-class">.wrapper</span> {
+  <span class="hljs-attribute">width</span>: <span class="hljs-number">300px</span>;
+  <span class="hljs-attribute">height</span>: <span class="hljs-number">200px</span>;
+  <span class="hljs-attribute">margin</span>: <span class="hljs-number">100px</span> auto;
+  <span class="hljs-attribute">overflow</span>: auto;
+  <span class="hljs-attribute">white-space</span>: nowrap;
+  <span class="hljs-attribute">border-radius</span>: <span class="hljs-number">3px</span>;
+
+  -webkit-<span class="hljs-selector-tag">text</span>-<span class="hljs-attribute">fill</span>-<span class="hljs-attribute">color</span>: black;
+  <span class="hljs-attribute">background-color</span>: white;
+  <span class="hljs-attribute">box-shadow</span>: <span class="hljs-number">0</span> <span class="hljs-number">1px</span> <span class="hljs-number">20px</span> <span class="hljs-built_in">rgba</span>(<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0.5</span>);
+
+  <span class="hljs-attribute">color</span>: transparent;
+  <span class="hljs-attribute">transition</span>: color <span class="hljs-number">1s</span> ease;
+  <span class="hljs-attribute">transition-delay</span>: <span class="hljs-number">0.5s</span>;
+
+  &amp;<span class="hljs-selector-pseudo">:hover</span> {
+    <span class="hljs-attribute">color</span>: <span class="hljs-number">#c4c4c4</span>;
+    <span class="hljs-attribute">transition-duration</span>: <span class="hljs-number">200ms</span>;
+    <span class="hljs-attribute">transition-delay</span>: <span class="hljs-number">0s</span>;
+  }
+
+  &amp;::-webkit-scrollbar {
+    <span class="hljs-attribute">width</span>: <span class="hljs-number">10px</span>;
+    <span class="hljs-attribute">height</span>: <span class="hljs-number">10px</span>;
+  }
+
+  &amp;::-webkit-scrollbar-thumb {
+    <span class="hljs-attribute">border</span>: <span class="hljs-number">10px</span> solid;
+  }
+
+  &amp;::-webkit-scrollbar-thumb:hover {
+    <span class="hljs-attribute">color</span>: <span class="hljs-number">#acacac</span>;
+  }
+
+  &amp;::-webkit-scrollbar-thumb:active {
+    <span class="hljs-attribute">color</span>: <span class="hljs-number">#7c7c7c</span>
+  }
+
+}
+
+<span class="hljs-selector-tag">article</span> {
+  <span class="hljs-attribute">padding</span>: <span class="hljs-number">1rem</span>;
+  <span class="hljs-attribute">font-size</span>: <span class="hljs-number">150%</span>;
+  <span class="hljs-attribute">word-wrap</span>: normal;
+  <span class="hljs-selector-tag">text</span>-wrap: wrap;
+}
+</code></pre></div></div></article><div class="tag-container"><a href="/?tags=html" class="tag">html</a><a href="/?tags=css" class="tag">css</a><a href="/?tags=scss" class="tag">scss</a></div><hr style="margin-top: 2rem"/><footer><a id="footer-logo-wrapper" href="/"><img id="footer-logo" alt="logo" src="/static/logo.png"/></a><div id="footer-links" style="margin-bottom: 2rem"><a href="https://github.com/sourcesnippet/sourcesnippet.github.io" target="_blank">Repository</a><hr/><a href="https://github.com/sourcesnippet/sourcesnippet.github.io/issues" target="_blank">Report Bug</a></div><div id="footer-warning">Scraping data for AI training or any other purpose is strictly prohibited. <a href="/terms#ai-data-scraping-policy" aria-label="Learn more about scraping policy">View Terms</a></div></footer></body></html>

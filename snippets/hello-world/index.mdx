@@ -6,13 +6,13 @@ export const metaData = {
     thumbnail: "hello-world.webp",
     author: "Manas R. Makde",
     authorWebsite: "https://manasmakde.github.io/",
-    tags: ["Ada", "bash", "brainfuck", "c", "c#", "c++", "css", "d", "dart", "elixir", "f#"]
+    tags: ["ada", "bash", "c", "c#", "c++", "css", "d", "dart", "elixir", "f#", "gdscript", "go", "groovy", "html", "haskell", "java", "javascript", "julia", "kotlin", "lisp", "lua", "markdown", "nim", "objectivec", "perl", "php", "python", "r", "ruby", "rust", "scala", "scss", "swift", "tcl", "zig", "brainfuck"]
 }
 
 
 <Snippet metaData={metaData}>
 
-    <CodeTabs activeIndex={0} dropdown={true}>
+    <CodeTabs activeIndex={5} dropdown={true}>
     ```Ada
     with Ada.Text_IO; use Ada.Text_IO;
     procedure Hello is
@@ -89,6 +89,151 @@ export const metaData = {
     open System
 
     printfn "Hello, World!"
+    ```
+
+    ```GDScript
+    extends Node
+
+    func _init():
+        print("Hello, World!")
+    ```
+
+    ```Go
+    package main
+    import "fmt"
+
+    func main() {
+        fmt.Println("Hello, World!")
+    }
+    ```
+
+    ```Groovy
+    println "Hello, World!"
+    ```
+
+    ```HTML
+    <!DOCTYPE html>
+
+    <html>
+        <body>
+            Hello, World!
+        </body>
+    </html>
+    ```
+
+    ```Haskell
+    main = putStrLn "Hello, World!"
+    ```
+
+    ```Java
+    public class Main
+    {
+        public static void main(String[] args) 
+        {
+            System.out.println("Hello, World!");
+        }
+    }
+    ```
+
+    ```JavaScript
+    console.log("Hello, World!");
+    ```
+
+    ```Julia
+    println("Hello, World!")
+    ```
+
+    ```Kotlin
+    fun main() {
+        println("Hello, World!")
+    }
+    ```
+
+    ```Lisp
+    (print "Hello, World!")
+    ```
+
+    ```Lua
+    print("Hello, World!")
+    ```
+
+    ```Markdown
+    # Hello, World!
+    ```
+
+    ```Nim
+    echo "Hello, World!"
+    ```
+
+    ```ObjectiveC
+    #import <Foundation/Foundation.h>
+
+    int main (int argc, const char * argv[]){
+        fprintf(stdout, "Hello, World!");
+        return 0;
+    }
+    ```
+
+    ```Perl
+    print "Hello, World!";
+    ```
+
+    ```PHP
+    <?php
+
+    echo "Hello, World!";
+
+    ?>
+    ```
+    
+    ```Python
+    print("Hello, World!")
+    ```
+
+    ```R
+    print("Hello, World!")
+    ```
+
+    ```Ruby
+    puts "Hello, World!"
+    ```
+
+    ```Rust
+    fn main() {
+        println!("Hello, World!");
+    }
+    ```
+
+    ```Scala
+    object HelloWorld {
+        def main(args: Array[String]) {
+            println("Hello, world!")
+        }
+    }
+    ```
+
+    ```SCSS
+    body {
+        &::before {
+            content: "Hello, World!";
+        }
+    }
+    ```
+
+    ```Swift
+    print("Hello, World!")
+    ```
+
+    ```Tcl
+    puts "Hello, World!"
+    ```
+
+    ```Zig
+    const print = @import("std").debug.print;
+
+    pub fn main() void {
+        print("Hello, world!", .{});
+    }
     ```
 
   </CodeTabs>

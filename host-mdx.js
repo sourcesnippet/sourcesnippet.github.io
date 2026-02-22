@@ -7,6 +7,8 @@ import remarkHeadingId from "remark-heading-id";
 import rehypeMdxCodeProps from "rehype-mdx-code-props";
 import { SitemapStream, streamToPromise } from "sitemap";
 import { TAGS_QUERY, SITE_DOMAIN } from "./static/global.js";
+import rehypeHighlight from "rehype-highlight";
+import languages from "./static/languages.js";
 
 
 // To Set Properties
@@ -274,6 +276,7 @@ export function modBundleMDXSettings(inputPath, outputPath, settings) {
     var oldBuildOptions = settings.esbuildOptions;
     settings.esbuildOptions = (options) => {
         options = oldBuildOptions(options)
+        options.logLevel = 'error';
         options.alias = {
             ...options.alias,
             '@': inputPath, // Maps '@' to your project root
@@ -293,6 +296,9 @@ export function modBundleMDXSettings(inputPath, outputPath, settings) {
         ];
         options.rehypePlugins = [
             ...(options.rehypePlugins ?? []),
+            [rehypeHighlight, {
+                languages
+            }],
             [rehypeMdxCodeProps, { tagName: 'code' }]
         ]
 

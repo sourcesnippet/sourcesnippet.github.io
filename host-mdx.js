@@ -22,6 +22,7 @@ const UNTITLED_NAME = "Untitled"
 const TAGS_FILE_PATH = "/tags/index.html"
 const ROBOTS_TXT_PATH = "robots.txt"
 const TAGS_CONTAINER_SELECTOR = "#tag-list-container"
+const CNAME_FILE = "CNAME"
 
 
 // Properties
@@ -66,6 +67,19 @@ function getFiles(dir, allFiles = []) {
         }
     }
     return allFiles;
+}
+function getCleanDomain(domain) {
+    // Make sure there is a protocol so URL constructor works
+    let urlString = domain.includes("://") ? domain : "https://" + domain;
+
+
+    // Remove www.
+    try {
+        const url = new URL(urlString);
+        return url.hostname.replace(/^www\./, "");
+    } catch (e) {
+        return "";
+    }
 }
 
 
@@ -120,7 +134,7 @@ function moveUpContents(folderPath) {
 async function compressFile(filePath) {
 
     // Return if not valid file path
-    if(!filePath || fs.lstatSync(filePath).isDirectory() ){
+    if (!filePath || fs.lstatSync(filePath).isDirectory()) {
         return;
     }
 
@@ -247,6 +261,11 @@ async function generateSitemap(outputPath, baseUrl) {
     let existingContent = fs.readFileSync(filePath, 'utf8');
     fs.writeFileSync(filePath, sitemapText + existingContent);
 }
+async function createCNAME(outputPath) {
+    let filePath = path.join(outputPath, CNAME_FILE)
+    let domain = getCleanDomain(SITE_DOMAIN);
+    fs.writeFileSync(filePath, domain);
+}
 
 
 // Override Methods
@@ -367,6 +386,10 @@ export async function onSiteCreateEnd(inputPath, outputPath, wasInterrupted) {
 
     // Create site map
     await generateSitemap(outputPath, SITE_DOMAIN);
+
+
+    // Create CNAME file to avoid domain name resetting on every push DO NOT REMOVE
+    await createCNAME(outputPath);
 }
 
 export function toTriggerRecreate(event, path) {

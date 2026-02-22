@@ -1,4 +1,5 @@
-import { TAGS_QUERY, fetchSnippets, getSearchQueryFromUrl, getPageNumFromUrl, getTagsQueryFromUrl, gotoPageNumber } from "/static/global.js";
+import { TAGS_QUERY, getSearchQueryFromUrl, getPageNumFromUrl, getTagsQueryFromUrl, gotoPageNumber } from "/static/global.js";
+import { fetchSnippets } from "/static/search.js"
 
 
 // Properties
@@ -193,7 +194,7 @@ function updateSnippetCards(snippets) {
             tagContainer.removeChild(tagContainer.firstChild);
         }
 
-        
+
         // Add tags
         let tags = snippets[i]?.tags ?? [];
         for (let i = 0; i < tags.length; i++) {

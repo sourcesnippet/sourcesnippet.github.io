@@ -89,31 +89,6 @@ function getCleanDomain(domain) {
 function createNojekyll(outputPath) {
     fs.writeFileSync(path.join(outputPath, '.nojekyll'), "");
 }
-function createSnippetsData(outputPath) {
-    // Create data folder
-    let absDataDir = path.join(outputPath, SNIPPETS_DATA_DIR);
-    if (!fs.existsSync(absDataDir)) {
-        fs.mkdirSync(absDataDir);
-    }
-
-
-    // Create site data.json files
-    for (let i = 0; i < snippetsList.length; i += SNIPPETS_PER_FILE) {
-        const chunk = snippetsList.slice(i, i + SNIPPETS_PER_FILE);
-        const jsonContent = JSON.stringify({ snippets: chunk });
-        const fileNumber = i / SNIPPETS_PER_FILE;
-        const fileName = `${SNIPPETS_DATA_PREFIX}${fileNumber}.json`;
-        fs.writeFileSync(path.join(absDataDir, fileName), jsonContent);
-    }
-
-
-    // Create stats file
-    let stats = {
-        totalSnippets: snippetsList.length,
-        snippetsPerFile: SNIPPETS_PER_FILE
-    }
-    fs.writeFileSync(path.join(outputPath, SNIPPETS_DATA_DIR, SNIPPETS_STATS_FILE), JSON.stringify(stats));
-}
 function moveUpContents(folderPath) {
 
     // Get parent directory
@@ -201,6 +176,31 @@ function injectTags(outputPath) {
     // Injecting html & save
     container.innerHTML = htmlContent;
     fs.writeFileSync(filePath, document.toString(), 'utf8');
+}
+function createSnippetsData(outputPath) {
+    // Create data folder
+    let absDataDir = path.join(outputPath, SNIPPETS_DATA_DIR);
+    if (!fs.existsSync(absDataDir)) {
+        fs.mkdirSync(absDataDir);
+    }
+
+
+    // Create site data.json files
+    for (let i = 0; i < snippetsList.length; i += SNIPPETS_PER_FILE) {
+        const chunk = snippetsList.slice(i, i + SNIPPETS_PER_FILE);
+        const jsonContent = JSON.stringify({ snippets: chunk });
+        const fileNumber = i / SNIPPETS_PER_FILE;
+        const fileName = `${SNIPPETS_DATA_PREFIX}${fileNumber}.json`;
+        fs.writeFileSync(path.join(absDataDir, fileName), jsonContent);
+    }
+
+
+    // Create stats file
+    let stats = {
+        totalSnippets: snippetsList.length,
+        snippetsPerFile: SNIPPETS_PER_FILE
+    }
+    fs.writeFileSync(path.join(outputPath, SNIPPETS_DATA_DIR, SNIPPETS_STATS_FILE), JSON.stringify(stats));
 }
 async function buildSearchIndex(outputPath) {
 
@@ -373,16 +373,16 @@ export async function onSiteCreateEnd(inputPath, outputPath, wasInterrupted) {
     });
 
 
-    // Create data.json & _stats.json file for all snippets
-    createSnippetsData(outputPath);
-
-
     // Move up all files from index.js
     moveUpContents(path.join(outputPath, INDEX_FOLDER));
 
 
     // Inject all tags in "/tags" page
     injectTags(outputPath);
+
+
+    // Create data.json & _stats.json file for all snippets
+    createSnippetsData(outputPath);
 
 
     // Create a search index

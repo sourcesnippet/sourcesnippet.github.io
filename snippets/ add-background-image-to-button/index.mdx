@@ -1,4 +1,4 @@
-import { Snippet, CodeTabs } from "@/components.jsx";
+import { CodeTabs } from "@/components.jsx";
 
 
 export const metaData = {
@@ -10,32 +10,30 @@ export const metaData = {
 }
 
 
-<Snippet metaData={metaData}>
-    <CodeTabs activeIndex={1}>
-    ```HTML
-    <button></button>
-    ```
+<CodeTabs activeIndex={1}>
+```HTML
+<button></button>
+```
 
-    ```CSS
-    button {
-        height: 5rem;
-        width: 5rem;
+```CSS
+button {
+    height: 5rem;
+    width: 5rem;
 
-        padding:0.3rem;
-        border-radius: 0.5rem;
-        border: solid 0.3px gray;
-        cursor: pointer;
+    padding:0.3rem;
+    border-radius: 0.5rem;
+    border: solid 0.3px gray;
+    cursor: pointer;
 
-        background: url('https://cdn-icons-png.flaticon.com/512/4211/4211763.png');
-        background-repeat: no-repeat;
-        background-size: contain;
-        background-color: lightgray;
-        background-origin: content-box;
-    }
+    background: url('https://cdn-icons-png.flaticon.com/512/4211/4211763.png');
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-color: lightgray;
+    background-origin: content-box;
+}
 
-    button:active {
-        background-color: darkgray;
-    }
-    ```
-    </CodeTabs>
-</Snippet>
+button:active {
+    background-color: darkgray;
+}
+```
+</CodeTabs>

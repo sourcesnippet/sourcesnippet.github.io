@@ -1,4 +1,4 @@
-import { Snippet, CodeTabs } from "@/components.jsx";
+import { CodeTabs } from "@/components.jsx";
 
 
 export const metaData = {
@@ -10,27 +10,24 @@ export const metaData = {
 }
 
 
-<Snippet metaData={metaData}>
 
-  <CodeTabs activeIndex={1}>
-  ```HTML
-  <div class="arrow"></div>
-  ```
+<CodeTabs activeIndex={1}>
+```HTML
+<div class="arrow"></div>
+```
 
-  ```CSS
-  .arrow {
-    --thickness: 8px;
-    --length: 10px;
-    
-    display: inline-block;
-    padding: var(--length);
-    border: solid black;
-    border-width: 0 var(--thickness) var(--thickness) 0;
-    
-    transform: rotate(-45deg);
-    -webkit-transform: rotate(-45deg);
-  }
-  ```
-  </CodeTabs>
-
-</Snippet>
+```CSS
+.arrow {
+  --thickness: 8px;
+  --length: 10px;
+  
+  display: inline-block;
+  padding: var(--length);
+  border: solid black;
+  border-width: 0 var(--thickness) var(--thickness) 0;
+  
+  transform: rotate(-45deg);
+  -webkit-transform: rotate(-45deg);
+}
+```
+</CodeTabs>

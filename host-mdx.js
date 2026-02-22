@@ -270,45 +270,6 @@ async function createCNAME(outputPath) {
 
 
 // Override Methods
-export function modBundleMDXSettings(inputPath, outputPath, settings) {
-
-    // Build options
-    var oldBuildOptions = settings.esbuildOptions;
-    settings.esbuildOptions = (options) => {
-        options = oldBuildOptions(options)
-        options.logLevel = 'error';
-        options.alias = {
-            ...options.alias,
-            '@': inputPath, // Maps '@' to your project root
-        };
-
-        return options;
-    }
-
-
-    // mdx options
-    var oldMdxOptions = settings.mdxOptions;
-    settings.mdxOptions = (options) => {
-        options = oldMdxOptions(options);
-        options.remarkPlugins = [
-            ...(options.remarkPlugins ?? []),
-            [remarkHeadingId, { defaults: true }],
-        ];
-        options.rehypePlugins = [
-            ...(options.rehypePlugins ?? []),
-            [rehypeHighlight, {
-                languages
-            }],
-            [rehypeMdxCodeProps, { tagName: 'code' }]
-        ]
-
-        return options
-    }
-
-
-    return settings
-}
-
 export function onSiteCreateStart(inputPath, outputPath) {
     snippetsList = [];
 }
@@ -395,6 +356,61 @@ export async function onSiteCreateEnd(inputPath, outputPath, wasInterrupted) {
 
     // Create CNAME file to avoid domain name resetting on every push DO NOT REMOVE
     await createCNAME(outputPath);
+}
+
+export function modBundleMDXSettings(inputPath, outputPath, settings) {
+
+    // Build options
+    var oldBuildOptions = settings.esbuildOptions;
+    settings.esbuildOptions = (options) => {
+        options = oldBuildOptions(options)
+        options.logLevel = 'error';
+        options.alias = {
+            ...options.alias,
+            '@': inputPath, // Maps '@' to your project root
+        };
+
+        return options;
+    }
+
+
+    // mdx options
+    var oldMdxOptions = settings.mdxOptions;
+    settings.mdxOptions = (options) => {
+        options = oldMdxOptions(options);
+        options.remarkPlugins = [
+            ...(options.remarkPlugins ?? []),
+            [remarkHeadingId, { defaults: true }],
+        ];
+        options.rehypePlugins = [
+            ...(options.rehypePlugins ?? []),
+            [rehypeHighlight, {
+                languages
+            }],
+            [rehypeMdxCodeProps, { tagName: 'code' }]
+        ]
+
+        return options
+    }
+
+    return settings
+}
+
+export function modMDXCode(inputPath, outputPath, inFilePath, outFilePath, code) {
+
+    // Return if not snippet file
+    let absSnippetsDir = path.join(inputPath, SNIPPETS_DIR)
+    let inputFileName = path.basename(inFilePath);
+    if (inputFileName != SNIPPETS_INDEX_FILE || !isSubPath(absSnippetsDir, inFilePath)) {
+        return code;
+    }
+
+
+    // Inject snippet into <Snippet /> wrapper
+    code = `import Content, { metaData } from "${inFilePath}"; import { Snippet } from "@/components.jsx"; export { metaData } from "${inFilePath}";\n\n<Snippet metaData={metaData}><Content /></Snippet>`
+
+
+    return code;
 }
 
 export function toTriggerRecreate(event, path) {

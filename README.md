@@ -30,11 +30,14 @@ A static website containing reuseable code snippets with zero fluff.
    ```
    cd sourcesnippet.github.io
    ```
-1. From the folder run the following:
+1. Install Dependencies:
     ```
-    npx host-mdx
+    npm i 
     ```
-1. That's it! You should be able to see the website on `localhost:3000`.
+1. Run the start command & you will see the website on `localhost:3000`
+   ```
+   npm run start
+   ```
 
 
 ## 🤝 Contribution
@@ -53,6 +56,8 @@ To add your own snippet do the following:
         thumbnail: "your-thumbnail.webp",
         author: "Your Name",
         authorWebsite: "https://yourwebsite.com/",  // Optional
+        createdOnDate: new Date("2023-11-01"),
+        editedOnDate: new Date("2023-11-12"),  // Optional
         tags: ["your", "tags", "here"],
         keywords: ["your", "keywords", "here"]  // Optional, These are used purely in searching
     };

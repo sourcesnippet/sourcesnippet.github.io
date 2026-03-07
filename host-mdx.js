@@ -1,14 +1,15 @@
 import fs from "fs";
+import util from "util";
 import path from "path";
 import * as esbuild from "esbuild";
-import { parseHTML } from "linkedom";
 import * as pagefind from "pagefind";
+import * as linkedom from "linkedom";
+import languages from "./static/languages.js";
+import rehypeHighlight from "rehype-highlight";
 import remarkHeadingId from "remark-heading-id";
 import rehypeMdxCodeProps from "rehype-mdx-code-props";
 import { SitemapStream, streamToPromise } from "sitemap";
 import { TAGS_QUERY, SITE_DOMAIN } from "./static/global.js";
-import rehypeHighlight from "rehype-highlight";
-import languages from "./static/languages.js";
 
 
 // To Set Properties
@@ -28,7 +29,8 @@ const CNAME_FILE = "CNAME";
 
 
 // Properties
-let snippetsList = [];
+let snippetsCache = {};  // Format { "abs/path/to/snippet" : { title, thumbnail, author, authorWebsite, tags, }, ... }
+let updatedSnippets = {};  // Format same as `snippetsCache`
 let tagsSet = new Set();  // Necessary for /tags page DO NOT REMOVE 
 
 
@@ -144,7 +146,7 @@ function injectTags(outputPath) {
     // Read tags/index.html page
     const filePath = path.join(outputPath, TAGS_FILE_PATH);
     const htmlSource = fs.readFileSync(filePath, 'utf8');
-    const { document } = parseHTML(htmlSource);
+    const { document } = linkedom.parseHTML(htmlSource);
 
 
     // Return if no conainer found
@@ -178,6 +180,25 @@ function injectTags(outputPath) {
     fs.writeFileSync(filePath, document.toString(), 'utf8');
 }
 function createSnippetsData(outputPath) {
+
+    // Sort snippets
+    const snippetsList = Object.values(snippetsCache).sort((a, b) => {
+        // Sort by Date
+        const dateA = a.createdOnDate instanceof Date ? a.createdOnDate.getTime() : 0;
+        const dateB = b.createdOnDate instanceof Date ? b.createdOnDate.getTime() : 0;
+        if (dateA !== dateB) {
+            return dateA - dateB;
+        }
+
+
+        // Fallback sort by title
+        const titleA = (a.title || "").toLowerCase();
+        const titleB = (b.title || "").toLowerCase();
+        return titleB.localeCompare(titleA);
+    });
+
+
+
     // Create data folder
     let absDataDir = path.join(outputPath, SNIPPETS_DATA_DIR);
     if (!fs.existsSync(absDataDir)) {
@@ -206,8 +227,8 @@ async function buildSearchIndex(outputPath) {
 
     // Add all records
     const { index } = await pagefind.createIndex();
-    for (const snippet of snippetsList) {
-
+    for (const key in snippetsCache) {
+        let snippet = snippetsCache[key];
         let title = snippet?.title ?? UNTITLED_NAME
         let thumbnail = snippet?.thumbnail ?? ""
         let tags = snippet?.tags ?? []
@@ -270,11 +291,7 @@ async function createCNAME(outputPath) {
 
 
 // Override Methods
-export function onSiteCreateStart(inputPath, outputPath) {
-    snippetsList = [];
-}
-
-export async function onFileCreateEnd(inputPath, outputPath, inFilePath, outFilePath, result) {
+export async function onFileChangeEnd(inputPath, outputPath, inFilePath, outFilePath, wasDeleted, result) {
 
     // Compress file if js or css
     await compressFile(outFilePath);
@@ -296,17 +313,18 @@ export async function onFileCreateEnd(inputPath, outputPath, inFilePath, outFile
 
 
     // Add to snippets list
-    snippetsList.push({
+    updatedSnippets[inFilePath] = {
         ...result?.exports?.metaData,
         url: `/${path.dirname(path.relative(inputPath, inFilePath))}/`
-    });
+    };
 
 
     // Add to tagsSet
     tags.forEach(item => tagsSet.add(item.toLowerCase()))
 }
 
-export async function onSiteCreateEnd(inputPath, outputPath, wasInterrupted) {
+export async function onSiteCreateEnd(inputPath, outputPath, isSoftReload, wasInterrupted) {
+
     // Return if site was interrupted while creating
     if (wasInterrupted) {
         return;
@@ -317,33 +335,36 @@ export async function onSiteCreateEnd(inputPath, outputPath, wasInterrupted) {
     createNojekyll(outputPath)
 
 
-    // Sort snippets
-    snippetsList.sort((a, b) => {
-        // Sort by Date
-        const dateA = a.createdOnDate instanceof Date ? a.createdOnDate.getTime() : 0;
-        const dateB = b.createdOnDate instanceof Date ? b.createdOnDate.getTime() : 0;
-        if (dateA !== dateB) {
-            return dateA - dateB;
-        }
-
-
-        // Fallback sort by title
-        const titleA = (a.title || "").toLowerCase();
-        const titleB = (b.title || "").toLowerCase();
-        return titleB.localeCompare(titleA);
-    });
-
-
     // Move up all files from index.js
-    moveUpContents(path.join(outputPath, INDEX_FOLDER));
+    if (!isSoftReload) {
+        moveUpContents(path.join(outputPath, INDEX_FOLDER));
+    }
 
 
     // Inject all tags in "/tags" page
     injectTags(outputPath);
 
 
+    // Merge updated snippets into cache
+    let wereSnippetsModified = false;
+    for (let snippetPath in updatedSnippets) {
+        let newSnippetMetaData = updatedSnippets[snippetPath];
+        let oldSnippetMetaData = snippetsCache?.[snippetPath];
+        if (!util.isDeepStrictEqual(newSnippetMetaData, oldSnippetMetaData)) {
+            wereSnippetsModified = true;
+            snippetsCache[snippetPath] = newSnippetMetaData;
+        }
+    }
+
+
+    // Reset updates
+    updatedSnippets = {};
+
+
     // Create data.json & _stats.json file for all snippets
-    createSnippetsData(outputPath);
+    if (wereSnippetsModified) {
+        createSnippetsData(outputPath);
+    }
 
 
     // Create a search index
@@ -413,11 +434,11 @@ export function modMDXCode(inputPath, outputPath, inFilePath, outFilePath, code)
     return code;
 }
 
-export function toTriggerRecreate(event, path) {
-    const isGOutputStream = /\.goutputstream-\w+$/.test(path);
+export async function toIgnore(inputPath, outputPath, targetPath) {
+    const isGOutputStream = /\.goutputstream-\w+$/.test(targetPath);
     if (isGOutputStream) {
-        return false;
+        return true;
     }
 
-    return true;
+    return false;
 }

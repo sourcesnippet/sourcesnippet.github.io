@@ -33,7 +33,7 @@ jobs:
         run: mkdir -p $RUNNER_TEMP/output_path
 
       - name: Build static HTML with host-mdx
-        run: host-mdx -c -v --output-path="$RUNNER_TEMP/output_path"
+        run: npx host-mdx -c -v --output-path="$RUNNER_TEMP/output_path"
 
       - name: Deploy to site branch
         run: |

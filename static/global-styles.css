@@ -294,7 +294,7 @@ progress::-moz-progress-bar {
     border-top: 1px solid color-mix(in srgb, var(--color-border), white 25%);
 }
 
-.search-dropdown a:hover,
+.search-dropdown a:focus,
 .search-dropdown a:active {
     background-color: var(--color-accent-dull);
 }

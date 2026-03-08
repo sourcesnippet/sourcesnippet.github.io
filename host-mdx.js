@@ -336,9 +336,7 @@ export async function onSiteCreateEnd(inputPath, outputPath, isSoftReload, wasIn
 
 
     // Move up all files from index.js
-    if (!isSoftReload) {
-        moveUpContents(path.join(outputPath, INDEX_FOLDER));
-    }
+    moveUpContents(path.join(outputPath, INDEX_FOLDER));
 
 
     // Inject all tags in "/tags" page

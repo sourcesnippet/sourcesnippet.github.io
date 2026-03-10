@@ -515,6 +515,7 @@ progress::-moz-progress-bar {
     min-height: 2.25rem;
     overflow-y: scroll;
     overflow-x: auto;
+    outline-offset: -3px;
 }
 
 .codetabs-active {

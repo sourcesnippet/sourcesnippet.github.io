@@ -13,10 +13,9 @@ export const DEFAULT_SEARCH_SELECTORS = {
     searchMore: ".search-more",
     searchNonefound: ".search-nonefound",
     searchLoading: ".search-loading"
-}
+};
 let pagefind;
 let pagefindPromise = null; // To avoid reinitializing pagefind multiple times
-let lastSearchId = 0;  // To avoid older quick search request from overriding newer one
 
 
 // Utility Methods
@@ -61,7 +60,6 @@ async function fetchDefaultSnippets(resultCount, skipCount = 0) {
         totalSnippets: totalSnippets   // Total available snippets
     };
 }
-
 export async function fetchSnippets(searchQuery, tags = [], resultCount, skipCount = 0) {
 
     // fetch & return default snippets if no query is provided
@@ -111,7 +109,6 @@ async function initPagefind() {
     }
     return pagefindPromise;
 }
-
 function debounce(func, delay) {
     let timeoutId;
 
@@ -123,7 +120,6 @@ function debounce(func, delay) {
         timeoutId = setTimeout(() => { func.apply(this, args); }, delay);
     };
 }
-
 function populateSearchDropdown(searchResultContainer, searchMoreElement, searchNonefoundElement, query = "", snippets = [], areMoreAvailable = false) {
 
     // Remove old quick search results
@@ -149,36 +145,11 @@ function populateSearchDropdown(searchResultContainer, searchMoreElement, search
         searchResultContainer.appendChild(anchor);
     });
 }
+function setupQuickSearch(searchInput, searchResultContainer, searchMore, searchNonefound, searchLoading) {
 
-async function setupSearchBar(selectors) {
+    let lastSearchId = 0;  // To avoid older quick search request from overriding newer one
+    return debounce(async () => {   // Perform quick search after a small duration (to avoid sending redundant requests)
 
-    // Return if no searchbar
-    const searchBar = document.querySelector(selectors.searchBar);
-    if (!searchBar) {
-        return
-    }
-
-
-    // Get all elements
-    const searchInput = searchBar.querySelector(selectors.searchInput);
-    const searchBtn = searchBar.querySelector(selectors.searchBtn);
-    const searchResultContainer = searchBar.querySelector(selectors.searchResultContainer);
-    const searchMore = searchBar.querySelector(selectors.searchMore);
-    const searchNonefound = searchBar.querySelector(selectors.searchNonefound);
-    const searchLoading = searchBar.querySelector(selectors.searchLoading);
-
-
-    // Add query to input if already searched for
-    const searchQuery = getSearchQueryFromUrl();
-    searchInput.value = searchQuery;
-
-
-    // Create search methods
-    const gotoSearchPage = () => {
-        const query = searchInput.value;
-        window.location.href = query ? `/?${SEARCH_QUERY}=${encodeURIComponent(query)}` : window.location.pathname;
-    };
-    const quickSearch = debounce(async () => {
         // Set new search id
         const thisSearchId = ++lastSearchId;
 
@@ -203,23 +174,78 @@ async function setupSearchBar(selectors) {
         // Assign found snippets into dropdown
         let areMoreAvailable = DEFAULT_QUICK_SEARCH_COUNT < quickSearchResults.length;  // Are there more snippets available than what is shown in quicksearch?
         populateSearchDropdown(searchResultContainer, searchMore, searchNonefound, query, quickSearchResults.slice(0, DEFAULT_QUICK_SEARCH_COUNT), areMoreAvailable);
+
     }, QUICK_SEARCH_DELAY);
+}
+function setupNavigateSearchDropdown(searchInput, searchResultContainer, searchMore, gotoSearchPage) {
+    return (event) => {
+
+        // Get all results and the "show all" link if it's visible
+        const results = Array.from(searchResultContainer.querySelectorAll('a'));
+        if (searchMore.style.display !== "none") {
+            results.push(searchMore);
+        }
+
+
+        // Goto search page enter is pressed
+        const currentIndex = results.indexOf(document.activeElement);
+        if (event.key === "Enter") {
+            gotoSearchPage();
+        }
+        else if (event.key === "ArrowDown") {
+            event.preventDefault();
+            const nextIndex = Math.min(currentIndex + 1, results.length - 1);  // clamp within search results count
+            results[nextIndex]?.focus();
+        }
+        else if (event.key === "ArrowUp") {
+            event.preventDefault();
+            const prevIndex = currentIndex - 1;
+            const target = results[prevIndex] || searchInput;  // if index < 0 focus on searchInput
+            target.focus();
+        }
+
+    };
+}
+async function setupSearchBar(selectors) {
+
+    // Return if no searchbar
+    const searchBar = document.querySelector(selectors.searchBar);
+    if (!searchBar) {
+        return
+    }
+
+
+    // Get all elements
+    const searchInput = searchBar.querySelector(selectors.searchInput);
+    const searchBtn = searchBar.querySelector(selectors.searchBtn);
+    const searchResultContainer = searchBar.querySelector(selectors.searchResultContainer);
+    const searchMore = searchBar.querySelector(selectors.searchMore);
+    const searchNonefound = searchBar.querySelector(selectors.searchNonefound);
+    const searchLoading = searchBar.querySelector(selectors.searchLoading);
+
+
+    // Add query to input if already searched for
+    const searchQuery = getSearchQueryFromUrl();
+    searchInput.value = searchQuery;
+
+
+    // Creating search functionality
+    const gotoSearchPage = () => {
+        const query = searchInput.value;
+        window.location.href = query ? `/?${SEARCH_QUERY}=${encodeURIComponent(query)}` : window.location.pathname;
+    };
+    const quickSearch = setupQuickSearch(searchInput, searchResultContainer, searchMore, searchNonefound, searchLoading);
+    const navigateSearchDropdown = setupNavigateSearchDropdown(searchInput, searchResultContainer, searchMore, gotoSearchPage)
 
 
     // Bind search method with button and input bar
     searchBtn.addEventListener("click", gotoSearchPage);
-    searchInput.addEventListener("keydown", (event) => {  // Goto search page if pressed enter
-        if (event.key === "Enter") {
-            gotoSearchPage();
-            return;
-        }
-    });
-    searchInput.addEventListener("input", () => {  // Perform quick search after a small duration (to avoid sending redundant requests)
-        quickSearch();
-    });
+    searchInput.addEventListener("input", quickSearch);
+    searchInput.addEventListener("keydown", navigateSearchDropdown);
+    searchResultContainer.addEventListener("keydown", navigateSearchDropdown);
+    searchMore.addEventListener("keydown", navigateSearchDropdown);
 }
-
-async function setupSearch(selectors = DEFAULT_SEARCH_SELECTORS) {
+async function main(selectors = DEFAULT_SEARCH_SELECTORS) {
 
     // Setup page find
     initPagefind();
@@ -229,4 +255,5 @@ async function setupSearch(selectors = DEFAULT_SEARCH_SELECTORS) {
     setupSearchBar(selectors);
 }
 
-setupSearch();
+
+main();

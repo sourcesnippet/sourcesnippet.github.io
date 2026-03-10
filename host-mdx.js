@@ -93,8 +93,14 @@ function createNojekyll(outputPath) {
 }
 function moveUpContents(folderPath) {
 
-    // Get parent directory
+    // Return if Index dir not found
     const targetDir = path.resolve(folderPath);
+    if(!fs.existsSync(targetDir)){
+        return;
+    }
+
+    
+    // Get parent directory
     const parentDir = path.dirname(targetDir);
     const items = fs.readdirSync(targetDir);
 

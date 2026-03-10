@@ -1,0 +1,79 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><title>News ticker without gap in pure CSS | SourceSnippet</title><link rel="shortcut icon" type="image/x-icon" href="/static/favicon.ico?"/><link rel="preload" href="/static/copy-done-icon.png" as="image"/><link rel="stylesheet" href="/static/code-styles.css"/><link rel="stylesheet" href="/static/global-styles.css"/><script src="/static/snippets.js"></script><meta name="description" content="News ticker without gap in pure CSS | SourceSnippet"/><meta name="keywords" content="html, css, javascript"/><meta name="author" content="Manas R. Makde"/><meta property="og:type" content="website"/><meta property="og:site_name" content="SourceSnippet"/><meta property="og:url" content="https://sourcesnippet.com/snippets/news-ticker-without-gap-pure-css/"/><meta property="og:title" content="News ticker without gap in pure CSS | SourceSnippet"/><meta property="og:image" content="https://sourcesnippet.com/snippets/news-ticker-without-gap-pure-css/news-ticker.gif"/><meta name="twitter:site" content="SourceSnippet"/><meta property="twitter:card" content="summary_large_image"/><meta property="twitter:url" content="https://sourcesnippet.com/snippets/news-ticker-without-gap-pure-css/"/><meta property="twitter:title" content="News ticker without gap in pure CSS | SourceSnippet"/><meta property="twitter:image" content="https://sourcesnippet.com/snippets/news-ticker-without-gap-pure-css/news-ticker.gif"/></head><body><a id="site-header" href="/"><img id="site-logo" alt="logo" src="/static/logo.png"/><div id="site-title">SourceSnippet</div><div id="site-motto">Come. Copy. Go. As simple as that!</div></a><div id="searchbar" class="search-wrapper"><script src="/static/search.js" type="module"></script><input type="text" placeholder="Search..." class="search-input"/><div class="search-dropdown"><div class="search-results"></div><a href="#" style="display:none" class="search-more">Show all results</a><a style="display:none" class="search-nonefound">No results found</a><a style="display:none" class="search-loading">Loading...</a></div><button aria-label="Search Button" class="search-btn"></button></div><hr/><nav id="navbar"><a href="/tags">Tags</a><a href="/about">About</a><a href="/terms">Terms</a><a href="/contact">Contact</a></nav><hr style="margin-bottom: 2rem"/><div id="snippet-header"><img id="snippet-thumbnail" src="news-ticker.gif" onerror="if(this.src!=='/static/placeholder.png')this.src='/static/placeholder.png'" alt="thumbnail"/><div id="snippet-card-title-wrapper"><h1 id="snippet-card-title">News ticker without gap in pure CSS</h1><a id="snippet-author" href="https://manasmakde.github.io/">By Manas R. Makde</a></div></div><article id="snippet-content"><p><strong>Pure css version</strong></p>
+<div class="codetabs"><div class="codetabs-topbar"><button onclick="changeTabByButton(this, 0)">HTML</button><button onclick="changeTabByButton(this, 1)" class="codetabs-selected">CSS</button></div><button onclick="copyCode(this)" class="codetabs-copy"></button><div class="codetabs-content"><pre class=" "><code style="max-height:31rem;" class="hljs language-HTML"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;ticker-container&quot;</span>></span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;ticker&quot;</span>></span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;ticker-item&quot;</span>></span>Breaking news!<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>></span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;ticker-item&quot;</span>></span>News Headline 1<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>></span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;ticker-item&quot;</span>></span>News Headline 2<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>></span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;ticker-item&quot;</span>></span>News Headline 3<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>></span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">span</span>></span>
+
+  <span class="hljs-comment">&lt;!-- duplicate --></span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;ticker&quot;</span>></span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;ticker-item&quot;</span>></span>Breaking news!<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>></span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;ticker-item&quot;</span>></span>News Headline 1<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>></span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;ticker-item&quot;</span>></span>News Headline 2<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>></span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;ticker-item&quot;</span>></span>News Headline 3<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>></span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">span</span>></span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>></span>
+</code></pre><pre class=" codetabs-active"><code style="max-height:31rem;" class="hljs language-CSS"><span class="hljs-selector-class">.ticker-container</span> {
+  <span class="hljs-attribute">width</span>: <span class="hljs-number">100%</span>;
+  <span class="hljs-attribute">overflow</span>: hidden;
+  <span class="hljs-attribute">background-color</span>: black;
+  <span class="hljs-attribute">display</span>: inline-block;
+  <span class="hljs-attribute">white-space</span>: nowrap;
+  <span class="hljs-attribute">font-size</span>: <span class="hljs-number">0</span>;
+  <span class="hljs-attribute">margin-top</span>: <span class="hljs-number">40%</span>
+}
+
+<span class="hljs-selector-class">.ticker</span> {
+  <span class="hljs-attribute">position</span>: relative;
+  <span class="hljs-attribute">display</span>: inline-flex;
+  <span class="hljs-attribute">justify-content</span>:center;
+  <span class="hljs-attribute">white-space</span>: nowrap;
+  <span class="hljs-attribute">animation-name</span>: tick;
+  <span class="hljs-attribute">animation-iteration-count</span>: infinite;
+  <span class="hljs-attribute">animation-timing-function</span>: linear;
+  <span class="hljs-attribute">animation-duration</span>: <span class="hljs-number">10s</span>;
+  <span class="hljs-attribute">min-width</span>:fit-content;
+  <span class="hljs-attribute">width</span>:<span class="hljs-number">100%</span>;
+}
+
+<span class="hljs-selector-class">.ticker-container</span><span class="hljs-selector-pseudo">:hover</span> <span class="hljs-selector-class">.ticker</span> {
+  <span class="hljs-attribute">animation-play-state</span>: paused;
+}
+
+<span class="hljs-selector-class">.ticker-item</span> {
+  <span class="hljs-attribute">display</span>: inline-block;
+  <span class="hljs-attribute">padding</span>: <span class="hljs-number">0.5rem</span>;
+  <span class="hljs-attribute">margin</span>: <span class="hljs-number">0.5rem</span>;
+  <span class="hljs-attribute">color</span>: white;
+  <span class="hljs-attribute">font-weight</span>: bold;
+  <span class="hljs-attribute">font-size</span>: initial;
+}
+
+<span class="hljs-keyword">@keyframes</span> tick {
+  <span class="hljs-number">0%</span> {
+    <span class="hljs-attribute">transform</span>: <span class="hljs-built_in">translate</span>(<span class="hljs-number">0</span>, <span class="hljs-number">0</span>);
+  }
+
+  <span class="hljs-number">100%</span> {
+    <span class="hljs-attribute">transform</span>: <span class="hljs-built_in">translate</span>(-<span class="hljs-number">100%</span>, <span class="hljs-number">0</span>);
+  }
+
+}
+</code></pre></div></div>
+<br/>
+<p><strong>JavaScript version</strong> (if you wish to avoid duplication)</p>
+<div class="codetabs"><div class="codetabs-topbar"><button onclick="changeTabByButton(this, 0)">HTML</button><button onclick="changeTabByButton(this, 1)" class="codetabs-selected">Javascript</button></div><button onclick="copyCode(this)" class="codetabs-copy"></button><div class="codetabs-content"><pre class=" "><code style="max-height:31rem;" class="hljs language-HTML"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;ticker-container&quot;</span>></span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;ticker&quot;</span>></span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;ticker-item&quot;</span>></span>Breaking news!<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>></span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;ticker-item&quot;</span>></span>News Headline 1<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>></span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;ticker-item&quot;</span>></span>News Headline 2<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>></span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;ticker-item&quot;</span>></span>News Headline 3<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>></span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">span</span>></span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>></span>
+</code></pre><pre class=" codetabs-active"><code style="max-height:31rem;" class="hljs language-Javascript"><span class="hljs-keyword">const</span> ticker_container = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">querySelector</span>(<span class="hljs-string">&quot;.ticker-container&quot;</span>)
+<span class="hljs-keyword">const</span> ticker = ticker_container.<span class="hljs-title function_">querySelector</span>(<span class="hljs-string">&quot;.ticker&quot;</span>)
+<span class="hljs-keyword">const</span> duplicate_ticker = ticker.<span class="hljs-title function_">cloneNode</span>(<span class="hljs-literal">true</span>)
+ticker_container.<span class="hljs-title function_">append</span>(duplicate_ticker)
+</code></pre></div></div></article><div class="tag-container"><a href="/?tags=html" class="tag">html</a><a href="/?tags=css" class="tag">css</a><a href="/?tags=javascript" class="tag">javascript</a></div><hr style="margin-top: 2rem"/><footer><a id="footer-logo-wrapper" href="/"><img id="footer-logo" alt="logo" src="/static/logo.png"/></a><div id="footer-links" style="margin-bottom: 2rem"><a href="https://github.com/sourcesnippet/sourcesnippet.github.io" target="_blank">Repository</a><hr/><a href="https://github.com/sourcesnippet/sourcesnippet.github.io/issues" target="_blank">Report Bug</a></div><div id="footer-warning">Scraping data for AI training or any other purpose is strictly prohibited. <a href="/terms#ai-data-scraping-policy" aria-label="Learn more about scraping policy">View Terms</a></div></footer></body></html>

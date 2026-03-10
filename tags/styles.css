@@ -1,0 +1,1 @@
+body{max-width:550px}.tag-list{margin-bottom:1.5rem;display:flex;flex-wrap:wrap;gap:.3rem;row-gap:.2rem;align-items:end}.tag-list:last-of-type{margin-bottom:2rem}.tag-list .tag:first-of-type:first-letter{font-size:1.5rem;font-weight:700}.tag-list .tag{font-size:1rem;font-weight:400}

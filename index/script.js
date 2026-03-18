@@ -1,5 +1,5 @@
-import { TAGS_QUERY, getSearchQueryFromUrl, getPageNumFromUrl, getTagsQueryFromUrl, gotoPageNumber } from "/static/global.js";
-import { fetchSnippets } from "/static/search.js"
+import { TAGS_QUERY, getSearchQueryFromUrl, getPageNumFromUrl, getTagsQueryFromUrl, PAGE_QUERY } from "/static/global.js";
+import { fetchSnippets } from "/static/search.js";
 
 
 // Properties
@@ -52,13 +52,13 @@ function setupPaginationBtns(currentIndex, totalIndices) {
     // Prev Button
     let toShowPrev = (currentIndex != 1);
     prevBtn.style.display = toShowPrev ? "" : "none"
-    prevBtn.onclick = toShowPrev ? () => { gotoPageNumber(currentIndex - 1) } : null;
+    prevBtn.href = `/?${PAGE_QUERY}=${currentIndex - 1}`;
 
 
     // Page 1 button
     let toShowPage1 = (4 <= currentIndex);
     page1.style.display = toShowPage1 ? "" : "none";
-    page1.onclick = toShowPage1 ? () => { gotoPageNumber(1) } : null;
+    page1.href = `/?${PAGE_QUERY}=1`;
     page1.textContent = toShowPage1 ? 1 : "-";
 
 
@@ -70,14 +70,14 @@ function setupPaginationBtns(currentIndex, totalIndices) {
     // Page 4 button
     let toShowPage4 = (3 <= currentIndex);
     page4.style.display = toShowPage4 ? "" : "none";
-    page4.onclick = toShowPage4 ? () => { gotoPageNumber(currentIndex - 2) } : null;
+    page4.href = `/?${PAGE_QUERY}=${currentIndex - 2}`;
     page4.textContent = toShowPage4 ? currentIndex - 2 : "-";
 
 
     // Page 5 button
     let toShowPage5 = (2 <= currentIndex);
     page5.style.display = toShowPage5 ? "" : "none";
-    page5.onclick = toShowPage5 ? () => { gotoPageNumber(currentIndex - 1) } : null;
+    page5.href = `/?${PAGE_QUERY}=${currentIndex - 1}`;
     page5.textContent = toShowPage5 ? currentIndex - 1 : "-";
 
 
@@ -88,14 +88,14 @@ function setupPaginationBtns(currentIndex, totalIndices) {
     // Page 7 button
     let toShowPage7 = (totalIndices >= currentIndex + 1);
     page7.style.display = toShowPage7 ? "" : "none";
-    page7.onclick = toShowPage7 ? () => { gotoPageNumber(currentIndex + 1) } : null;
+    page7.href = `/?${PAGE_QUERY}=${currentIndex + 1}`;
     page7.textContent = toShowPage7 ? currentIndex + 1 : "-";
 
 
     // Page 8 button
     let toShowPage8 = (totalIndices >= currentIndex + 2);
     page8.style.display = toShowPage8 ? "" : "none";
-    page8.onclick = toShowPage8 ? () => { gotoPageNumber(currentIndex + 2) } : null;
+    page8.href = `/?${PAGE_QUERY}=${currentIndex + 2}`;
     page8.textContent = toShowPage8 ? currentIndex + 2 : "-";
 
 
@@ -107,14 +107,14 @@ function setupPaginationBtns(currentIndex, totalIndices) {
     // Page 11 button
     let toShowPage11 = (currentIndex < totalIndices - 2);
     page11.style.display = toShowPage11 ? "" : "none";
-    page11.onclick = toShowPage11 ? () => { gotoPageNumber(totalIndices) } : null;
+    page11.href = `/?${PAGE_QUERY}=${totalIndices}`;
     page11.textContent = toShowPage11 ? totalIndices : "-";
 
 
     // Next button
     let toShowNext = (currentIndex != totalIndices);
     nextBtn.style.display = toShowNext ? "" : "none";
-    nextBtn.onclick = toShowNext ? () => { gotoPageNumber(currentIndex + 1) } : null;
+    nextBtn.href = `/?${PAGE_QUERY}=${currentIndex + 1}`;
 }
 
 function assignQueryBanner(resultCount = 0, queries = {}) {

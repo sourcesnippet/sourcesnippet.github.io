@@ -142,6 +142,7 @@ export function Snippet({ metaData = {}, children }) {
         <meta property="og:title" content={title} />
         <meta property="og:image" content={thumbnail} />
 
+
         <meta name="twitter:site" content={SITE_NAME} />
         <meta property="twitter:card" content="summary_large_image" />
         <meta property="twitter:url" content={url} />
@@ -163,8 +164,8 @@ export function Snippet({ metaData = {}, children }) {
             <div id="snippet-card-title-wrapper">
                 <h1 id="snippet-card-title">{metaData?.title ?? "Untitled"}</h1>
                 {metaData?.author && <a id="snippet-author" className={!metaData?.authorWebsite && "snippet-no-author"} href={metaData?.authorWebsite ? metaData?.authorWebsite : undefined}>By {metaData.author}</a>}
-                {metaData?.createdOnDate && <div id="snippet-creation-date">Posted On: {formatDate(metaData?.createdOnDate)}</div>}
-                {metaData?.editedOnDate && <div id="snippet-update-date">Updated On: {formatDate(metaData?.editedOnDate)}</div>}
+                {metaData?.createdOnDate && <div id="snippet-creation-date">Posted: {formatDate(metaData?.createdOnDate)}</div>}
+                {metaData?.editedOnDate && <div id="snippet-update-date">Updated: {formatDate(metaData?.editedOnDate)}</div>}
             </div>
         </div>
 
@@ -294,17 +295,17 @@ export function CodeTabs({ activeIndex = 0, dropdown = false, id = undefined, st
 
 export function PaginationBar({ id = "pagination", style }) {
     return (<nav id={id} style={style}>
-        <button className="pagination-prev" aria-label="prev"></button>
-        <button className="pagination-item"></button>
+        <a className="pagination-prev" aria-label="prev"></a>
+        <a className="pagination-item"></a>
         <span className="pagination-dots">...</span>
-        <button className="pagination-item" ></button>
-        <button className="pagination-item" ></button>
-        <button className="pagination-item pagination-active" ></button>
-        <button className="pagination-item" ></button>
-        <button className="pagination-item" ></button>
+        <a className="pagination-item" ></a>
+        <a className="pagination-item" ></a>
+        <a className="pagination-item pagination-active" ></a>
+        <a className="pagination-item" ></a>
+        <a className="pagination-item" ></a>
         <span className="pagination-dots">...</span>
-        <button className="pagination-item" ></button>
-        <button className="pagination-next" aria-label="next"></button>
+        <a className="pagination-item" ></a>
+        <a className="pagination-next" aria-label="next"></a>
     </nav>)
 }
 

@@ -45,29 +45,34 @@ A static website containing reuseable code snippets with zero fluff.
 To add your own snippet do the following:
 
 1. Create a new folder inside `snippets/` & make sure there is no whitespace in the folder name.
-1. Inside the newly created folder create an `index.mdx` file  
-   You can use the following template to get started:
-
-    ```jsx
-    import { Snippet } from "@/components.jsx";
+1. Inside the newly created folder create an `index.mdx` file, You can use the following template to get started:  
+    ~~~jsx
+    import { CodeTabs } from "@/components.jsx";
 
     export const metaData = {
-        title: 'Your title',
+        title: 'Your Title',
         thumbnail: "your-thumbnail.webp",
-        author: "Your Name",
+        author: "Your Name",                        // Optional
         authorWebsite: "https://yourwebsite.com/",  // Optional
-        createdOnDate: new Date("2023-11-01"),
-        editedOnDate: new Date("2023-11-12"),  // Optional
+        createdOnDate: new Date("2023-11-01"), 
+        editedOnDate: new Date("2023-11-12"),       // Optional
         tags: ["your", "tags", "here"],
-        keywords: ["your", "keywords", "here"]  // Optional, These are used purely in searching
+        keywords: ["your", "keywords", "here"]      // Optional, These are used purely in searching
     };
 
-    <Snippet metaData={metaData}>
 
-        {/* Your content goes in here */}
+    How to write Hello World:
 
-    </Snippet>
+    <CodeTabs id={"My-Code-Block"} activeIndex={1} dropdown={true} childrenStyle={"background-color:blue"}> 
+    ```Python
+    print("Hello World")
     ```
+
+    ```txt display-name="Custom Name" style="background-color:green; height:10rem"
+    Hello World!
+    ```
+    </CodeTabs>
+    ~~~
 1. You can also create `styles.css` & `script.js` files for custom styling & scripting (They will automatically be linked).
 2. Once you've created your snippet rebuild the site to make sure everything is working & follows the guidelines.
 

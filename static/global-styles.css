@@ -173,6 +173,9 @@ progress::-moz-progress-bar {
     border-radius: 3px;
 }
 
+summary {
+    cursor: pointer;
+}
 
 
 /* Header */

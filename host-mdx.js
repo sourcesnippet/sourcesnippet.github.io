@@ -29,9 +29,8 @@ const CNAME_FILE = "CNAME";
 
 
 // Properties
-let snippetsCache = {};  // Format { "abs/path/to/snippet" : { title, thumbnail, author, authorWebsite, tags, }, ... }
-let updatedSnippets = {};  // Format same as `snippetsCache`
-let tagsSet = new Set();  // Necessary for /tags page DO NOT REMOVE 
+let snippetsMetaData = {};  // Format { "abs/path/to/snippet" : { title, thumbnail, author, authorWebsite, tags, }, ... }
+let isMetaDataDirty = false;
 
 
 // Utility Methods
@@ -95,11 +94,11 @@ function moveUpContents(folderPath) {
 
     // Return if Index dir not found
     const targetDir = path.resolve(folderPath);
-    if(!fs.existsSync(targetDir)){
+    if (!fs.existsSync(targetDir)) {
         return;
     }
 
-    
+
     // Get parent directory
     const parentDir = path.dirname(targetDir);
     const items = fs.readdirSync(targetDir);
@@ -119,7 +118,7 @@ function moveUpContents(folderPath) {
 async function compressFile(filePath) {
 
     // Return if not valid file path
-    if (!filePath || fs.lstatSync(filePath).isDirectory()) {
+    if (!filePath || !fs.existsSync(filePath) || fs.lstatSync(filePath).isDirectory()) {
         return;
     }
 
@@ -162,10 +161,11 @@ function injectTags(outputPath) {
     }
 
 
-    // Sort and group tags into [["a...", ...], ["b...", ...], ...]
-    const sortedTags = Array.from(tagsSet).sort((a, b) => a.localeCompare(b)).reduce((accum, tag) => {
+    // Get all tags & group them into [["a...", ...], ["b...", ...], ...]
+    const tagsSet = new Set(Object.values(snippetsMetaData).flatMap(metaData => metaData?.tags?.map(t => t.toLowerCase()) || []));
+    const sortedTags = [...tagsSet].sort().reduce((accum, tag) => {
         const lastGroup = accum[accum.length - 1];
-        if (lastGroup && lastGroup[0][0].toLowerCase() === tag[0].toLowerCase()) {
+        if (lastGroup && lastGroup[0][0] === tag[0]) {
             lastGroup.push(tag);
         } else {
             accum.push([tag]);
@@ -188,7 +188,7 @@ function injectTags(outputPath) {
 function createSnippetsData(outputPath) {
 
     // Sort snippets
-    const snippetsList = Object.values(snippetsCache).sort((a, b) => {
+    const snippetsList = Object.values(snippetsMetaData).sort((a, b) => {
         // Sort by Date
         const dateA = a.createdOnDate instanceof Date ? a.createdOnDate.getTime() : 0;
         const dateB = b.createdOnDate instanceof Date ? b.createdOnDate.getTime() : 0;
@@ -202,7 +202,6 @@ function createSnippetsData(outputPath) {
         const titleB = (b.title || "").toLowerCase();
         return titleB.localeCompare(titleA);
     });
-
 
 
     // Create data folder
@@ -230,16 +229,14 @@ function createSnippetsData(outputPath) {
     fs.writeFileSync(path.join(outputPath, SNIPPETS_DATA_DIR, SNIPPETS_STATS_FILE), JSON.stringify(stats));
 }
 async function buildSearchIndex(outputPath) {
-
     // Add all records
     const { index } = await pagefind.createIndex();
-    for (const key in snippetsCache) {
-        let snippet = snippetsCache[key];
+    for (const key in snippetsMetaData) {
+        let snippet = snippetsMetaData[key];
         let title = snippet?.title ?? UNTITLED_NAME
         let thumbnail = snippet?.thumbnail ?? ""
         let tags = snippet?.tags ?? []
         let keywords = snippet?.keywords ?? []
-
         await index.addCustomRecord({
             url: snippet.url,
             content: `${title} ${tags.join(" ")} ${keywords.join(" ")}`,
@@ -283,13 +280,19 @@ async function generateSitemap(outputPath, baseUrl) {
     await streamToPromise(sitemap);
 
 
-    // Add sitemap to robots.txt
+    // Add sitemap to robots.txt if not already added
     const filePath = path.join(outputPath, ROBOTS_TXT_PATH);
-    const sitemapText = `User-agent: *\nSitemap: ${SITE_DOMAIN}/sitemap.xml\n\n`;
-    let existingContent = fs.readFileSync(filePath, 'utf8');
-    fs.writeFileSync(filePath, sitemapText + existingContent);
+    const sitemapLine = `Sitemap: ${SITE_DOMAIN}/sitemap.xml`;
+    if (!fs.existsSync(filePath)) {
+        return;
+    }
+    let content = fs.readFileSync(filePath, 'utf8');
+    if (!content.includes(sitemapLine)) {
+        const newContent = `User-agent: *\n${sitemapLine}\n\n${content}`;
+        fs.writeFileSync(filePath, newContent);
+    }
 }
-async function createCNAME(outputPath) {
+function createCNAME(outputPath) {
     let filePath = path.join(outputPath, CNAME_FILE)
     let domain = getCleanDomain(SITE_DOMAIN);
     fs.writeFileSync(filePath, domain);
@@ -299,6 +302,14 @@ async function createCNAME(outputPath) {
 // Override Methods
 export async function onFileChangeEnd(inputPath, outputPath, inFilePath, outFilePath, wasDeleted, result) {
 
+    // If the file was deleted, Remove from snippets data
+    if (wasDeleted && snippetsMetaData.hasOwnProperty(inFilePath)) {
+        delete snippetsMetaData[inFilePath];
+        isMetaDataDirty = true;
+        return;
+    }
+
+
     // Compress file if js or css
     await compressFile(outFilePath);
 
@@ -306,29 +317,24 @@ export async function onFileChangeEnd(inputPath, outputPath, inFilePath, outFile
     // Return if not snippet file or no meta data 
     let absSnippetsDir = path.join(inputPath, SNIPPETS_DIR)
     let inputFileName = path.basename(inFilePath);
-    if (!result?.exports?.metaData || inputFileName != SNIPPETS_INDEX_FILE || !isSubPath(absSnippetsDir, inFilePath)) {
+    let metaData = result?.exports?.metaData;
+    if (!metaData || inputFileName != SNIPPETS_INDEX_FILE || !isSubPath(absSnippetsDir, inFilePath)) {
         return;
     }
 
 
-    // Make sure all tags are lowercase
-    let tags = result?.exports?.metaData?.tags ?? [];
-    if (tags.length != 0) {
-        result.exports.metaData.tags = tags.map(tag => tag.toLowerCase());
+    // Return if meta data has not changed
+    let oldMetaData = snippetsMetaData[inFilePath];
+    let newMetaData = { ...result?.exports?.metaData, url: `/${path.dirname(path.relative(inputPath, inFilePath))}/` };
+    if (util.isDeepStrictEqual(oldMetaData, newMetaData)) {
+        return;
     }
 
 
-    // Add to snippets list
-    updatedSnippets[inFilePath] = {
-        ...result?.exports?.metaData,
-        url: `/${path.dirname(path.relative(inputPath, inFilePath))}/`
-    };
-
-
-    // Add to tagsSet
-    tags.forEach(item => tagsSet.add(item.toLowerCase()))
+    // Update snippets meta data list
+    snippetsMetaData[inFilePath] = newMetaData;
+    isMetaDataDirty = true;
 }
-
 export async function onSiteCreateEnd(inputPath, outputPath, isSoftReload, wasInterrupted) {
 
     // Return if site was interrupted while creating
@@ -341,34 +347,26 @@ export async function onSiteCreateEnd(inputPath, outputPath, isSoftReload, wasIn
     createNojekyll(outputPath)
 
 
-    // Move up all files from index.js
+    // Create CNAME file to avoid domain name resetting on every push DO NOT REMOVE
+    createCNAME(outputPath);
+
+
+    // Move up all files from index.js, Intentionally kept before buildSearchIndex() DO NOT CHANGE
     moveUpContents(path.join(outputPath, INDEX_FOLDER));
+
+
+    // Return if no meta data has been changed
+    if (!isMetaDataDirty) {
+        return;
+    }
 
 
     // Inject all tags in "/tags" page
     injectTags(outputPath);
 
 
-    // Merge updated snippets into cache
-    let wereSnippetsModified = false;
-    for (let snippetPath in updatedSnippets) {
-        let newSnippetMetaData = updatedSnippets[snippetPath];
-        let oldSnippetMetaData = snippetsCache?.[snippetPath];
-        if (!util.isDeepStrictEqual(newSnippetMetaData, oldSnippetMetaData)) {
-            wereSnippetsModified = true;
-            snippetsCache[snippetPath] = newSnippetMetaData;
-        }
-    }
-
-
-    // Reset updates
-    updatedSnippets = {};
-
-
     // Create data.json & _stats.json file for all snippets
-    if (wereSnippetsModified) {
-        createSnippetsData(outputPath);
-    }
+    createSnippetsData(outputPath);
 
 
     // Create a search index
@@ -379,10 +377,9 @@ export async function onSiteCreateEnd(inputPath, outputPath, isSoftReload, wasIn
     await generateSitemap(outputPath, SITE_DOMAIN);
 
 
-    // Create CNAME file to avoid domain name resetting on every push DO NOT REMOVE
-    await createCNAME(outputPath);
+    // Unmark dirty
+    isMetaDataDirty = false;
 }
-
 export function modBundleMDXSettings(inputPath, outputPath, settings) {
 
     // Build options
@@ -420,7 +417,6 @@ export function modBundleMDXSettings(inputPath, outputPath, settings) {
 
     return settings
 }
-
 export function modMDXCode(inputPath, outputPath, inFilePath, outFilePath, code) {
 
     // Return if not snippet file
@@ -437,7 +433,6 @@ export function modMDXCode(inputPath, outputPath, inFilePath, outFilePath, code)
 
     return code;
 }
-
 export async function toIgnore(inputPath, outputPath, targetPath) {
     const isGOutputStream = /\.goutputstream-\w+$/.test(targetPath);
     if (isGOutputStream) {

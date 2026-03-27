@@ -419,17 +419,19 @@ export function modBundleMDXSettings(inputPath, outputPath, settings) {
 }
 export function modMDXCode(inputPath, outputPath, inFilePath, outFilePath, code) {
 
-    // Return if not snippet file
     let absSnippetsDir = path.join(inputPath, SNIPPETS_DIR)
     let inputFileName = path.basename(inFilePath);
-    if (inputFileName != SNIPPETS_INDEX_FILE || !isSubPath(absSnippetsDir, inFilePath)) {
+
+    // Return if not in snippets dir
+    if (!isSubPath(absSnippetsDir, inFilePath)) {
         return code;
     }
 
-
     // Inject snippet into <Snippet /> wrapper
-    code = `import Content, { metaData } from "${inFilePath}"; import { Snippet } from "@/components.jsx"; export { metaData } from "${inFilePath}";\n\n<Snippet metaData={metaData}><Content /></Snippet>`
-
+    if (inputFileName == SNIPPETS_INDEX_FILE) {
+        code = `import Content, { metaData } from "${inFilePath}"; import { Snippet } from "@/components.jsx"; import * as SnippetComponents from "@/components.jsx"; export { metaData } from "${inFilePath}";\n\n<Snippet metaData={metaData}><Content components={SnippetComponents} /></Snippet>`
+        return code;
+    }
 
     return code;
 }

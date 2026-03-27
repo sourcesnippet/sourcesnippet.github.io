@@ -47,8 +47,6 @@ To add your own snippet do the following:
 1. Create a new folder inside `snippets/` & make sure there is no whitespace in the folder name.
 1. Inside the newly created folder create an `index.mdx` file, You can use the following template to get started:  
     ~~~jsx
-    import { CodeTabs } from "@/components.jsx";
-
     export const metaData = {
         title: 'Your Title',
         thumbnail: "your-thumbnail.webp",

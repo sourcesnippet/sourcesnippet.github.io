@@ -356,7 +356,7 @@ summary {
     justify-content: center;
     flex-direction: column;
     flex: 1;
-    min-width: min(calc(100vw - calc(var(--body-width-padding) * 2)), 370px);
+    min-width: min(calc(100% - calc(var(--body-width-padding) * 2)), 370px);
 }
 
 #snippet-card-title {

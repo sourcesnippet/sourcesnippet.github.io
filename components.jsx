@@ -151,7 +151,7 @@ export function Snippet({ metaData = {}, children }) {
     </>);
 
 
-    return (<HTMLSkeleton title={`${metaData?.title} | ${SITE_NAME}`} extendHead={[defaultHead, metaData?.extendHead]}>
+    return (<HTMLSkeleton title={`${metaData?.title}`} extendHead={[defaultHead, metaData?.extendHead]}>
 
         <Header />
         <SearchBar />

@@ -1,15 +1,14 @@
-import { SITE_NAME, SITE_CREATION_TOOL } from "@/static/js/global.js"
-import { HTMLSkeleton, Header, SearchBar, NavBar, Footer } from "@/components.jsx"
+import { SITE_NAME, SITE_CREATION_TOOL } from "@/static/js/global.js";
+import { HTMLSkeleton, Header, SearchBar, NavBar, Footer } from "@/components.jsx";
 
 
 export const STYLES = (<>
     <link rel="stylesheet" href="/static/css/global-styles.css" />
     <link rel="stylesheet" href="/about/styles.css" />
-</>)
+</>);
 
 
 <HTMLSkeleton title={`About | ${SITE_NAME}`} extendHead={STYLES}>
-
     <Header />
     <SearchBar />
 
@@ -42,5 +41,4 @@ export const STYLES = (<>
     <Footer />
 
     <div id="built-with">This site was created using <a href={SITE_CREATION_TOOL}>host-mdx</a></div>
-
 </HTMLSkeleton>

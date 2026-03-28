@@ -1,3 +1,4 @@
+/* Core */
 :root {
     --body-width: 1400px;
 }
@@ -26,7 +27,6 @@
     justify-items: center;
     width: 100%;
 }
-
 .snippet-card {
     display: flex;
     flex-direction: column;
@@ -38,7 +38,6 @@
     border-radius: 6px;
     overflow: hidden;
 }
-
 .snippet-card-thumbnail {
     display: block;
     width: 100%;
@@ -47,7 +46,6 @@
     background-color: var(--color-surface);
     box-sizing: border-box;
 }
-
 .snippet-card-thumbnail img {
     display: block;
     width: 100%;
@@ -55,7 +53,6 @@
     object-fit: cover;
     margin: 0 auto;
 }
-
 .snippet-card-title {
     --margin: 0.75rem;
     display: flex;
@@ -71,7 +68,6 @@
     flex: 1;
     min-height: 5.5rem;
 }
-
 .snippet-card-title div {
     height: fit-content;
     width: 100%;
@@ -84,7 +80,7 @@
 }
 
 
-/* Card Loading */
+/* Card Loading Effect */
 .snippet-card-thumbnail.is-loading,
 .snippet-card-title.is-loading div,
 .snippet-card-tags.is-loading .tag {
@@ -103,34 +99,27 @@
     user-select: none;
     border: none;
 }
-
 .snippet-card-title.is-loading {
     cursor: default;
 }
-
 .snippet-card-title.is-loading div {
     width: 100%;
     height: 2rem;
     border-radius: 3px;
 }
-
 .snippet-card-thumbnail.is-loading img {
     visibility: hidden;
 }
-
-
 @-webkit-keyframes shine {
     to {
         background-position-x: -200%;
     }
 }
-
 @keyframes shine {
     to {
         background-position-x: -200%;
     }
 }
-
 
 
 /* Tags */
@@ -144,21 +133,17 @@
     overflow-x: scroll;
     color: transparent;
 }
-
 .snippet-card-tags::-webkit-scrollbar {
     width: 8px;
     height: 8px;
 }
-
 .snippet-card-tags::-webkit-scrollbar-thumb {
     border: 8px solid;
     border-radius: 1rem;
 }
-
 .snippet-card-tags::-webkit-scrollbar-thumb:hover {
     color: darkgray;
 }
-
 .snippet-card-tags:active,
 .snippet-card-tags:hover,
 .snippet-card-tags:focus {

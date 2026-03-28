@@ -1,13 +1,15 @@
+/* Core */
 body {
     padding: 1.5rem 1rem !important;
     max-width: 1000px;
 }
 
+
+/* About Section */
 #about h1 {
     margin: 3rem 0 2rem 0;
     text-align: center;
 }
-
 #about p {
     margin: auto;
     text-align: center;
@@ -15,44 +17,42 @@ body {
     color: var(--color-text-muted);
     line-height: 1.5;
 }
-
 #about ol {
     margin: auto;
     width: fit-content;
     color: var(--color-text-muted);
     line-height: 1.4;
 }
-
 #about a {
     color: var(--color-text-muted);
     text-decoration: none;
 }
-
 #about a:hover {
     color: var(--color-accent-muted);
 }
 
+
+/* Footer Overrides */
 #footer-seperator {
     margin-top: 2.5rem;
 }
-
 #footer-links {
     margin-bottom: 0 !important;
 }
 
+
+/* Built with */
 #built-with {
     color: var(--color-text-muted);
     text-align: center;
     font-size: 0.85rem;
     margin-top: 3rem;
 }
-
 #built-with a {
     text-decoration: underline;
     color: var(--color-text-muted);
     font-weight: bold;
 }
-
 #built-with a:hover {
     color: var(--color-accent-muted);
 }

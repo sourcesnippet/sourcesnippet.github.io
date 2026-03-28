@@ -57,7 +57,6 @@ export function HTMLSkeleton({ title = "", extendHead = <></>, children }) {    
         </html>
     </>)
 }
-
 export function Header() {
     return (<a id="site-header" href="/">
         <img id="site-logo" alt="logo" src={SITE_LOGO_PATH} />
@@ -65,7 +64,6 @@ export function Header() {
         <div id="site-motto">{SITE_MOTTO}</div>
     </a>)
 }
-
 export function SearchBar({ id = "searchbar" }) {
     return (<div id={id} className="search-wrapper">
         <script src="/static/js/search.js" type="module"></script>
@@ -79,7 +77,6 @@ export function SearchBar({ id = "searchbar" }) {
         <button className="search-btn" aria-label="Search Button"></button>
     </div>)
 }
-
 export function NavBar() {
     return (<nav id="navbar">
         <a href="/tags">Tags</a>
@@ -88,7 +85,6 @@ export function NavBar() {
         <a href="/contact">Contact</a>
     </nav>)
 }
-
 export function Tags({ tags, assignHref = true }) {
 
     // Return empty fragment if no tags
@@ -98,7 +94,6 @@ export function Tags({ tags, assignHref = true }) {
 
     return tags?.map((tag, index) => (<a className="tag" key={index} href={assignHref ? `/?${TAGS_QUERY}=${encodeURIComponent(tag.toLowerCase())}` : undefined}>{tag.toLowerCase()}</a>));
 }
-
 export function SnippetCard({ imgSrc, text, link, tags = [], isLoading = false, loadingClass = "is-loading" }) {
     const removeLoadingFunction = isLoading ? `this.parentElement.classList.remove('${loadingClass}')` : ""
     return (<div className="snippet-card">
@@ -113,7 +108,6 @@ export function SnippetCard({ imgSrc, text, link, tags = [], isLoading = false, 
         </div>
     </div>)
 }
-
 export function Snippet({ metaData = {}, children }) {
 
     // Default styles Component
@@ -160,8 +154,8 @@ export function Snippet({ metaData = {}, children }) {
 
         <div id="snippet-header">
             {metaData?.thumbnail && metaData?.thumbnail !== "" && <img id="snippet-thumbnail" src={metaData?.thumbnail} onerror={`if(this.src!=='${PLACEHOLDER_IMG_PATH}')this.src='${PLACEHOLDER_IMG_PATH}'`} alt="thumbnail" />}
-            <div id="snippet-card-title-wrapper">
-                <h1 id="snippet-card-title">{metaData?.title ?? "Untitled"}</h1>
+            <div id="snippet-title-wrapper">
+                <h1 id="snippet-title">{metaData?.title ?? "Untitled"}</h1>
                 {metaData?.author && <a id="snippet-author" className={!metaData?.authorWebsite && "snippet-no-author"} href={metaData?.authorWebsite ? metaData?.authorWebsite : undefined}>By {metaData.author}</a>}
                 {metaData?.createdOnDate && <div id="snippet-creation-date">Posted: {formatDate(metaData?.createdOnDate)}</div>}
                 {metaData?.editedOnDate && <div id="snippet-update-date">Updated: {formatDate(metaData?.editedOnDate)}</div>}
@@ -181,7 +175,6 @@ export function Snippet({ metaData = {}, children }) {
 
     </HTMLSkeleton>)
 }
-
 export function CodeTabs({ activeIndex = 0, dropdown = false, id = undefined, style = {}, childrenStyle = DEFAULT_CODE_TAB_STYLE, children }) {
 
     // Make sure children are in array format
@@ -291,8 +284,7 @@ export function CodeTabs({ activeIndex = 0, dropdown = false, id = undefined, st
         </div>
     </div>)
 }
-
-export function PaginationBar({ id = "pagination", style }) {
+export function PaginationBar({ id = "pagination-bar", style }) {
     return (<nav id={id} style={style}>
         <a className="pagination-prev" aria-label="prev"></a>
         <a className="pagination-item"></a>
@@ -307,7 +299,6 @@ export function PaginationBar({ id = "pagination", style }) {
         <a className="pagination-next" aria-label="next"></a>
     </nav>)
 }
-
 export function Footer({ showWarning = false }) {
     return (<footer>
         <a id="footer-logo-wrapper" href="/"><img id="footer-logo" alt="logo" src={SITE_LOGO_PATH} /></a>

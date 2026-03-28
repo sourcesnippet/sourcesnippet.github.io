@@ -1,8 +1,10 @@
+/* Core */
 body {
     max-width: 550px;
 }
 
 
+/* Tag List */
 .tag-list {
     margin-bottom: 1.5rem;
     display: flex;
@@ -11,17 +13,13 @@ body {
     row-gap: 0.2rem;
     align-items: end;
 }
-
 .tag-list:last-of-type {
     margin-bottom: 2rem;
 }
-
 .tag-list .tag:first-of-type::first-letter {
     font-size: 1.5rem;
     font-weight: bold;
 }
-
-
 .tag-list .tag {
     font-size: 1rem;
     font-weight: normal;

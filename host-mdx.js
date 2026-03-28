@@ -4,12 +4,12 @@ import path from "path";
 import * as esbuild from "esbuild";
 import * as pagefind from "pagefind";
 import * as linkedom from "linkedom";
-import languages from "./static/languages.js";
+import languages from "./static/js/languages.js";
 import rehypeHighlight from "rehype-highlight";
 import remarkHeadingId from "remark-heading-id";
 import rehypeMdxCodeProps from "rehype-mdx-code-props";
 import { SitemapStream, streamToPromise } from "sitemap";
-import { TAGS_QUERY, SITE_DOMAIN } from "./static/global.js";
+import { TAGS_QUERY, SITE_DOMAIN } from "./static/js/global.js";
 
 
 // To Set Properties

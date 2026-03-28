@@ -1,6 +1,6 @@
 import fs from "fs";
 import path from "path";
-import { SITE_NAME, SITE_DOMAIN, SITE_MOTTO, REPO_LINK, SITE_LOGO_PATH, PLACEHOLDER_IMG_PATH, TAGS_QUERY } from "@/static/global.js";
+import { SITE_NAME, SITE_DOMAIN, SITE_MOTTO, REPO_LINK, SITE_LOGO_PATH, PLACEHOLDER_IMG_PATH, TAGS_QUERY } from "@/static/js/global.js";
 
 
 // Properties
@@ -68,7 +68,7 @@ export function Header() {
 
 export function SearchBar({ id = "searchbar" }) {
     return (<div id={id} className="search-wrapper">
-        <script src="/static/search.js" type="module"></script>
+        <script src="/static/js/search.js" type="module"></script>
         <input className="search-input" type="text" placeholder="Search..." />
         <div className="search-dropdown">
             <div className="search-results"></div>
@@ -116,7 +116,6 @@ export function SnippetCard({ imgSrc, text, link, tags = [], isLoading = false, 
 
 export function Snippet({ metaData = {}, children }) {
 
-
     // Default styles Component
     const stylePathExists = fs.existsSync(path.join(hostmdxCwd, DEFAULT_SNIPPET_STYLES_PATH));
     const scriptPathExists = fs.existsSync(path.join(hostmdxCwd, DEFAULT_SNIPPET_SCRIPT_PATH));
@@ -125,9 +124,9 @@ export function Snippet({ metaData = {}, children }) {
     const thumbnail = metaData?.thumbnail ? new URL(metaData?.thumbnail, url).href : "";
     const defaultHead = (<>
         <link rel="preload" href="/static/copy-done-icon.png" as="image" />
-        <link rel="stylesheet" href="/static/code-styles.css" />
-        <link rel="stylesheet" href="/static/global-styles.css" />
-        <script src="/static/snippets.js"></script>
+        <link rel="stylesheet" href="/static/css/code-styles.css" />
+        <link rel="stylesheet" href="/static/css/global-styles.css" />
+        <script src="/static/js/snippets.js"></script>
         <meta name="description" content={title} />
         <meta name="keywords" content={metaData?.tags?.join(", ")} />
         <meta name="author" content={metaData?.author} />
@@ -317,6 +316,6 @@ export function Footer({ showWarning = false }) {
             <hr />
             <a href={`${REPO_LINK}/issues`} target="_blank">Report Bug</a>
         </div>
-        {showWarning && <div id="footer-warning">Scraping data for AI training or any other purpose is strictly prohibited. <a href="/terms#ai-data-scraping-policy" aria-label="Learn more about scraping policy">View Terms</a></div>}
+        {showWarning && <div id="footer-warning">Scraping data for AI training is strictly prohibited. <a href="/terms#ai-data-scraping-policy" aria-label="Learn more about scraping policy">View Terms</a></div>}
     </footer>)
 }

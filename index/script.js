@@ -1,5 +1,5 @@
-import { TAGS_QUERY, getSearchQueryFromUrl, getPageNumFromUrl, getTagsQueryFromUrl, PAGE_QUERY } from "/static/global.js";
-import { fetchSnippets } from "/static/search.js";
+import { TAGS_QUERY, getSearchQueryFromUrl, getPageNumFromUrl, getTagsQueryFromUrl, PAGE_QUERY } from "/static/js/global.js";
+import { fetchSnippets } from "/static/js/search.js";
 
 
 // Properties

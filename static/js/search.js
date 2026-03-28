@@ -1,4 +1,4 @@
-import { getSearchQueryFromUrl, SEARCH_QUERY, PAGEFIND_PATH, STATS_FILE_PATH, DATA_FILE_PATH_PREFIX } from "/static/global.js";
+import { getSearchQueryFromUrl, SEARCH_QUERY, PAGEFIND_PATH, STATS_FILE_PATH, DATA_FILE_PATH_PREFIX } from "/static/js/global.js";
 
 
 // Properties

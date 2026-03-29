@@ -1,6 +1,6 @@
 import fs from "fs";
 import path from "path";
-import { SITE_NAME, SITE_DOMAIN, SITE_MOTTO, REPO_LINK, SITE_LOGO_PATH, PLACEHOLDER_IMG_PATH, TAGS_QUERY } from "@/static/js/global.js";
+import { SITE_NAME, SITE_DOMAIN, SITE_MOTTO, REPO_LINK, SITE_LOGO_PATH, PLACEHOLDER_IMG_PATH, TAGS_QUERY_PARAM } from "@/static/js/global.js";
 
 
 // Properties
@@ -66,7 +66,7 @@ export function Header() {
 }
 export function SearchBar({ id = "searchbar" }) {
     return (<div id={id} className="search-wrapper">
-        <script src="/static/js/search.js" type="module"></script>
+        <script src="/static/js/search-bar.js" type="module"></script>
         <input className="search-input" type="text" placeholder="Search..." />
         <div className="search-dropdown">
             <div className="search-results"></div>
@@ -92,7 +92,7 @@ export function Tags({ tags, assignHref = true }) {
         return (<></>)
     }
 
-    return tags?.map((tag, index) => (<a className="tag" key={index} href={assignHref ? `/?${TAGS_QUERY}=${encodeURIComponent(tag.toLowerCase())}` : undefined}>{tag.toLowerCase()}</a>));
+    return tags?.map((tag, index) => (<a className="tag" key={index} href={assignHref ? `/?${TAGS_QUERY_PARAM}=${encodeURIComponent(tag.toLowerCase())}` : undefined}>{tag.toLowerCase()}</a>));
 }
 export function SnippetCard({ imgSrc, text, link, tags = [], isLoading = false, loadingClass = "is-loading" }) {
     const removeLoadingFunction = isLoading ? `this.parentElement.classList.remove('${loadingClass}')` : ""

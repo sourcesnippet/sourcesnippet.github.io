@@ -4,23 +4,21 @@
     --body-width-padding: 1rem;
 
 
+    /* Colors */
     --color-bg: #0f1115;
-    --color-surface: #455444;
     --color-surface-dark: #3a3a3a;
     --color-text: #dbdbdb;
     --color-text-muted: rgb(122, 124, 129);
     --color-border: rgb(85, 88, 100);
-
-
-    /* Green Theme */
     --color-accent: #78fd60;
     --color-accent-vibrant: #3d6b31;
+    --color-surface: #455444;
     --color-accent-muted: #74c460;
     --color-accent-dull: #27661e;
     --color-accent-dark: #50554f;
 
 
-    /* taken from code-styles.css DO NOT REMOVE */
+    /* Taken from code-styles.css DO NOT REMOVE */
     --color-code-bg: #1d1f21;
     --code-padding: 12px;
 }

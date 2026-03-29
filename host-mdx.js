@@ -9,7 +9,7 @@ import rehypeHighlight from "rehype-highlight";
 import remarkHeadingId from "remark-heading-id";
 import rehypeMdxCodeProps from "rehype-mdx-code-props";
 import { SitemapStream, streamToPromise } from "sitemap";
-import { TAGS_QUERY, SITE_DOMAIN } from "./static/js/global.js";
+import { TAGS_QUERY_PARAM, SITE_DOMAIN } from "./static/js/global.js";
 
 
 // To Set Properties
@@ -176,7 +176,7 @@ function injectTags(outputPath) {
 
     // Generate html from tags
     const htmlContent = sortedTags.map(group => {
-        const links = group.map(tag => `<a class="tag" href="/?${TAGS_QUERY}=${encodeURIComponent(tag)}">${tag}</a>`).join('');
+        const links = group.map(tag => `<a class="tag" href="/?${TAGS_QUERY_PARAM}=${encodeURIComponent(tag)}">${tag}</a>`).join('');
         return `<div class="tag-list">${links}</div>`;
     }).join('\n\n');
 

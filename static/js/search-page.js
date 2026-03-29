@@ -1,9 +1,11 @@
-import { TAGS_QUERY, getSearchQueryFromUrl, getPageNumFromUrl, getTagsQueryFromUrl, PAGE_QUERY } from "/static/js/global.js";
-import { fetchSnippets } from "/static/js/search.js";
+import { fetchSnippets, getSearchQueryFromUrl } from "./search.js";
+import { TAGS_QUERY_PARAM } from "./global.js";
 
 
 // Properties
 const RESULTS_PER_PAGE = 16;
+const PAGE_QUERY_PARAM = "page";
+const TAGS_PAGE_URL = "/";
 const QUERY_BANNER_SELECTOR = "#query-banner";
 const SNIPPET_CARD_SELECTOR = ".snippet-card";
 const SNIPPET_LOADING_CLASS = "is-loading";
@@ -27,12 +29,24 @@ const PAGINATION_PAGE_11_SELECTOR = ".pagination-item:nth-of-type(8)";
 const PAGINATION_NEXT_BTN_SELECTOR = ".pagination-next";
 
 
-// Methods
+// Utility Methods
+function getPageNumFromUrl() {
+    const pageNumber = Number(new URLSearchParams(window.location.search).get(PAGE_QUERY_PARAM)) || 1;
+    return Math.max(pageNumber, 1);
+}
+function getTagsQueryFromUrl() {
+    const urlParams = new URLSearchParams(window.location.search);
+    let tagsString = urlParams.get(TAGS_QUERY_PARAM)
+    return tagsString?.split(",").filter(Boolean) ?? [];
+}
 function buildPageNumUrl(pageNumber) {
     const url = new URL(window.location.href);
-    url.searchParams.set(PAGE_QUERY, pageNumber);
+    url.searchParams.set(PAGE_QUERY_PARAM, pageNumber);
     return url.toString();
 }
+
+
+// Primary Methods
 function setupPaginationBtns(currentIndex, totalIndices) {
 
     // Get pagination bar
@@ -132,6 +146,7 @@ function assignQueryBanner(resultCount = 0, queries = {}) {
     // Return if banner not found
     let queryBannerElement = document.querySelector(QUERY_BANNER_SELECTOR);
     if (!queryBannerElement) {
+        console.warn("assignQueryBanner: query banner element not found");
         return;
     }
 
@@ -200,23 +215,23 @@ function updateSnippetCards(snippets) {
 
         // Add tags
         let tags = snippets[i]?.tags ?? [];
-        for (let i = 0; i < tags.length; i++) {
+        for (let j = 0; j < tags.length; j++) {
             // Skip tag if empty
-            if (tags[i] == "") {
+            if (tags[j] == "") {
                 continue;
             }
 
 
             // Assign values to tag element
             const tagElement = document.createElement('a');
-            tagElement.href = `/?${TAGS_QUERY}=${encodeURIComponent(tags[i])}`;
+            tagElement.href = `${TAGS_PAGE_URL}?${TAGS_QUERY_PARAM}=${encodeURIComponent(tags[j])}`;
             tagElement.className = SNIPPET_TAG_CLASS;
-            tagElement.textContent = tags[i];
+            tagElement.textContent = tags[j];
             tagContainer.appendChild(tagElement);
         }
     }
 }
-async function main() {
+async function init() {
     // Get url queries 
     const urlQueries = {
         searchQuery: getSearchQueryFromUrl(),
@@ -248,4 +263,5 @@ async function main() {
     }
 }
 
-main();
+
+init();

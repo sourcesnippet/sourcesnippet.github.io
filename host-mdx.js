@@ -4,9 +4,9 @@ import path from "path";
 import * as esbuild from "esbuild";
 import * as pagefind from "pagefind";
 import * as linkedom from "linkedom";
-import languages from "./static/js/languages.js";
 import rehypeHighlight from "rehype-highlight";
 import remarkHeadingId from "remark-heading-id";
+import languages from "./static/js/languages.js";
 import rehypeMdxCodeProps from "rehype-mdx-code-props";
 import { SitemapStream, streamToPromise } from "sitemap";
 import { TAGS_QUERY_PARAM, SITE_DOMAIN } from "./static/js/global.js";
@@ -419,20 +419,16 @@ export function modBundleMDXSettings(inputPath, outputPath, settings) {
 }
 export function modMDXCode(inputPath, outputPath, inFilePath, outFilePath, code) {
 
+    // Return if not in snippets dir
     let absSnippetsDir = path.join(inputPath, SNIPPETS_DIR)
     let inputFileName = path.basename(inFilePath);
-
-    // Return if not in snippets dir
-    if (!isSubPath(absSnippetsDir, inFilePath)) {
+    if (inputFileName != SNIPPETS_INDEX_FILE || !isSubPath(absSnippetsDir, inFilePath)) {
         return code;
     }
+
 
     // Inject snippet into <Snippet /> wrapper
-    if (inputFileName == SNIPPETS_INDEX_FILE) {
-        code = `import Content, { metaData } from "${inFilePath}"; import { Snippet } from "@/components.jsx"; import * as SnippetComponents from "@/components.jsx"; export { metaData } from "${inFilePath}";\n\n<Snippet metaData={metaData}><Content components={SnippetComponents} /></Snippet>`
-        return code;
-    }
-
+    code = `import Content, { metaData } from "${inFilePath}"; import { Snippet } from "@/components.jsx"; import * as SnippetComponents from "@/components.jsx"; export { metaData } from "${inFilePath}";\n\n<Snippet metaData={metaData}><Content components={SnippetComponents} /></Snippet>`
     return code;
 }
 export async function toIgnore(inputPath, outputPath, targetPath) {

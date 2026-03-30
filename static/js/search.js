@@ -51,11 +51,11 @@ async function fetchDefaultSnippets(resultCount, skipCount = 0) {
         totalSnippets: totalSnippets   // Total available snippets
     };
 }
-export async function fetchSnippets(searchQuery, tags = [], resultCount, skipCount = 0) {
+async function fetchSnippetsUnsafe(searchQuery, tags = [], resultCount, skipCount = 0) {
 
     // fetch & return default snippets if no query is provided
     if (!searchQuery && tags.length == 0) {
-        return fetchDefaultSnippets(resultCount, skipCount);
+        return await fetchDefaultSnippets(resultCount, skipCount);
     }
 
 
@@ -86,6 +86,14 @@ export async function fetchSnippets(searchQuery, tags = [], resultCount, skipCou
 
 
     return { snippets, totalSnippets: search.results.length };
+}
+export async function fetchSnippets(searchQuery, tags = [], resultCount, skipCount = 0) {
+    try {
+        return await fetchSnippetsUnsafe(searchQuery, tags, resultCount, skipCount);
+    }
+    catch {
+        return { snippets: [], totalSnippets: 0 };
+    }
 }
 export function getSearchQueryFromUrl() {
     const urlParams = new URLSearchParams(window.location.search);

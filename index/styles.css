@@ -131,6 +131,7 @@
     white-space: nowrap;
     /* -webkit-text-fill-color: black; */
     overflow-x: scroll;
+    overflow-y: clip;
     color: transparent;
 }
 .snippet-card-tags::-webkit-scrollbar {

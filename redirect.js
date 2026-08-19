@@ -1,3 +1,5 @@
 const newDomain = "https://manasmakde.github.io/";
 const currentPath = window.location.pathname;
-window.location.replace(newDomain + currentPath);
+console.log(newDomain + currentPath)
+// window.location.replace(newDomain + currentPath);
+
